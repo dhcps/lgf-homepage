@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Manrope:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F3F5F7;--surface:#fff;--soft:#E8ECF0;--ink:#17212B;--muted:#5F6B76;--line:#DDE3E8;--accent:#1D5E9E;--ok:#2E7D4F;--warn:#B7860B;--bad:#C0392B;--ok-soft:#E1F0E5;--warn-soft:#F5ECD2;--bad-soft:#F6DEDA;--gust:#D9822B;
+--fd:"Newsreader",Georgia,serif;--fb:"Manrope",system-ui,sans-serif;--fm:"IBM Plex Mono",ui-monospace,monospace}
+*{box-sizing:border-box}body{margin:0;background:#E9EDF1;font-family:var(--fb);color:var(--ink);padding:40px;display:grid;gap:40px;justify-items:start}
+.board{background:var(--bg);padding:36px;width:1200px;position:relative}
+.board>.tag{font-family:var(--fm);font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.board>h2{font-family:var(--fd);font-weight:400;font-size:30px;margin:0 0 4px}
+.board>p.d{margin:0 0 24px;color:var(--muted);font-size:15px;max-width:760px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px}
+.k{font-size:12px;color:var(--muted)}
+.v{font-weight:300;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.v small{font-size:13px;font-weight:500;color:var(--muted);margin-left:3px}
+.pill{font-size:11px;font-weight:600;padding:3px 7px;border-radius:4px;display:inline-block}
+.ok{background:var(--ok-soft);color:var(--ok)}.warn{background:var(--warn-soft);color:var(--warn)}.bad{background:var(--bad-soft);color:var(--bad)}
+.mono{font-family:var(--fm)}
+svg text{font-family:var(--fm)}
+.h3{font-family:var(--fd);font-size:22px;font-weight:400;margin:0}
+.meta{font-size:12px;color:var(--muted);margin-top:3px}
+.row{display:flex;gap:20px;align-items:stretch}
+.b0{background:#E4F0F2}.b1{background:#D3EBD9}.b2{background:#AEDDB8}.b3{background:#EFE38F}.b4{background:#F3C474}.b5{background:#EC9466}.b6{background:#D2544B;color:#fff}
+</style></head><body>
+
+<!-- 1 Tacho -->
+<section class="board" id="d1">
+  <div class="tag">Variante 1</div><h2>Tacho mit Richtungsring</h2>
+  <p class="d">Ein großes Rundinstrument: Der Bogen zeigt Mittelwind und Böe wie ein Tacho, der Außenring die Windrichtung mit Startsektoren. Gut für die Startseite, auf einen Blick lesbar.</p>
+  <div class="row" id="r1"></div>
+</section>
+
+<!-- 2 Windrose -->
+<section class="board" id="d2">
+  <div class="tag">Variante 2</div><h2>Windrose des Tages</h2>
+  <p class="d">Zeigt, aus welcher Richtung der Wind heute wie stark kam. Jeder Strahl ist eine Himmelsrichtung, die Länge zeigt wie oft, die Farbe wie stark. Hilft beim Einschätzen, ob der Wind stabil oder drehend war.</p>
+  <div class="row" id="r2"></div>
+</section>
+
+<!-- 3 Wind-Streifen -->
+<section class="board" id="d3">
+  <div class="tag">Variante 3</div><h2>Wind-Streifen über den Tag</h2>
+  <p class="d">Die Holfuy-Tabelle als modernes Band: jede Säule sind 15 Minuten, Höhe und Farbe zeigen den Wind, der Strich oben die Böe, der Pfeil die Richtung. Platzsparend und ohne Zahlenwüste.</p>
+  <div id="r3"></div>
+</section>
+
+<!-- 4 Übersicht alle Stationen -->
+<section class="board" id="d4">
+  <div class="tag">Variante 4</div><h2>Alle Stationen in einer Zeile</h2>
+  <p class="d">Kompakte Übersicht für den Kopf der Wetterseite: vier Kacheln mit Richtungspfeil, Werten, Ampel und Mini-Verlauf der letzten zwei Stunden.</p>
+  <div class="row" id="r4"></div>
+</section>
+
+<!-- 5 Höhenprofil -->
+<section class="board" id="d5">
+  <div class="tag">Variante 5</div><h2>Berg-Profil von Landeplatz bis Gipfel</h2>
+  <p class="d">Die Stationen am Brauneck auf einer Bergsilhouette nach Höhe angeordnet. Man sieht sofort, wie der Wind mit der Höhe zunimmt und dreht, und wie die Temperatur abnimmt.</p>
+  <div id="r5"></div>
+</section>
+
+<!-- 6 Handy -->
+<section class="board" id="d6">
+  <div class="tag">Variante 6</div><h2>Fürs Handy am Startplatz</h2>
+  <p class="d">Schmal und groß lesbar, für den schnellen Blick vor dem Start: Ampel ganz oben, darunter Richtung, Werte und die Tendenz der letzten Stunde. Wischen wechselt die Station.</p>
+  <div class="row" id="r6"></div>
+</section>
+
+<script>
+const T=[];for(let m=11*60+15;m<=18*60+45;m+=15)T.push(String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'));
+const B={m:[0,4,21,21,23,22,20,19,18,16,14,20,18,17,17,16,16,18,16,15,14,15,19,17,20,20,21,23,22,20,19],
+g:[0,29,31,30,34,29,29,27,25,24,22,31,25,25,25,24,27,26,28,25,21,23,26,22,25,27,28,32,31,28,30],
+d:[174,165,172,161,167,170,172,175,179,180,178,174,173,173,174,180,177,174,181,175,177,174,175,171,169,174,174,171,178,180,185]};
+const ST=[{id:1343,n:'Brauneck Berg',alt:1555,m:19,g:25,d:180,t:1.8,s:'warn',st:'grenzwertig'},
+{id:1516,n:'Brauneck Garland',alt:1150,m:9,g:15,d:200,t:4.5,s:'ok',st:'ruhig'},
+{id:1202,n:'Brauneck Landeplatz',alt:700,m:6,g:11,d:225,t:7.2,s:'ok',st:'ruhig'},
+{id:1810,n:'Blomberg',alt:1200,m:14,g:22,d:170,t:3.9,s:'ok',st:'ruhig'}];
+const DIRS=['N','NNO','NO','ONO','O','OSO','SO','SSO','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+const dn=d=>DIRS[Math.round(((d%360)+360)%360/22.5)%16];
+const col=v=>v<6?'#E4F0F2':v<12?'#D3EBD9':v<20?'#AEDDB8':v<26?'#EFE38F':v<32?'#F3C474':v<40?'#EC9466':'#D2544B';
+const colS=v=>v<6?'#9CC7D1':v<12?'#7FC495':v<20?'#4FA86A':v<26?'#D4B42A':v<32?'#E39A2E':v<40?'#D9663A':'#C0392B';
+const P=(cx,cy,r,a)=>{a=(a-90)*Math.PI/180;return[cx+r*Math.cos(a),cy+r*Math.sin(a)]};
+const f=n=>n.toFixed(1);
+function arcP(cx,cy,r,a0,a1){const p0=P(cx,cy,r,a0),p1=P(cx,cy,r,a1);return `M${f(p0[0])} ${f(p0[1])} A${r} ${r} 0 ${(a1-a0)%360>180?1:0} 1 ${f(p1[0])} ${f(p1[1])}`}
+const arrow=(d,s=20,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 20 20"><g transform="rotate(${d+180} 10 10)"><path d="M10 2 L15 16 L10 13 L5 16Z" fill="${c}"/></g></svg>`;
+
+// 1 Tacho
+(function(){
+ const W=440,c=220,r=140;let s=`<svg width="${W}" height="${W}" viewBox="0 0 ${W} ${W}">`;
+ // direction ring
+ s+=`<circle cx="${c}" cy="${c}" r="200" fill="none" stroke="var(--line)" stroke-width="14"/>`;
+ [[320,40],[140,220]].forEach(a=>s+=`<path d="${arcP(c,c,200,a[0],a[1]+(a[1]<a[0]?360:0))}" fill="none" stroke="var(--ok)" stroke-width="14" opacity=".75"/>`);
+ [[290,320],[40,70],[110,140],[220,250]].forEach(a=>s+=`<path d="${arcP(c,c,200,a[0],a[1])}" fill="none" stroke="var(--warn)" stroke-width="14" opacity=".75"/>`);
+ [['N',0],['O',90],['S',180],['W',270]].forEach(([l,a])=>{const p=P(c,c,200,a);s+=`<text x="${p[0]}" y="${p[1]+4}" text-anchor="middle" font-size="11" fill="#fff" font-weight="600" dominant-baseline="middle" dy="-3">${l}</text>`});
+ const p=P(c,c,176,180);s+=`<g transform="rotate(180 ${c} ${c})"><path d="M${c} ${c-186} l-9 -16 h18z" fill="var(--accent)"/></g>`;
+ // speed gauge 0..50 over 240deg (-120..120)
+ const sc=v=>-120+240*Math.min(v,50)/50;
+ [[0,12,'#D3EBD9'],[12,20,'#AEDDB8'],[20,26,'#EFE38F'],[26,32,'#F3C474'],[32,40,'#EC9466'],[40,50,'#D2544B']].forEach(([a,b,cl])=>s+=`<path d="${arcP(c,c,r,sc(a),sc(b))}" fill="none" stroke="${cl}" stroke-width="16"/>`);
+ for(let v=0;v<=50;v+=10){const q=P(c,c,r-24,sc(v));s+=`<text x="${q[0]}" y="${q[1]+4}" text-anchor="middle" font-size="11" fill="var(--muted)">${v}</text>`}
+ const g1=P(c,c,r+12,sc(25)),g2=P(c,c,r-12,sc(25));s+=`<line x1="${g1[0]}" y1="${g1[1]}" x2="${g2[0]}" y2="${g2[1]}" stroke="var(--gust)" stroke-width="3"/>`;
+ s+=`<g transform="rotate(${sc(19)} ${c} ${c})"><line x1="${c}" y1="${c}" x2="${c}" y2="${c-r+10}" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/></g><circle cx="${c}" cy="${c}" r="8" fill="var(--ink)"/>`;
+ s+=`<text x="${c}" y="${c+62}" text-anchor="middle" font-size="44" font-family="Manrope" font-weight="300" fill="var(--ink)">19</text><text x="${c}" y="${c+84}" text-anchor="middle" font-size="12" fill="var(--muted)">km/h Mittel · Böe 25</text></svg>`;
+ document.getElementById('r1').innerHTML=`<div class="card" style="width:480px;display:grid;justify-items:center;gap:6px"><div style="width:100%;display:flex;justify-content:space-between"><div><p class="h3">Brauneck Berg</p><div class="meta">Holfuy 1343 · 1555 m</div></div><span class="pill warn">grenzwertig</span></div>${s}</div>
+ <div style="display:grid;gap:14px;align-content:start;width:300px">${[['Richtung','S · 180°'],['Tendenz 1 Std.','→ stabil'],['Temperatur','1,8 °C'],['Heute Ø / max. Böe','19 / 34 km/h']].map(([k,v])=>`<div class="card" style="padding:16px"><div class="k">${k}</div><div class="v" style="font-size:24px;margin-top:4px">${v}</div></div>`).join('')}</div>`;
+})();
+
+// 2 Windrose
+(function(){
+ const W=440,c=220;let s=`<svg width="${W}" height="${W}" viewBox="0 0 ${W} ${W}">`;
+ const bins=Array.from({length:16},()=>({n:0,sum:0}));B.d.forEach((d,i)=>{if(B.m[i]<2)return;const b=Math.round(d/22.5)%16;bins[b].n++;bins[b].sum+=B.m[i]});
+ // add plausible neighbours for visual
+ 
+ const max=Math.max(...bins.map(b=>b.n));
+ [0.25,.5,.75,1].forEach(q=>s+=`<circle cx="${c}" cy="${c}" r="${170*q}" fill="none" stroke="var(--line)"/>`);
+ for(let i=0;i<16;i++){const a=i*22.5,p=P(c,c,180,a);s+=`<line x1="${c}" y1="${c}" x2="${p[0]}" y2="${p[1]}" stroke="var(--line)"/>`}
+ bins.forEach((b,i)=>{if(!b.n)return;const len=170*b.n/max,a0=i*22.5-9,a1=i*22.5+9,p0=P(c,c,len,a0),p1=P(c,c,len,a1);const avg=b.sum/b.n;
+  s+=`<path d="M${c} ${c} L${f(p0[0])} ${f(p0[1])} A${len} ${len} 0 0 1 ${f(p1[0])} ${f(p1[1])}Z" fill="${colS(avg)}" opacity=".9"/>`});
+ DIRS.forEach((l,i)=>{if(i%2)return;const p=P(c,c,200,i*22.5);s+=`<text x="${p[0]}" y="${p[1]+4}" text-anchor="middle" font-size="12" fill="var(--muted)">${l}</text>`});
+ s+=`</svg>`;
+ document.getElementById('r2').innerHTML=`<div class="card" style="width:520px;display:grid;justify-items:center"><div style="width:100%"><p class="h3">Brauneck Berg · heute</p><div class="meta">11:15 bis 18:45 · 15-Min.-Mittel</div></div>${s}</div>
+ <div style="display:grid;gap:14px;align-content:start;width:340px"><div class="card"><div class="k">Hauptrichtung heute</div><div class="v" style="margin-top:6px">Süd <small>174° im Mittel</small></div></div>
+ <div class="card"><div class="k">Konstanz</div><div class="v" style="margin-top:6px">sehr stabil</div><div class="meta" style="margin-top:6px">alle Werte zwischen SSO und S</div></div>
+ <div class="card"><div class="k">Farbe = Stärke</div><div style="display:flex;margin-top:10px" class="mono">${[[0,'#9CC7D1'],[6,'#7FC495'],[12,'#4FA86A'],[20,'#D4B42A'],[26,'#E39A2E'],[32,'#D9663A'],['40+','#C0392B']].map(([v,c])=>`<span style="background:${c};color:#fff;font-size:11px;padding:4px 7px">${v}</span>`).join('')}</div></div></div>`;
+})();
+
+// 3 Streifen
+(function(){
+ const W=1128,H=260,L=40,R=10,top=30,base=200,n=T.length,bw=(W-L-R)/n;let s=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
+ const y=v=>base-(base-top)*v/40;
+ [0,10,20,30,40].forEach(v=>s+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="10" fill="var(--muted)">${v}</text>`);
+ B.m.forEach((m,i)=>{const x=L+i*bw+3,w=bw-6;s+=`<rect x="${f(x)}" y="${f(y(m))}" width="${f(w)}" height="${f(base-y(m))}" rx="2" fill="${colS(m)}"/>`;
+  s+=`<line x1="${f(x)}" x2="${f(x+w)}" y1="${f(y(B.g[i]))}" y2="${f(y(B.g[i]))}" stroke="var(--ink)" stroke-width="2"/>`;
+  s+=`<g transform="translate(${f(x+w/2)} ${base+18}) rotate(${B.d[i]+180})"><path d="M0 -6 L4 5 L0 2 L-4 5Z" fill="var(--muted)"/></g>`;
+  if(i%4===0||i===n-1)s+=`<text x="${f(x+w/2)}" y="${base+46}" text-anchor="middle" font-size="10" fill="var(--muted)">${T[i]}</text>`});
+ s+=`</svg>`;
+ document.getElementById('r3').innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:8px"><div><p class="h3">Brauneck Berg · heute</p><div class="meta">Säule = 15-Min.-Mittel · Strich = Böe · Pfeil = Richtung</div></div><div style="display:flex;gap:18px"><div><div class="k">Jetzt</div><div class="v">19 <small>/ 25 km/h</small></div></div><div><div class="k">Max. Böe</div><div class="v" style="color:var(--gust)">34 <small>12:15</small></div></div></div></div>${s}</div>`;
+})();
+
+// 4 Übersicht
+(function(){
+ const spark=(seed,end,col)=>{let v=end*.7,pts=[];let r=seed;for(let i=0;i<9;i++){r=(r*16807)%2147483647;v+= (end-v)*.25+((r/2147483647)-.5)*4;pts.push(i===8?end:v)}const mx=Math.max(...pts,end)+4;return `<svg width="100%" height="44" viewBox="0 0 200 44" preserveAspectRatio="none"><path d="${pts.map((p,i)=>(i?'L':'M')+(i*25)+' '+f(44-40*p/mx)).join(' ')} L200 44 L0 44Z" fill="${col}" opacity=".12"/><path d="${pts.map((p,i)=>(i?'L':'M')+(i*25)+' '+f(44-40*p/mx)).join(' ')}" fill="none" stroke="${col}" stroke-width="2"/></svg>`};
+ document.getElementById('r4').innerHTML=ST.map(s=>`<div class="card" style="width:264px;display:grid;gap:12px;padding:18px;border-top:3px solid var(--${s.s})"><div style="display:flex;justify-content:space-between;align-items:start"><div><div style="font-weight:600;font-size:15px">${s.n}</div><div class="meta">${s.alt} m · Holfuy ${s.id}</div></div><span class="pill ${s.s}">${s.st}</span></div>
+ <div style="display:flex;align-items:center;gap:14px"><div style="width:48px;height:48px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--accent)">${arrow(s.d,26)}</div><div><div class="v">${s.m}<small>/ ${s.g} km/h</small></div><div class="meta">${dn(s.d)} · ${String(s.t).replace('.',',')} °C</div></div></div>${spark(s.id,s.m,'#1D5E9E')}<div class="meta" style="margin-top:-6px;display:flex;justify-content:space-between"><span>vor 2 Std.</span><span>jetzt</span></div></div>`).join('');
+})();
+
+// 5 Profil
+(function(){
+ const W=1128,H=420;let s=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
+ const y=a=>400-(a-600)/(1600-600)*240;
+ s+=`<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DCE8F3"/><stop offset="1" stop-color="#F3F5F7"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#sky)" rx="10"/>`;
+ s+=`<path d="M0 ${y(690)} L120 ${y(700)} L260 ${y(820)} L420 ${y(1150)} L520 ${y(1250)} L640 ${y(1450)} L760 ${y(1555)} L840 ${y(1500)} L960 ${y(1380)} L1128 ${y(1300)} L1128 ${H} L0 ${H}Z" fill="#C9D6E2"/>`;
+ s+=`<path d="M0 ${y(690)} L120 ${y(700)} L260 ${y(820)} L420 ${y(1150)} L520 ${y(1250)} L640 ${y(1450)} L760 ${y(1555)} L840 ${y(1500)} L960 ${y(1380)} L1128 ${y(1300)}" fill="none" stroke="#9FB3C6" stroke-width="2"/>`;
+ [1000,1500].forEach(a=>s+=`<line x1="0" x2="${W}" y1="${y(a)}" y2="${y(a)}" stroke="#fff" stroke-dasharray="4 6"/><text x="10" y="${y(a)-6}" font-size="11" fill="var(--muted)">${a} m</text>`);
+ const pts=[[180,700,ST[2]],[420,1150,ST[1]],[760,1555,ST[0]]];
+ pts.forEach(([x,a,st])=>{const yy=y(a);s+=`<circle cx="${x}" cy="${yy}" r="6" fill="var(--accent)" stroke="#fff" stroke-width="2"/><line x1="${x}" x2="${x}" y1="${yy-10}" y2="${yy-46}" stroke="var(--accent)" stroke-width="1"/>`;
+  s+=`<foreignObject x="${x-110}" y="${yy-150}" width="220" height="104"><div xmlns="http://www.w3.org/1999/xhtml" class="card" style="padding:12px 14px;display:flex;gap:12px;align-items:center"><div style="color:var(--accent)">${arrow(st.d,30)}</div><div><div style="font-weight:600;font-size:13px">${st.n.replace('Brauneck ','')} <span class="meta">${a} m</span></div><div class="v" style="font-size:24px">${st.m}<small>/ ${st.g} km/h</small></div><div class="meta">${dn(st.d)} · ${String(st.t).replace('.',',')} °C <span class="pill ${st.s}" style="margin-left:4px">${st.st}</span></div></div></div></foreignObject>`});
+ s+=`</svg>`;
+ document.getElementById('r5').innerHTML=s+`<div class="meta" style="margin-top:10px">Wind nimmt von 6 auf 19 km/h zu und dreht von SW auf S · Temperatur fällt von 7,2 auf 1,8 °C · Höhen von Garland und Landeplatz geschätzt</div>`;
+})();
+
+// 6 Handy
+(function(){
+ const phone=(st,big)=>`<div style="width:300px;height:600px;border-radius:36px;background:#17212B;padding:12px"><div style="background:var(--bg);border-radius:26px;height:100%;padding:22px 18px;display:grid;gap:14px;align-content:start;overflow:hidden">
+ <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)" class="mono"><span>19:47</span><span>● ● ●</span></div>
+ <div style="background:var(--${st.s}-soft);color:var(--${st.s});border-radius:10px;padding:14px;text-align:center"><div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em">${st.st}</div><div style="font-family:var(--fd);font-size:24px;color:var(--ink);margin-top:2px">${st.n}</div></div>
+ <div style="display:grid;justify-items:center;gap:4px;margin-top:6px"><div style="width:130px;height:130px;border-radius:50%;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--accent)">${arrow(st.d,70)}</div><div class="mono" style="font-size:13px;color:var(--muted)">aus ${dn(st.d)} · ${st.d}°</div></div>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div class="card" style="padding:12px"><div class="k">Mittel</div><div class="v" style="font-size:34px">${st.m}<small>km/h</small></div></div><div class="card" style="padding:12px"><div class="k">Böe</div><div class="v" style="font-size:34px;color:var(--gust)">${st.g}<small>km/h</small></div></div></div>
+ <div class="card" style="padding:12px;display:flex;justify-content:space-between;align-items:center"><div><div class="k">Tendenz 1 Std.</div><div style="font-weight:600;margin-top:2px">→ stabil</div></div><div style="text-align:right"><div class="k">Temperatur</div><div style="font-weight:600;margin-top:2px">${String(st.t).replace('.',',')} °C</div></div></div>
+ <div style="display:flex;justify-content:center;gap:6px">${ST.map(x=>`<span style="width:${x===st?18:6}px;height:6px;border-radius:3px;background:${x===st?'var(--accent)':'var(--line)'}"></span>`).join('')}</div></div></div>`;
+ document.getElementById('r6').innerHTML=phone(ST[0])+phone(ST[3])+`<div style="align-self:center;max-width:300px;color:var(--muted);font-size:15px">Auf dem Handy lädt nur das, was man am Startplatz braucht. Die ausführliche Tabelle und der Tagesverlauf liegen eine Ebene tiefer.</div>`;
+})();
+</script></body></html>
