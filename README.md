@@ -4,7 +4,12 @@ Entwurf einer neuen Homepage für die [Lenggrieser Gleitschirmflieger e.V.](http
 
 ## Inhalt
 
-- `entwurf/index.html`: klickbarer Entwurf der Startseite mit Wetterbereich. Alle Wind- und Wetterwerte sind Beispieldaten. Einfach im Browser öffnen.
+- `entwurf/index.html`: klickbarer Entwurf der Startseite mit Wetterbereich. Einfach im Browser öffnen. Windwerte von Brauneck Berg sind echt (04.11.2026), die anderen Stationen Beispieldaten. News-Texte stammen von der aktuellen Vereinsseite.
+- `entwurf/img/`: Vereinsfotos, fürs Web verkleinert.
+
+## Designrichtung
+
+Ruhig und fotografisch, angelehnt an den Dribbble-Shot „Velora Wellness Landing Page“: großes gerundetes Hero-Foto mit Glas-Navigation, Serifen-Überschriften (Instrument Serif), Manrope als Fließtext, Pill-Buttons in Schirm-Lime, weiche Karten ohne Rahmen. Alles lässt sich mit Elementor-Standardbausteinen nachbauen (Container mit Hintergrundbild und Radius, Überschrift, Button, Beitragsliste/Loop-Grid, Galerie).
 
 ## Holfuy-Stationen
 

@@ -6,364 +6,394 @@
 <title>Lenggrieser Gleitschirmflieger Entwurf</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: Live-Bedingungen als Herz der Seite. Hero mit Stationsübersicht, darunter Wetter-Karten, Fluggelände, News, Verein. Windsack-Streifen als einziges Ornament. */
+/* Layout: ruhiger, fotografischer Stil. Großes gerundetes Hero-Foto mit Glas-Navigation und Live-Wind, darunter weiche Karten mit viel Luft. Aufgebaut aus Elementor-Standardbausteinen (Container, Überschrift, Bild, Buttons, Beitragsliste). */
 :root{
-  --bg:#F2F5F7; --surface:#FFFFFF; --ink:#13202A; --muted:#566774; --line:#D5DDE3;
-  --accent:#E4532C; --accent-ink:#FFFFFF; --sky:#2C6A98; --sky-soft:#DCE8F1;
-  --ok:#2C8A57; --warn:#C98F0E; --bad:#C6372C; --ok-soft:#DDF0E5; --warn-soft:#F7ECCF; --bad-soft:#F6DCD9;
-  --chart-mean:#2C6A98; --chart-gust:#E4532C;
-  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
-  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --bg:#F4F3EE; --surface:#FFFFFF; --soft:#EAE9E1; --ink:#1C2620; --muted:#646E67; --line:#E0DFD7;
+  --accent:#CAD640; --accent-ink:#1C2620; --forest:#22322A; --on-forest:#EEF1EA;
+  --ok:#2E7D4F; --warn:#B7860B; --bad:#C0392B; --ok-soft:#E1F0E5; --warn-soft:#F5ECD2; --bad-soft:#F6DEDA;
+  --chart-mean:#2F5D50; --chart-gust:#D9822B;
+  --f-display:"Instrument Serif","Iowan Old Style",Georgia,serif;
+  --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
-  --radius:10px;
+  --r-xl:28px; --r-lg:20px; --r-md:14px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0E161C; --surface:#152029; --ink:#E5ECF1; --muted:#95A6B3; --line:#26343F;
-  --accent:#FF6A42; --accent-ink:#1A0D08; --sky:#74ADD8; --sky-soft:#1B2F3F;
-  --ok:#4CC287; --warn:#E8B23A; --bad:#FF6B5E; --ok-soft:#163327; --warn-soft:#3A2F12; --bad-soft:#3D1C1A;
-  --chart-mean:#74ADD8; --chart-gust:#FF6A42; color-scheme:dark}}
+  --bg:#111512; --surface:#1A1F1B; --soft:#232923; --ink:#ECEFE8; --muted:#9AA49C; --line:#2B322C;
+  --accent:#D4E04F; --accent-ink:#151A12; --forest:#1E2B23; --on-forest:#EEF1EA;
+  --ok:#5BC489; --warn:#E5B544; --bad:#F06A5C; --ok-soft:#173326; --warn-soft:#3A3015; --bad-soft:#3D1D1A;
+  --chart-mean:#8CC4AF; --chart-gust:#F0A052; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0E161C; --surface:#152029; --ink:#E5ECF1; --muted:#95A6B3; --line:#26343F;
-  --accent:#FF6A42; --accent-ink:#1A0D08; --sky:#74ADD8; --sky-soft:#1B2F3F;
-  --ok:#4CC287; --warn:#E8B23A; --bad:#FF6B5E; --ok-soft:#163327; --warn-soft:#3A2F12; --bad-soft:#3D1C1A;
-  --chart-mean:#74ADD8; --chart-gust:#FF6A42; color-scheme:dark}
+  --bg:#111512; --surface:#1A1F1B; --soft:#232923; --ink:#ECEFE8; --muted:#9AA49C; --line:#2B322C;
+  --accent:#D4E04F; --accent-ink:#151A12; --forest:#1E2B23; --on-forest:#EEF1EA;
+  --ok:#5BC489; --warn:#E5B544; --bad:#F06A5C; --ok-soft:#173326; --warn-soft:#3A3015; --bad-soft:#3D1D1A;
+  --chart-mean:#8CC4AF; --chart-gust:#F0A052; color-scheme:dark}
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
-.wrap{max-width:1180px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1,h2,h3{font-family:var(--f-display);font-stretch:118%;line-height:1.05;text-wrap:balance;margin:0}
-h2{font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:800}
-h3{font-size:1.15rem;font-weight:700;font-stretch:108%}
-.eyebrow{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+img{max-width:100%;display:block}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1240px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;line-height:1.02;text-wrap:balance;margin:0;letter-spacing:-.01em}
+h2{font-size:clamp(2.3rem,4.6vw,3.6rem)}
+h2 em,h1 em{font-style:italic}
+h3{font-size:1.65rem}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
 .num{font-variant-numeric:tabular-nums}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:999px;font-weight:600;font-size:.95rem;text-decoration:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);transition:transform .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn .ar{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent-ink);color:var(--accent);font-size:.85rem;margin-right:-10px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
 
-/* Entwurfs-Hinweis */
-.draft{background:var(--ink);color:var(--bg);font-size:.82rem}
-.draft .wrap{padding-block:7px;display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}
-
-/* Header */
-header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--surface);border-bottom:1px solid var(--line)}
-header.site .wrap{display:flex;align-items:center;gap:24px;padding-block:12px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
-.brand-mark{width:38px;height:38px}
-.brand-name{font-family:var(--f-display);font-weight:800;font-stretch:110%;font-size:1rem;line-height:1.05}
-.brand-name small{display:block;font-family:var(--f-body);font-weight:500;font-size:.72rem;color:var(--muted);font-stretch:100%;letter-spacing:.02em}
-nav.main{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
-nav.main a{text-decoration:none;padding:8px 12px;border-radius:6px;font-weight:500;font-size:.95rem;color:var(--muted)}
-nav.main a:hover{background:var(--bg);color:var(--ink)}
-nav.main a.cta{background:var(--accent);color:var(--accent-ink);font-weight:600}
-.menu-btn{display:none;margin-left:auto;background:none;border:1px solid var(--line);border-radius:6px;padding:8px 12px;font:inherit;color:var(--ink)}
-.sock{height:6px;background:repeating-linear-gradient(90deg,var(--accent) 0 44px,var(--surface) 44px 88px)}
-@media (max-width:860px){
-  .menu-btn{display:block}
-  nav.main{display:none;position:absolute;left:0;right:0;top:100%;background:var(--surface);border-bottom:1px solid var(--line);flex-direction:column;padding:8px max(16px,env(safe-area-inset-right,0px)) 16px max(16px,env(safe-area-inset-left,0px))}
-  nav.main.open{display:flex}
-}
+.draft{font-size:.8rem;color:var(--muted)}
+.draft .wrap{padding-block:8px;display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}
 
 /* Hero */
-.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--sky-soft),var(--bg))}
-.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;padding-block:56px 64px;position:relative;z-index:1}
-.hero-ridge{position:absolute;inset:auto 0 0 0;height:46%;width:100%;z-index:0;pointer-events:none}
-.hero-ridge path{fill:var(--line);opacity:.7}
-.hero-ridge path.front{fill:var(--surface);opacity:.75}
-.hero h1{font-size:clamp(2.6rem,6.4vw,5rem);font-weight:900;letter-spacing:-.01em}
-.hero h1 em{font-style:normal;color:var(--accent)}
-.hero p.lede{font-size:1.12rem;max-width:34em;color:var(--muted);margin:20px 0 28px}
-.btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:8px;font-weight:600;text-decoration:none;border:1px solid var(--line);background:var(--surface)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.hero-copy{min-width:0;align-self:center}
+.hero{padding-block:4px 0}
+.hero-frame{position:relative;border-radius:var(--r-xl);overflow:hidden;min-height:640px;display:flex;flex-direction:column;color:#fff;
+  background:#3a4a3c url("img/hero.jpg") center 42%/cover no-repeat}
+.hero-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,18,14,.55) 0%,rgba(10,18,14,.15) 50%,rgba(10,18,14,0) 70%),linear-gradient(180deg,rgba(10,18,14,.45) 0%,rgba(10,18,14,0) 26%,rgba(10,18,14,0) 45%,rgba(10,18,14,.78) 100%);pointer-events:none}
+.hero h1,.hero p.lede{text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.hero-frame>*{position:relative;z-index:1}
+.topnav{display:flex;align-items:center;gap:16px;padding:20px 24px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.brand svg{width:34px;height:34px}
+.brand b{font-family:var(--f-display);font-weight:400;font-size:1.35rem;line-height:1}
+.brand small{display:block;font-family:var(--f-body);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;opacity:.8;margin-top:3px}
+nav.main{margin-inline:auto;display:flex;gap:2px;padding:5px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+nav.main a{color:#fff;text-decoration:none;font-size:.9rem;font-weight:500;padding:8px 16px;border-radius:999px}
+nav.main a:hover,nav.main a.on{background:rgba(255,255,255,.2)}
+.nav-cta{background:#fff;color:#1C2620;border-color:#fff}
+.menu-btn{display:none;margin-left:auto;font:inherit;font-weight:600;color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:9px 16px;backdrop-filter:blur(10px)}
+.hero-body{margin-top:auto;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:32px;align-items:end;padding:24px 32px 32px}
+.hero h1{font-size:clamp(3rem,7.4vw,6.4rem);color:#fff}
+.hero p.lede{font-size:1.08rem;max-width:32em;margin:18px 0 26px;color:rgba(255,255,255,.88)}
+.hero .btn:not(.primary){background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.35);color:#fff;backdrop-filter:blur(10px)}
 
-.now{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 10px 30px -18px rgba(20,40,60,.35);min-width:0}
-.now-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:10px}
-.now-head h3{font-size:1.05rem}
-.now-row{display:grid;grid-template-columns:34px 1fr auto auto;gap:12px;align-items:center;padding:11px 4px;border-top:1px solid var(--line);text-decoration:none}
-.now-row:hover{background:var(--bg)}
-.now-row .arrow{width:34px;height:34px}
-.now-row .nm{font-weight:600;line-height:1.2}
-.now-row .nm small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
-.now-row .val{font-family:var(--f-mono);font-size:.95rem;text-align:right;white-space:nowrap}
-.now-row .val small{color:var(--muted)}
-.pill{font-size:.75rem;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.glass{background:rgba(18,26,20,.42);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-radius:var(--r-lg);padding:16px 18px;color:#fff}
+.now-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.now-head b{font-weight:600;font-size:.95rem}
+.now-head span{font-size:.72rem;opacity:.7;text-transform:uppercase;letter-spacing:.06em}
+.now-row{display:grid;grid-template-columns:30px minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:9px 2px;border-top:1px solid rgba(255,255,255,.14);text-decoration:none;color:#fff}
+.now-row .arrow{width:30px;height:30px;color:#fff}
+.now-row .arrow circle{stroke:rgba(255,255,255,.35)}
+.now-row .nm{font-weight:600;font-size:.92rem;line-height:1.2;min-width:0}
+.now-row .nm small{display:block;font-weight:400;opacity:.72;font-size:.76rem}
+.now-row .val{font-family:var(--f-mono);font-size:.9rem;white-space:nowrap}
+.now-row .val small{opacity:.7}
+.glass .pill{background:rgba(255,255,255,.92)}
+.now-foot{font-size:.72rem;opacity:.72;margin-top:8px;display:flex;justify-content:space-between;gap:8px}
+.pill{font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
 .pill.ok{background:var(--ok-soft);color:var(--ok)}
 .pill.warn{background:var(--warn-soft);color:var(--warn)}
 .pill.bad{background:var(--bad-soft);color:var(--bad)}
-.now-foot{font-size:.78rem;color:var(--muted);margin-top:10px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.glass .pill.ok{color:#2E7D4F}.glass .pill.warn{color:#8F6A06}.glass .pill.bad{color:#B0352A}
 
-@media (max-width:900px){.hero .wrap{grid-template-columns:1fr;padding-block:36px 44px}}
+@media (max-width:980px){
+  nav.main{display:none;position:absolute;top:70px;left:16px;right:16px;flex-direction:column;border-radius:var(--r-lg);background:rgba(18,26,20,.8);padding:10px}
+  nav.main.open{display:flex}
+  .menu-btn{display:block}
+  .topnav .nav-cta{display:none}
+  .hero-body{grid-template-columns:1fr;padding:16px 18px 18px}
+  .hero-frame{min-height:0}
+  .hero-copy{padding-top:200px}
+  .hero-frame{background-size:auto 420px;background-position:center top;background-color:#1d2a22}
+  .hero-frame::after{background:linear-gradient(180deg,rgba(10,18,14,.4) 0%,rgba(10,18,14,0) 90px,rgba(29,42,34,0) 230px,rgba(29,42,34,.75) 330px,#1d2a22 415px)}
+}
 
-section.block .wrap{padding-block:64px}
+/* Fakten */
+.facts .wrap{padding-block:56px 24px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:end}
+.facts p{margin:14px 0 0;color:var(--muted);font-size:1.05rem;max-width:34em}
+.fact-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fact{background:var(--surface);border-radius:var(--r-lg);padding:18px}
+.fact b{display:block;font-family:var(--f-display);font-size:2.4rem;font-weight:400;line-height:1}
+.fact span{font-size:.85rem;color:var(--muted)}
+@media (max-width:860px){.facts .wrap{grid-template-columns:1fr}}
+@media (max-width:460px){.fact-row{grid-template-columns:1fr 1fr}.fact:last-child{grid-column:span 2}}
+
+section.block .wrap{padding-block:56px}
 .sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
-.sec-head p{margin:8px 0 0;color:var(--muted);max-width:40em}
+.sec-head p{margin:12px 0 0;color:var(--muted);max-width:38em}
 
-/* Station cards */
+/* Stationen */
 .stations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-@media (max-width:820px){.stations{grid-template-columns:1fr}}
-.st{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:grid;gap:16px;min-width:0}
+@media (max-width:860px){.stations{grid-template-columns:1fr}}
+.st{background:var(--surface);border-radius:var(--r-xl);padding:24px;display:grid;gap:18px;min-width:0}
+.st>*{min-width:0}
 .st-top{display:flex;justify-content:space-between;align-items:start;gap:12px}
-.st-top .meta{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-top:4px}
-.st-main{display:grid;grid-template-columns:132px 1fr;gap:20px;align-items:center}
-@media (max-width:420px){.st-main{grid-template-columns:110px 1fr;gap:14px}}
+.st-top .meta{font-size:.78rem;color:var(--muted);margin-top:6px}
+.st-main{display:grid;grid-template-columns:136px minmax(0,1fr);gap:22px;align-items:center}
+@media (max-width:420px){.st-main{grid-template-columns:108px minmax(0,1fr);gap:14px}}
 .compass{width:100%;height:auto}
 .compass text{font-family:var(--f-mono);font-size:10px;fill:var(--muted)}
 .readings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}
-.rd .k{font-size:.75rem;color:var(--muted)}
-.rd .v{font-family:var(--f-display);font-stretch:112%;font-weight:800;font-size:1.9rem;line-height:1;font-variant-numeric:tabular-nums}
-.rd .v small{font-family:var(--f-body);font-size:.8rem;font-weight:500;color:var(--muted);margin-left:3px}
+.rd .k{font-size:.74rem;color:var(--muted)}
+.rd .v{font-family:var(--f-display);font-size:2.4rem;line-height:1;font-variant-numeric:tabular-nums}
+.rd .v small{font-family:var(--f-body);font-size:.78rem;font-weight:500;color:var(--muted);margin-left:4px}
 .rd.gust .v{color:var(--chart-gust)}
-.rd.minor .v{font-size:1.25rem}
-.chart-wrap{min-width:0}
-.chart-legend{display:flex;gap:16px;font-size:.75rem;color:var(--muted);margin-bottom:4px;flex-wrap:wrap}
+.rd.minor .v{font-size:1.5rem}
+.chart-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.chart-legend{display:flex;gap:14px;font-size:.74rem;color:var(--muted);flex-wrap:wrap}
 .chart-legend i{display:inline-block;width:12px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.chart-legend .zi{background:var(--bad-soft);height:10px;width:12px}
 svg.chart{width:100%;height:auto;display:block}
 svg.chart text{font-family:var(--f-mono);font-size:9px;fill:var(--muted)}
 svg.chart .grid{stroke:var(--line);stroke-width:1}
-svg.chart .area{fill:var(--chart-mean);opacity:.16}
-svg.chart .mean{fill:none;stroke:var(--chart-mean);stroke-width:2}
-svg.chart .gust{fill:none;stroke:var(--chart-gust);stroke-width:1.5;stroke-dasharray:3 3}
+svg.chart .zone{fill:var(--bad-soft);opacity:.6}
+svg.chart .area{fill:var(--chart-mean);opacity:.14}
+svg.chart .mean{fill:none;stroke:var(--chart-mean);stroke-width:2.2}
+svg.chart .gust{fill:none;stroke:var(--chart-gust);stroke-width:1.6;stroke-dasharray:3 3}
 svg.chart .dir{fill:var(--muted)}
 svg.chart .end{fill:var(--chart-mean)}
-.tabs{display:flex;gap:4px;background:var(--bg);border-radius:8px;padding:3px;width:max-content;max-width:100%}
-.tabs button{border:0;background:none;font:inherit;font-size:.8rem;padding:5px 10px;border-radius:6px;color:var(--muted);cursor:pointer}
-.tabs button[aria-pressed="true"]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
-
-.wx-extra{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;margin-top:20px}
-@media (max-width:820px){.wx-extra{grid-template-columns:1fr}}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;min-width:0}
-.cam{aspect-ratio:16/9;max-width:100%;border-radius:8px;background:linear-gradient(180deg,var(--sky-soft) 0 55%,var(--line) 55%);display:grid;place-items:center;text-align:center;color:var(--muted);font-size:.9rem;margin:12px 0}
-.links{display:grid;gap:8px;margin:12px 0 0;padding:0;list-style:none}
-.links a{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;text-decoration:none}
-.links a:hover{border-color:var(--sky)}
-.links span{color:var(--muted);font-size:.85rem}
-.note{font-size:.85rem;color:var(--muted);border-left:3px solid var(--warn);padding:4px 0 4px 12px;margin-top:20px;max-width:60em}
-
-/* Gelände */
-.sites{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-@media (max-width:720px){.sites{grid-template-columns:1fr}}
-.site-card{border-radius:var(--radius);overflow:hidden;background:var(--surface);border:1px solid var(--line);display:grid}
-.site-art{height:150px;position:relative;background:linear-gradient(180deg,var(--sky-soft),var(--surface))}
-.site-art svg{position:absolute;inset:0;width:100%;height:100%}
-.site-body{padding:20px;display:grid;gap:10px}
-.site-body p{margin:0;color:var(--muted)}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin:0;padding:0;list-style:none}
-.chips li{font-size:.8rem;padding:4px 10px;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
-
-/* News + Termine */
-.split{display:grid;grid-template-columns:1.5fr 1fr;gap:40px}
-@media (max-width:860px){.split{grid-template-columns:1fr}}
-.news{display:grid;gap:0;margin:0;padding:0;list-style:none}
-.news li{border-top:1px solid var(--line);padding:18px 0;display:grid;grid-template-columns:86px 1fr;gap:16px}
-.news li:last-child{border-bottom:1px solid var(--line)}
-.news time{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);padding-top:3px}
-.news h3{font-size:1.05rem;margin-bottom:4px}
-.news p{margin:0;color:var(--muted);font-size:.95rem}
-.events{display:grid;gap:10px;margin:0;padding:0;list-style:none}
-.events li{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center;padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:8px}
-.date{text-align:center;font-family:var(--f-display);font-weight:800;line-height:1;font-size:1.5rem;font-stretch:110%}
-.date small{display:block;font-family:var(--f-mono);font-size:.7rem;font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
-.events b{display:block;font-weight:600}
-.events span{font-size:.85rem;color:var(--muted)}
-
-/* Verein */
-.join{background:var(--ink);color:var(--bg)}
-.join .wrap{padding-block:56px;display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center}
-.join p{color:color-mix(in srgb,var(--bg) 75%,transparent);max-width:36em}
-.join .btn{border-color:transparent}
-.join ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
-.join li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid color-mix(in srgb,var(--bg) 20%,transparent);padding-bottom:10px}
-@media (max-width:820px){.join .wrap{grid-template-columns:1fr}}
-
-footer.site .wrap{padding-block:28px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
-footer.site a{color:var(--muted)}
-
-.chart-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
-.chart-legend .zi{background:var(--bad-soft);height:10px;width:12px}
-svg.chart .zone{fill:var(--bad-soft);opacity:.6}
-.readings{grid-template-columns:repeat(2,minmax(0,1fr))}
-.st>*{min-width:0}
-details.hist{border-top:1px solid var(--line);padding-top:12px}
-details.hist summary{cursor:pointer;font-weight:600;font-size:.9rem;color:var(--sky)}
-.tbl-wrap{overflow-x:auto;margin-top:10px;border:1px solid var(--line);border-radius:8px}
+.tabs{display:flex;gap:3px;background:var(--soft);border-radius:999px;padding:3px;width:max-content;max-width:100%}
+.tabs button{border:0;background:none;font:inherit;font-size:.8rem;font-weight:500;padding:6px 12px;border-radius:999px;color:var(--muted);cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+details.hist{border-top:1px solid var(--line);padding-top:14px}
+details.hist summary{cursor:pointer;font-weight:600;font-size:.9rem}
+.tbl-wrap{overflow-x:auto;margin-top:12px;border-radius:var(--r-md);background:var(--bg)}
 table.tbl{border-collapse:collapse;font-family:var(--f-mono);font-size:.78rem;white-space:nowrap}
-.tbl th,.tbl td{padding:5px 6px;text-align:center;border-left:1px solid var(--line)}
-.tbl th[scope=row]{position:sticky;left:0;background:var(--surface);text-align:left;font-family:var(--f-body);font-weight:600;font-size:.78rem;z-index:1;border-left:0;box-shadow:1px 0 0 var(--line)}
+.tbl th,.tbl td{padding:6px 7px;text-align:center}
+.tbl th[scope=row]{position:sticky;left:0;background:var(--bg);text-align:left;font-family:var(--f-body);font-weight:600;font-size:.76rem;z-index:1}
 .tbl tr:first-child th{color:var(--muted);font-weight:500}
 .tbl th.hr{color:var(--ink);font-weight:600}
-.tbl td.w{font-weight:500;color:#13202A}
-.tbl .b0{background:#E3F1F7}.tbl .b1{background:#CDEBD6}.tbl .b2{background:#A6DDB3}.tbl .b3{background:#F2E38A}.tbl .b4{background:#F6C26B}.tbl .b5{background:#EE8E62}.tbl .b6{background:#D9534F;color:#fff}
+.tbl td.w{font-weight:500;color:#1C2620}
+.tbl .b0{background:#E4F0F2}.tbl .b1{background:#D3EBD9}.tbl .b2{background:#AEDDB8}.tbl .b3{background:#EFE38F}.tbl .b4{background:#F3C474}.tbl .b5{background:#EC9466}.tbl .b6{background:#D2544B;color:#fff}
 .tbl td.d{color:var(--ink);line-height:1}
-.tbl td.d span{display:block;font-size:.65rem;color:var(--muted);margin-top:2px}
+.tbl td.d span{display:block;font-size:.64rem;color:var(--muted);margin-top:2px}
 .tbl svg.ta{width:16px;height:16px;display:block;margin:0 auto}
 .tbl td.mu{color:var(--muted)}
-.wind-scale{display:flex;gap:4px;flex-wrap:wrap;font-family:var(--f-mono);font-size:.7rem;margin-top:8px}
 
-@media (prefers-reduced-motion:no-preference){
-  .needle{transition:transform .8s cubic-bezier(.3,1.4,.5,1)}
-}
-body{margin:0}
+.wx-extra{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px;margin-top:20px}
+@media (max-width:860px){.wx-extra{grid-template-columns:1fr}}
+.panel{background:var(--surface);border-radius:var(--r-xl);padding:24px;min-width:0}
+.cam{aspect-ratio:16/9;max-width:100%;border-radius:var(--r-md);background:var(--soft);display:grid;place-items:center;text-align:center;color:var(--muted);font-size:.9rem;margin:14px 0}
+.links{display:grid;gap:8px;margin:14px 0 0;padding:0;list-style:none}
+.links a{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border-radius:999px;background:var(--bg);text-decoration:none;font-weight:500}
+.links span{color:var(--muted);font-size:.85rem;font-weight:400}
+.note{font-size:.85rem;color:var(--muted);margin-top:20px;max-width:60em}
+
+/* Fluggelände */
+.sites{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:760px){.sites{grid-template-columns:1fr}}
+.site-card{position:relative;border-radius:var(--r-xl);overflow:hidden;min-height:440px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;background:#2c3a30 center/cover no-repeat}
+.site-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,18,14,0) 35%,rgba(10,18,14,.78) 100%)}
+.site-card>*{position:relative;z-index:1}
+.site-body{padding:24px;display:grid;gap:12px}
+.site-body h3{font-size:2.4rem;color:#fff}
+.site-body p{margin:0;color:rgba(255,255,255,.88);max-width:30em}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:0;padding:0;list-style:none}
+.chips li{font-size:.78rem;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(8px)}
+
+/* Vereinsleben */
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:220px;gap:16px}
+.bento figure{margin:0;border-radius:var(--r-lg);overflow:hidden;position:relative;background:var(--soft)}
+.bento img{width:100%;height:100%;object-fit:cover}
+.bento figcaption{position:absolute;left:12px;bottom:12px;font-size:.78rem;font-weight:600;color:#fff;background:rgba(18,26,20,.45);backdrop-filter:blur(8px);padding:5px 12px;border-radius:999px}
+.bento .wide{grid-column:span 2;grid-row:span 2}
+.bento .tall{grid-row:span 2}
+.bento .text{background:var(--forest);color:var(--on-forest);padding:24px;display:flex;flex-direction:column;justify-content:space-between}
+.bento .text h3{font-size:1.9rem}
+.bento .text p{margin:0;font-size:.92rem;opacity:.85}
+@media (max-width:860px){.bento{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:180px}.bento .text{grid-column:span 2}}
+
+/* News */
+.news-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:28px}
+@media (max-width:900px){.news-grid{grid-template-columns:1fr}}
+.posts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:640px){.posts{grid-template-columns:1fr}}
+.post{background:var(--surface);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;text-decoration:none}
+.post img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.post div{padding:16px;display:grid;gap:6px}
+.post time{font-size:.75rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.post h3{font-size:1.35rem}
+.post p{margin:0;font-size:.88rem;color:var(--muted)}
+.events{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.events li{display:grid;grid-template-columns:60px minmax(0,1fr);gap:14px;align-items:center;padding:12px;background:var(--surface);border-radius:var(--r-lg)}
+.date{text-align:center;font-size:1.25rem!important;background:var(--bg);border-radius:var(--r-md);padding:8px 0;font-family:var(--f-display);font-size:1.7rem;line-height:1}
+.date small{display:block;font-family:var(--f-body);font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:4px}
+.events b{display:block;font-weight:600}
+.events span{font-size:.84rem;color:var(--muted)}
+
+/* Mitglied werden */
+.join-card{border-radius:var(--r-xl);background:var(--forest);color:var(--on-forest);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);overflow:hidden}
+.join-card .txt{padding:40px;display:grid;gap:16px;align-content:center}
+.join-card p{margin:0;opacity:.85;max-width:34em}
+.join-card .eyebrow{color:var(--on-forest);opacity:.8}
+.join-card ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.join-card li a{display:flex;justify-content:space-between;text-decoration:none;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.14)}
+.join-card .pic{background:url("img/sonnenaufgang.jpg") center 60%/cover;min-height:320px}
+@media (max-width:820px){.join-card{grid-template-columns:1fr}.join-card .txt{padding:28px}}
+
+footer.site .wrap{padding-block:32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+footer.site a{color:var(--muted)}
+
+@media (prefers-reduced-motion:no-preference){.needle{transition:transform .8s cubic-bezier(.3,1.4,.5,1)}}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
 </style>
 </head>
 <body>
 
-<div class="draft"><div class="wrap"><span><b>Entwurf</b> für die neue Vereinsseite. Alle Wind- und Wetterwerte sind Beispieldaten.</span><span>Stand 04.11.2026</span></div></div>
-
-<header class="site">
-  <div class="wrap">
-    <a class="brand" href="#top" aria-label="Lenggrieser Gleitschirmflieger, Startseite">
-      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
-        <path d="M4 20 C 10 9, 30 9, 36 20" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/>
-        <path d="M12 21 L20 33 L28 21" fill="none" stroke="var(--ink)" stroke-width="1.6"/>
-        <circle cx="20" cy="34" r="2.2" fill="var(--ink)"/>
-      </svg>
-      <span class="brand-name">Lenggrieser<br>Gleitschirmflieger<small>e.V. · Isarwinkel</small></span>
-    </a>
-    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">Menü</button>
-    <nav class="main" id="mainNav" aria-label="Hauptmenü">
-      <a href="#wetter">Wetter</a>
-      <a href="#gelaende">Fluggelände</a>
-      <a href="#news">News &amp; Termine</a>
-      <a href="#verein">Verein</a>
-      <a href="#wettbewerbe">Wettbewerbe</a>
-      <a href="#verein" class="cta">Mitglied werden</a>
-    </nav>
-  </div>
-  <div class="sock" aria-hidden="true"></div>
-</header>
+<div class="draft"><div class="wrap"><span><b>Entwurf</b> der neuen Vereinsseite · Windwerte von Brauneck Berg echt vom 04.11., sonst Beispieldaten</span><span>Umsetzbar mit WordPress + Elementor</span></div></div>
 
 <main id="top">
-  <section class="hero">
-    <svg class="hero-ridge" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0 300 L0 190 L120 150 L230 175 L360 95 L470 130 L560 60 L640 100 L760 70 L880 140 L1000 110 L1100 160 L1200 130 L1200 300Z"/>
-      <path class="front" d="M0 300 L0 240 L160 215 L300 235 L450 190 L600 225 L760 200 L920 240 L1080 210 L1200 230 L1200 300Z"/>
-    </svg>
-    <div class="wrap">
-      <div class="hero-copy">
-        <div class="eyebrow">Brauneck · Blomberg · seit vielen Jahren im Isarwinkel</div>
-        <h1>Fliegen zwischen <em>Brauneck</em> und Blomberg.</h1>
-        <p class="lede">Wir sind der Gleitschirmverein in Lenggries. Hier findest du die aktuellen Bedingungen an unseren Startplätzen, die Regeln der Fluggelände und alles rund ums Vereinsleben.</p>
-        <div class="btns">
-          <a class="btn primary" href="#wetter">Wind jetzt ansehen</a>
-          <a class="btn" href="#gelaende">Fluggelände &amp; Regeln</a>
-        </div>
+  <section class="hero"><div class="wrap">
+    <div class="hero-frame">
+      <div class="topnav">
+        <a class="brand" href="#top" aria-label="Lenggrieser Gleitschirmflieger, Startseite">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 20 C 10 9, 30 9, 36 20" fill="none" stroke="#CAD640" stroke-width="5" stroke-linecap="round"/><path d="M12 21 L20 33 L28 21" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="20" cy="34" r="2.2" fill="#fff"/></svg>
+          <span><b>Lenggrieser GleitschirmFlieger</b><small>e.V. · Isarwinkel</small></span>
+        </a>
+        <nav class="main" id="mainNav" aria-label="Hauptmenü">
+          <a href="#top" class="on">Start</a>
+          <a href="#wetter">Wetter</a>
+          <a href="#gelaende">Fluggelände</a>
+          <a href="#verein">Vereinsleben</a>
+          <a href="#news">News</a>
+          <a href="#mitglied">Verein</a>
+        </nav>
+        <a class="btn nav-cta" href="#mitglied">Mitglied werden</a>
+        <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">Menü</button>
       </div>
-      <aside class="now" aria-labelledby="nowTitle">
-        <div class="now-head">
-          <h3 id="nowTitle">Jetzt an den Stationen</h3>
-          <span class="eyebrow">Mittel / Böe</span>
-        </div>
-        <div id="nowRows"></div>
-        <div class="now-foot"><span id="updated">Aktualisiert gerade eben</span><span>Daten: Holfuy</span></div>
-      </aside>
-    </div>
-  </section>
-
-  <section class="block" id="wetter">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <div class="eyebrow">Wetter</div>
-          <h2>Wind an unseren Stationen</h2>
-          <p>Live-Werte der vier Holfuy-Stationen und wie sich der Wind über den Tag entwickelt hat. Am Kompass zeigt Grün den passenden Startsektor, Gelb den Grenzbereich.</p>
-        </div>
-      </div>
-      <div class="stations" id="stations"></div>
-
-      <div class="wx-extra">
-        <div class="panel">
-          <div class="eyebrow">Webcam</div>
-          <h3>Brauneck Garland</h3>
-          <div class="cam">Hier erscheint das aktuelle Bild<br>von foto-webcam.org</div>
-          <a href="https://www.foto-webcam.org/webcam/brauneck-garland/" target="_blank" rel="noopener">Webcam in voller Größe öffnen</a>
-        </div>
-        <div class="panel">
-          <div class="eyebrow">Weitere Quellen</div>
-          <h3>Prognose &amp; Wetterdienste</h3>
-          <ul class="links">
-            <li><a href="https://www.windy.com/47.649/11.485?850h,47.649,11.485,10" target="_blank" rel="noopener">Windy, 850 hPa <span>Höhenwind</span></a></li>
-            <li><a href="https://holfuy.com/de/weather/1343" target="_blank" rel="noopener">Holfuy Brauneck Berg <span>Originalseite</span></a></li>
-            <li><a href="https://www.dhv.de/wetter/" target="_blank" rel="noopener">DHV Wetter <span>Flugwetter</span></a></li>
-          </ul>
-        </div>
-      </div>
-      <p class="note">Jeder Pilot entscheidet selbst und eigenverantwortlich, ob er fliegt. Die Daten der Wetterstationen ersetzen keine eigene Einschätzung vor Ort. Für die Inhalte verlinkter Seiten übernimmt der Verein keine Verantwortung.</p>
-    </div>
-  </section>
-
-  <section class="block" id="gelaende" style="background:var(--surface);border-block:1px solid var(--line)">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <div class="eyebrow">Fluggelände</div>
-          <h2>Zwei Berge, ein Verein</h2>
-          <p>Bitte informiere dich vor deinem ersten Flug über Geländeordnung, Landeplätze und Flugverbotszonen.</p>
-        </div>
-      </div>
-      <div class="sites">
-        <article class="site-card">
-          <div class="site-art"><svg viewBox="0 0 400 150" preserveAspectRatio="none" aria-hidden="true"><path d="M0 150 L0 110 L90 80 L160 30 L210 45 L260 20 L330 70 L400 60 L400 150Z" fill="var(--sky)" opacity=".35"/><path d="M0 150 L0 130 L120 115 L240 125 L400 105 L400 150Z" fill="var(--sky)" opacity=".55"/><path d="M250 28 C 262 18, 282 18, 294 28" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/></svg></div>
-          <div class="site-body">
-            <h3>Brauneck</h3>
-            <p>Unser Hausberg mit Nord- und Südstart am Gipfel, Startplatz Garland und Clubhütte. Im Winter gilt ein eigener Landeplatz.</p>
-            <ul class="chips"><li>Fluggebietsinfo</li><li>Geländeordnung</li><li>Ausweichlandeplatz</li><li>Flugverbotszone Uhu</li><li>Garland im Winter</li><li>Clubhütte</li></ul>
+      <div class="hero-body">
+        <div class="hero-copy">
+          <span class="eyebrow" style="color:#fff;margin-bottom:14px">Willkommen beim Lenggrieser GleitschirmFlieger e.V.</span>
+          <h1>Fliegen über dem <em>Isarwinkel.</em></h1>
+          <p class="lede">Der Gleitschirmverein in Lenggries. Live-Wind von unseren Startplätzen, Infos zu Brauneck und Blomberg und alles rund ums Vereinsleben.</p>
+          <div class="btns">
+            <a class="btn primary" href="#wetter">Wind jetzt ansehen <span class="ar">→</span></a>
+            <a class="btn" href="#gelaende">Fluggelände</a>
           </div>
-        </article>
-        <article class="site-card">
-          <div class="site-art"><svg viewBox="0 0 400 150" preserveAspectRatio="none" aria-hidden="true"><path d="M0 150 L0 120 L110 90 L200 50 L280 75 L400 95 L400 150Z" fill="var(--sky)" opacity=".35"/><path d="M0 150 L0 135 L160 122 L300 132 L400 120 L400 150Z" fill="var(--sky)" opacity=".55"/><path d="M180 44 C 192 34, 212 34, 224 44" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/></svg></div>
-          <div class="site-body">
-            <h3>Blomberg</h3>
-            <p>Das zweite Fluggelände des Vereins bei Bad Tölz, mit eigener Wetterstation am Startplatz.</p>
-            <ul class="chips"><li>Fluggebietsinfo</li><li>Start &amp; Landung</li><li>Anfahrt</li></ul>
-          </div>
-        </article>
+        </div>
+        <aside class="glass" aria-labelledby="nowTitle">
+          <div class="now-head"><b id="nowTitle">Jetzt an den Stationen</b><span>Mittel / Böe</span></div>
+          <div id="nowRows"></div>
+          <div class="now-foot"><span id="updated">Aktualisiert gerade eben</span><span>Daten: Holfuy</span></div>
+        </aside>
       </div>
     </div>
-  </section>
+  </div></section>
 
-  <section class="block" id="news">
-    <div class="wrap split">
-      <div style="min-width:0">
-        <div class="sec-head"><div><div class="eyebrow">News</div><h2>Aus dem Verein</h2></div><a href="#news">Alle Beiträge</a></div>
-        <ul class="news">
-          <li><time>Okt 2026</time><div><h3>Arbeitsdienst an Start- und Landeplatz</h3><p>Danke an alle, die mit angepackt haben. Die Startplätze sind bereit für den Winter.</p></div></li>
-          <li><time>Sep 2026</time><div><h3>Siegerehrung LGF Cup</h3><p>Die Ergebnisse der Saison und Bilder vom Abend.</p></div></li>
-          <li><time>Sep 2026</time><div><h3>Vereinsausflug</h3><p>Ein Wochenende Fliegen im Süden mit 20 Mitgliedern.</p></div></li>
-          <li><time>Aug 2026</time><div><h3>Windenschlepp-Kurs</h3><p>Neue Schlepppiloten im Verein.</p></div></li>
-        </ul>
-        <p class="eyebrow" style="margin-top:10px">Beispieltexte. Im echten Theme kommen die Beiträge direkt aus WordPress.</p>
-      </div>
-      <div style="min-width:0" id="wettbewerbe">
-        <div class="sec-head"><div><div class="eyebrow">Termine &amp; Wettbewerbe</div><h2>Demnächst</h2></div></div>
-        <ul class="events">
-          <li><div class="date num">14<small>Nov</small></div><div><b>Jahreshauptversammlung</b><span>Clubhütte, 19:00 Uhr (Beispiel)</span></div></li>
-          <li><div class="date num">06<small>Dez</small></div><div><b>Weihnachtsfeier</b><span>Ort folgt (Beispiel)</span></div></li>
-          <li><div class="date num">—<small>2027</small></div><div><b>LGF Cup 2027</b><span>Ausschreibung folgt</span></div></li>
-          <li><div class="date num">—<small>2027</small></div><div><b>3 Clubs – 3 Täler Challenge</b><span>Gemeinsam mit den Nachbarvereinen</span></div></li>
-        </ul>
-      </div>
+  <section class="facts"><div class="wrap">
+    <div>
+      <span class="eyebrow">Über uns</span>
+      <h2 style="margin-top:12px">Zwei Berge, eine Clubhütte und <em>viel Luft</em> nach oben.</h2>
+      <p>Wir kümmern uns um Start- und Landeplätze, betreiben die Wetterstationen und treffen uns zum Fliegen, Arbeiten und Feiern.</p>
     </div>
-  </section>
+    <div class="fact-row">
+      <div class="fact"><b class="num">2</b><span>Fluggelände: Brauneck und Blomberg</span></div>
+      <div class="fact"><b class="num">4</b><span>eigene Wetterstationen</span></div>
+      <div class="fact"><b class="num">1</b><span>Clubhütte am Brauneck</span></div>
+    </div>
+  </div></section>
 
-  <section class="join" id="verein">
-    <div class="wrap">
+  <section class="block" id="wetter"><div class="wrap">
+    <div class="sec-head">
       <div>
-        <div class="eyebrow" style="color:inherit;opacity:.7">Verein</div>
-        <h2 style="margin:8px 0 14px">Fliegst du mit uns?</h2>
-        <p>Als Mitglied nutzt du unsere Fluggelände, die Clubhütte und bist bei Arbeitsdiensten, Festen und Wettbewerben dabei.</p>
-        <div class="btns" style="margin-top:20px"><a class="btn primary" href="#verein">Mitgliedschaft beantragen</a></div>
+        <span class="eyebrow">Wetter</span>
+        <h2 style="margin-top:12px">Wind &amp; <em>Wetter</em></h2>
+        <p>Live-Werte der vier Holfuy-Stationen und wie sich der Wind über den Tag entwickelt hat. Am Kompass zeigt Grün den passenden Startsektor, Gelb den Grenzbereich.</p>
       </div>
-      <ul>
-        <li><span>Vorstandschaft</span><span>→</span></li>
-        <li><span>Satzung</span><span>→</span></li>
-        <li><span>Downloads</span><span>→</span></li>
-        <li><span>Termine</span><span>→</span></li>
+    </div>
+    <div class="stations" id="stations"></div>
+    <div class="wx-extra">
+      <div class="panel">
+        <span class="eyebrow">Webcam</span>
+        <h3 style="margin-top:8px">Brauneck Garland</h3>
+        <div class="cam">Hier erscheint das aktuelle Bild<br>von foto-webcam.org</div>
+        <a href="https://www.foto-webcam.org/webcam/brauneck-garland/" target="_blank" rel="noopener">Webcam in voller Größe öffnen</a>
+      </div>
+      <div class="panel">
+        <span class="eyebrow">Weitere Quellen</span>
+        <h3 style="margin-top:8px">Prognose &amp; Dienste</h3>
+        <ul class="links">
+          <li><a href="https://www.windy.com/47.649/11.485?850h,47.649,11.485,10" target="_blank" rel="noopener">Windy, 850 hPa <span>Höhenwind</span></a></li>
+          <li><a href="https://holfuy.com/de/weather/1343" target="_blank" rel="noopener">Holfuy Brauneck Berg <span>Original</span></a></li>
+          <li><a href="https://www.dhv.de/wetter/" target="_blank" rel="noopener">DHV Wetter <span>Flugwetter</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">Jeder Pilot entscheidet selbst und eigenverantwortlich, ob er fliegt. Die Daten der Wetterstationen ersetzen keine eigene Einschätzung vor Ort. Für die Inhalte verlinkter Seiten übernimmt der Verein keine Verantwortung.</p>
+  </div></section>
+
+  <section class="block" id="gelaende"><div class="wrap">
+    <div class="sec-head"><div>
+      <span class="eyebrow">Fluggelände</span>
+      <h2 style="margin-top:12px">Wo wir <em>fliegen</em></h2>
+      <p>Bitte informiere dich vor deinem ersten Flug über Geländeordnung, Landeplätze und Flugverbotszonen.</p>
+    </div></div>
+    <div class="sites">
+      <article class="site-card" style="background-image:url('img/startplatz.jpg')">
+        <div class="site-body">
+          <h3>Brauneck</h3>
+          <p>Unser Hausberg mit Nord- und Südstart am Gipfel, Startplatz Garland und Clubhütte. Vom 01.01. bis 31.07. gilt die Uhu-Schutzzone.</p>
+          <ul class="chips"><li>Fluggebietsinfo</li><li>Geländeordnung</li><li>Ausweichlandeplatz</li><li>Flugverbotszone Uhu</li><li>Garland im Winter</li></ul>
+        </div>
+      </article>
+      <article class="site-card" style="background-image:url('img/thermik.jpg')">
+        <div class="site-body">
+          <h3>Blomberg</h3>
+          <p>Das zweite Fluggelände des Vereins bei Bad Tölz, mit eigener Wetterstation am Startplatz.</p>
+          <ul class="chips"><li>Fluggebietsinfo</li><li>Start &amp; Landung</li><li>Anfahrt</li></ul>
+        </div>
+      </article>
+    </div>
+  </div></section>
+
+  <section class="block" id="verein"><div class="wrap">
+    <div class="sec-head"><div>
+      <span class="eyebrow">Vereinsleben</span>
+      <h2 style="margin-top:12px">Mehr als <em>Fliegen</em></h2>
+    </div></div>
+    <div class="bento">
+      <figure class="wide"><img src="img/huette-fest.jpg" alt="Vereinsfest vor der Clubhütte am Brauneck" loading="lazy"><figcaption>Sommerfest an der Clubhütte</figcaption></figure>
+      <div class="text"><h3>Arbeitsdienst, Hüttenabend, Ausflug.</h3><p>Wer mithilft, Startplätze zu pflegen, sitzt abends auch mit am Feuer.</p></div>
+      <figure class="tall"><img src="img/gipfelkreuz.jpg" alt="Gipfelkreuz im Abendrot" loading="lazy"><figcaption>Abends am Gipfel</figcaption></figure>
+      <figure><img src="img/lagerfeuer.jpg" alt="Lagerfeuer vor der Hütte" loading="lazy"><figcaption>Hüttenabend</figcaption></figure>
+    </div>
+  </div></section>
+
+  <section class="block" id="news"><div class="wrap news-grid">
+    <div style="min-width:0">
+      <div class="sec-head"><div><span class="eyebrow">News</span><h2 style="margin-top:12px">Aus dem <em>Verein</em></h2></div><a class="btn" href="#news">Alle Beiträge</a></div>
+      <div class="posts">
+        <a class="post" href="https://www.lenggrieser-gleitschirmflieger.de/arbeitsdienst-am-samstag-24-10-2026/" target="_blank" rel="noopener"><img src="img/huette.jpg" alt="" loading="lazy"><div><time>23.10.2026</time><h3>Arbeitsdienst am Samstag 24.10.2026</h3><p>Servus liebe Mitglieder, die Flugsaison 2026 geht langsam aber sicher zu Ende.</p></div></a>
+        <a class="post" href="https://www.lenggrieser-gleitschirmflieger.de/nicht-vergessen-3-taeler-challenge-siegerehrung-freitag-2-10-26-um-18-uhr/" target="_blank" rel="noopener"><img src="img/lagerfeuer.jpg" alt="" loading="lazy"><div><time>01.10.2026</time><h3>3 Täler Challenge: Siegerehrung</h3><p>Die Siegerehrung der Clubs aus Bayrischzell, Rottach-Egern und Lenggries findet dieses Jahr in unserer Clubhütte statt.</p></div></a>
+        <a class="post" href="https://www.lenggrieser-gleitschirmflieger.de/zweiter-vereinsausflug-2026-werfenweng-08-11-10-2026/" target="_blank" rel="noopener"><img src="img/abend.jpg" alt="" loading="lazy"><div><time>01.08.2026</time><h3>Zweiter Vereinsausflug nach Werfenweng</h3><p>Der zweite Vereinsausflug 2026 geht auch nach Werfenweng, 08.–11.10.2026.</p></div></a>
+      </div>
+      <p class="note">Echte Beiträge der aktuellen Seite. In WordPress kommen sie automatisch aus dem Editor, mit dem Beitragsbild als Foto.</p>
+    </div>
+    <div style="min-width:0" id="wettbewerbe">
+      <div class="sec-head"><div><span class="eyebrow">Wichtig</span><h2 style="margin-top:12px">Hinweise &amp; <em>Wettbewerbe</em></h2></div></div>
+      <ul class="events">
+        <li><div class="date">01.01.<small>– 31.07.</small></div><div><b>Uhu-Schutzzone beachten</b><span>Flugverbotszone am Brauneck</span></div></li>
+        <li><div class="date">❄<small>Winter</small></div><div><b>Startplatz Garland und neuer Landeplatz</b><span>Regeln für die Wintersaison</span></div></li>
+        <li><div class="date">LGF<small>Cup</small></div><div><b>LGF Cup 2026</b><span>Ausschreibung und Wertung</span></div></li>
+        <li><div class="date">3×3<small>Challenge</small></div><div><b>3 Clubs – 3 Täler Gleitschirm Challenge</b><span>Bayrischzell, Rottach-Egern, Lenggries</span></div></li>
       </ul>
     </div>
-  </section>
+  </div></section>
+
+  <section class="block" id="mitglied"><div class="wrap">
+    <div class="join-card">
+      <div class="txt">
+        <span class="eyebrow">Verein</span>
+        <h2>Fliegst du <em>mit uns?</em></h2>
+        <p>Als Mitglied nutzt du unsere Fluggelände und die Clubhütte und bist bei Arbeitsdiensten, Festen und Wettbewerben dabei.</p>
+        <div class="btns"><a class="btn primary" href="#mitglied">Mitgliedschaft beantragen <span class="ar">→</span></a></div>
+        <ul>
+          <li><a href="#mitglied"><span>Vorstandschaft</span><span>→</span></a></li>
+          <li><a href="#mitglied"><span>Satzung</span><span>→</span></a></li>
+          <li><a href="#mitglied"><span>Downloads</span><span>→</span></a></li>
+        </ul>
+      </div>
+      <div class="pic" role="img" aria-label="Sonnenaufgang über den Bergen"></div>
+    </div>
+  </div></section>
 </main>
 
 <footer class="site"><div class="wrap"><span>© 2026 Lenggrieser Gleitschirmflieger e.V.</span><span><a href="#top">Impressum</a> · <a href="#top">Datenschutz</a></span></div></footer>
