@@ -29,6 +29,8 @@ Den Schlüssel (`pw`) können nur Stations-Admins im Holfuy-Konto erzeugen. **De
 
 ## Plan
 
+**Grundsatz:** Die Seite bleibt WordPress. News und Artikel schreiben die Autoren weiter wie gewohnt im WordPress-Editor, das neue Design und die Windanzeigen ändern daran nichts.
+
 1. Entwurf der Homepage abstimmen (dieses Repo, `entwurf/`).
 2. WordPress-Plugin `lgf-wind`:
    - holt die Daten serverseitig (Schlüssel bleibt geheim) und speichert sie ca. 60 s zwischen, damit nicht jeder Seitenaufruf Holfuy belastet,
