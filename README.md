@@ -9,7 +9,7 @@ Entwurf einer neuen Homepage für die [Lenggrieser Gleitschirmflieger e.V.](http
 
 ## Designrichtung
 
-Ruhig und fotografisch, angelehnt an den Dribbble-Shot „Velora Wellness Landing Page“: großes gerundetes Hero-Foto mit Glas-Navigation, Serifen-Überschriften (Instrument Serif), Manrope als Fließtext, Pill-Buttons in Schirm-Lime, weiche Karten ohne Rahmen. Alles lässt sich mit Elementor-Standardbausteinen nachbauen (Container mit Hintergrundbild und Radius, Überschrift, Button, Beitragsliste/Loop-Grid, Galerie).
+Ruhig und fotografisch, angelehnt an den Dribbble-Shot „Velora Wellness Landing Page“: großes gerundetes Hero-Foto mit Glas-Navigation, Serifen-Überschriften (Instrument Serif), Manrope als Fließtext, dezente, kleine Buttons und Menüs mit feinen Linien und wenig Rundung, Vereinsblau als Akzentfarbe. Alles lässt sich mit Elementor-Standardbausteinen nachbauen (Container mit Hintergrundbild und Radius, Überschrift, Button, Beitragsliste/Loop-Grid, Galerie).
 
 ## Holfuy-Stationen
 
