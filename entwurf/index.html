@@ -1,8 +1,3 @@
-<!doctype html>
-<html lang="de">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lenggrieser Gleitschirmflieger Entwurf</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -173,6 +168,12 @@ table.tbl{border-collapse:collapse;font-family:var(--f-mono);font-size:.78rem;wh
 .wx-extra{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px;margin-top:20px}
 @media (max-width:860px){.wx-extra{grid-template-columns:1fr}}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:20px;min-width:0}
+.w3d{margin-top:28px;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--soft)}
+.w3d-h{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding:16px 20px;border-bottom:1px solid var(--line);background:#fff}
+.w3d-h h3{margin:6px 0 0}.w3d-h a{font-size:.82rem}
+.w3d-f{margin:0;padding:12px 20px;font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);background:#fff}
+.w3d iframe{display:block;width:100%;height:560px;border:0}
+@media (max-width:700px){.w3d iframe{height:440px}}
 .cam{aspect-ratio:21/8;max-width:100%;border-radius:var(--r-md);background:var(--soft);display:grid;place-items:center;text-align:center;color:var(--muted);font-size:.9rem;margin:14px 0}
 .links{display:grid;gap:8px;margin:14px 0 0;padding:0;list-style:none}
 .links a{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;border-radius:var(--r-md);background:var(--bg);text-decoration:none;font-weight:500}
@@ -237,8 +238,6 @@ footer.site a{color:var(--muted)}
 @media (prefers-reduced-motion:no-preference){.needle{transition:transform .8s cubic-bezier(.3,1.4,.5,1)}}
 @media (prefers-reduced-motion:reduce){.btn{transition:none}}
 </style>
-</head>
-<body>
 
 <div class="draft"><div class="wrap"><span><b>Entwurf</b> der neuen Vereinsseite · Windwerte von Brauneck Berg echt vom 04.11., sonst Beispieldaten</span><span>Umsetzbar mit WordPress + Elementor</span></div></div>
 
@@ -308,6 +307,14 @@ footer.site a{color:var(--muted)}
       </dl>
     </div>
     <div class="stations" id="stations"></div>
+    <div class="w3d">
+      <div class="w3d-h">
+        <div><span class="eyebrow">Brauneck in 3D</span><h3>Wind vom Tal bis zum Gipfel</h3></div>
+        <a href="wind3d.html" target="_blank" rel="noopener">Im Vollbild öffnen</a>
+      </div>
+      <iframe src="wind3d.html" title="3D-Windansicht Brauneck" loading="lazy"></iframe>
+      <p class="w3d-f">Linien zeigen Richtung und Stärke, zwischen den vier Stationen nach Höhe übergeblendet. Ziehen dreht den Berg. Berg: echte Werte vom 04.11., übrige Stationen und Gelände schematisch.</p>
+    </div>
     <div class="wx-extra">
       <div class="panel">
         <span class="eyebrow">Webcam</span>
@@ -560,6 +567,3 @@ footer.site a{color:var(--muted)}
   setInterval(function(){age+=15;document.getElementById('updated').textContent='Aktualisiert vor '+age+' Sek.'},15000);
 })();
 </script>
-
-</body>
-</html>

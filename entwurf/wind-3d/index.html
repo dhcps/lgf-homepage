@@ -1,3 +1,5 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Brauneck Wind 3D</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&family=Manrope:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -29,11 +31,14 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .lbl .v small{font-size:.66rem;color:var(--muted);margin-left:2px}
 .lbl .m{color:var(--muted);font-size:.68rem}
 .lbl i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:0}
+html.embed .head{display:none}
+html.embed .time .note{display:none}
 @media (max-width:700px){.legend{display:none}.head{max-width:calc(100% - 32px)}.head p{display:none}}
 </style>
 
 <div id="scene" aria-label="3D-Ansicht des Brauneck mit Windströmungen"></div>
 
+<script>if(window.self!==window.top||/[?&]embed/.test(location.search))document.documentElement.classList.add("embed")</script>
 <div class="ui head">
   <div class="tag">Wind-Design 5 · 3D</div>
   <h1>Brauneck: Wind vom Tal bis zum Gipfel</h1>
@@ -157,3 +162,5 @@ requestAnimationFrame(loop);
 window.__setView=(x,y,z)=>{cam.position.set(x,y,z);ctl.update()};
 })();
 </script>
+
+</html>
