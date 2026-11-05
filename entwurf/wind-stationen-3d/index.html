@@ -30,6 +30,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .lbl .v{font-weight:300;font-size:1.05rem;font-variant-numeric:tabular-nums}
 .lbl .v small{font-size:.62rem;color:var(--muted);margin-left:2px}
 .lbl i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
+.lbl.top{transform:translate(-50%,0)}.lbl.top::after{display:none}
+#leads{position:fixed;inset:0;pointer-events:none;z-index:1;width:100%;height:100%}
+#leads line{stroke:#4A5763;stroke-width:1;stroke-opacity:.75}#leads circle{fill:#4A5763;fill-opacity:.8}
 .lbl::after{content:"";position:absolute;left:var(--ax,50%);bottom:-7px;width:1px;height:7px;background:#8A96A0}
 @media (max-width:640px){.legend{display:none}.head{max-width:calc(100% - 24px)}.lbl{font-size:.62rem;padding:3px 6px}.lbl .v{font-size:.9rem}}
 </style></head><body>
@@ -67,9 +70,9 @@ const BERG={m:[0,4,21,21,23,22,20,19,18,16,14,20,18,17,17,16,16,18,16,15,14,15,1
 function derive(f,add,dd,seed){let r=seed;const rnd=()=>{r=(r*16807)%2147483647;return r/2147483647};
  return{m:BERG.m.map(v=>Math.max(1,Math.round(v*f+add+(rnd()-.5)*3))),g:BERG.g.map(v=>Math.max(3,Math.round(v*f+add+4+(rnd()-.5)*4))),d:BERG.d.map(v=>Math.round(v+dd+(rnd()-.5)*16))}}
 const ST=[
- {n:'Berg',alt:1556,kx:2.921,kz:3.699,ox:-62,oy:-16,data:BERG},
- {n:'Garland',alt:1514,kx:3.097,kz:3.549,ox:62,oy:2,data:derive(.8,1,8,7)},
- {n:'Umsetzer',alt:1358,kx:4.087,kz:3.272,ox:-46,oy:0,data:derive(.6,1,18,11)},
+ {n:'Berg',top:1,alt:1556,kx:2.921,kz:3.699,ox:-62,oy:-16,data:BERG},
+ {n:'Garland',top:1,alt:1514,kx:3.097,kz:3.549,ox:62,oy:2,data:derive(.8,1,8,7)},
+ {n:'Umsetzer',top:1,alt:1358,kx:4.087,kz:3.272,ox:-46,oy:0,data:derive(.6,1,18,11)},
  {n:'Tal LP Nord',alt:746,kx:5.076,kz:2.58,ox:0,oy:0,data:derive(.4,2,35,13)}];
 const DIRS=['N','NNO','NO','ONO','O','OSO','SO','SSO','S','SSW','SW','WSW','W','WNW','NW','NNW'];
 const dn=d=>DIRS[Math.round(((d%360)+360)%360/22.5)%16];
@@ -95,7 +98,7 @@ scene.add(new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:TEX})));
 ST.forEach(s=>{s.x=X0+s.kx*S;s.z=Z0+s.kz*S;s.y=toY(s.alt);
  const g=toY(hAt(s.x,s.z));const pole=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,Math.max(.6,s.y-g+1.2),6),new THREE.MeshBasicMaterial({color:0x17212B}));pole.position.set(s.x,(g+s.y+1.2)/2,s.z);scene.add(pole);
  const dot=new THREE.Mesh(new THREE.SphereGeometry(.42,14,10),new THREE.MeshBasicMaterial({color:0x1D5E9E}));dot.position.set(s.x,s.y+1.2,s.z);scene.add(dot);
- s.el=document.createElement('div');s.el.className='lbl';document.body.appendChild(s.el)});
+ s.el=document.createElement('div');s.el.className=s.top?'lbl top':'lbl';document.body.appendChild(s.el)});
 
 // Stromlinien: Partikel auf festen Höhen (m ü. NN), folgen dem Gelände, lange ruhige Schweife
 const LAY=[780,900,1050,1200,1350,1500,1650,1800];
@@ -130,7 +133,20 @@ function updLabels(){profile();ST.forEach(s=>{const v=at(s,tf),c=colOf(v.m,c1).g
  s.el.innerHTML=`<b>${s.n} <span class="m">${s.alt} m</span></b><span class="v"><i style="background:${c}"></i>${Math.round(v.m)}<small>/ ${Math.round(v.g)} km/h</small></span> <span class="m">${dn(v.d)}</span>`;
  s.el.style.setProperty('--ax',`calc(50% - ${s.ox}px)`)})}
 const vt=new THREE.Vector3();
-function place(){const r=renderer.domElement.getBoundingClientRect();ST.forEach(s=>{vt.set(s.x,s.y+1.8,s.z).project(cam);s.el.style.left=(r.left+(vt.x+1)/2*r.width+s.ox)+'px';s.el.style.top=(r.top+(1-vt.y)/2*r.height+s.oy-8)+'px'})}
+const SVGNS='http://www.w3.org/2000/svg',leads=document.createElementNS(SVGNS,'svg');leads.id='leads';document.body.appendChild(leads);
+ST.filter(s=>s.top).forEach(s=>{s.ln=document.createElementNS(SVGNS,'line');s.dt=document.createElementNS(SVGNS,'circle');s.dt.setAttribute('r','2');leads.append(s.ln,s.dt)});
+function place(){const r=renderer.domElement.getBoundingClientRect();const tops=[];
+ ST.forEach(s=>{vt.set(s.x,s.y+1.8,s.z).project(cam);const px=r.left+(vt.x+1)/2*r.width,py=r.top+(1-vt.y)/2*r.height;
+  if(s.top){s.px=px;s.py=py;tops.push(s)}else{s.el.style.left=(px+s.ox)+'px';s.el.style.top=(py+s.oy-8)+'px'}});
+ /* obere Stationen: Reihe am oberen Rand, zwischen Titel und Legende */
+ tops.sort((a,b)=>a.px-b.px);const gap=10,ws=tops.map(s=>s.el.offsetWidth);
+ const hd=document.querySelector('.head').getBoundingClientRect(),lgE=document.querySelector('.legend'),lgR=lgE&&lgE.offsetParent?lgE.getBoundingClientRect():null;
+ let L=hd.right+gap,Rr=lgR?lgR.left-gap:r.right-gap,y=r.top+12;
+ const tot=ws.reduce((a,b)=>a+b,0)+gap*(ws.length-1);
+ if(Rr-L<tot){L=r.left+gap;Rr=r.right-gap;y=hd.bottom+8}
+ const mean=tops.reduce((a,s)=>a+s.px,0)/tops.length;let x=Math.min(Math.max(mean-tot/2,L),Rr-tot);
+ tops.forEach((s,i)=>{const cx=x+ws[i]/2;s.el.style.left=cx+'px';s.el.style.top=y+'px';const by=y+s.el.offsetHeight;
+  s.ln.setAttribute('x1',cx);s.ln.setAttribute('y1',by);s.ln.setAttribute('x2',s.px);s.ln.setAttribute('y2',s.py+6);s.dt.setAttribute('cx',s.px);s.dt.setAttribute('cy',s.py+6);x+=ws[i]+gap})}
 function resize(){const w=box.clientWidth,h=box.clientHeight;renderer.setSize(w,h,false);RES.set(w,h);renderer.domElement.style.width=w+'px';renderer.domElement.style.height=h+'px';
  const asp=w/h,hf=2*Math.atan(Math.tan(29*Math.PI/180)*16/9);cam.aspect=asp;cam.fov=Math.min(75,2*Math.atan(Math.tan(hf/2)/asp)*180/Math.PI);cam.updateProjectionMatrix()}
 addEventListener('resize',resize);resize();updLabels();for(let i=0;i<TAIL+10;i++)step(1);
