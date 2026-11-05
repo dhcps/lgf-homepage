@@ -34,7 +34,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 #leads{position:fixed;inset:0;pointer-events:none;z-index:1;width:100%;height:100%}
 #leads line{stroke:#4A5763;stroke-width:1;stroke-opacity:.75}#leads circle{fill:#4A5763;fill-opacity:.8}
 .lbl::after{content:"";position:absolute;left:var(--ax,50%);bottom:-7px;width:1px;height:7px;background:#8A96A0}
-@media (max-width:640px){.legend{display:none}.head{max-width:calc(100% - 24px)}.lbl{font-size:.62rem;padding:3px 6px}.lbl .v{font-size:.9rem}}
+@media (max-width:640px){.legend{top:auto;left:12px;right:12px;bottom:var(--lb,96px);padding:6px 10px;display:flex;align-items:center;gap:10px;font-size:.62rem}.legend .bar{flex:1;width:auto;margin:0}.legend .ticks{display:none}.legend::after{content:'0 · 15 · 30 · 40+';font-family:var(--fm);font-size:.58rem;color:var(--ink)}.head{padding:8px 10px}.head h1{font-size:1rem}.head{max-width:calc(100% - 24px)}.lbl{font-size:.62rem;padding:3px 6px}.lbl .v{font-size:.9rem}}
 </style></head><body>
 <div id="scene" aria-label="3D-Ansicht des Brauneck mit Windströmung aus den vier Messstationen"></div>
 <div class="ui head"><div class="tag">Wind am Brauneck · 3D</div><h1>Strömung aus vier Stationen</h1></div>
@@ -152,8 +152,13 @@ function place(){const r=renderer.domElement.getBoundingClientRect();const tops=
  const mean=tops.reduce((a,s)=>a+s.px,0)/tops.length;let x=Math.min(Math.max(mean-tot/2,L),Rr-tot);
  tops.forEach((s,i)=>{const cx=x+ws[i]/2;s.el.style.left=cx+'px';s.el.style.top=y+'px';const by=y+s.el.offsetHeight;
   s.ln.setAttribute('x1',cx);s.ln.setAttribute('y1',by);s.ln.setAttribute('x2',s.px);s.ln.setAttribute('y2',s.py+6);s.dt.setAttribute('cx',s.px);s.dt.setAttribute('cy',s.py+6);x+=ws[i]+gap})}
-function resize(){const w=box.clientWidth,h=box.clientHeight;renderer.setSize(w,h,false);RES.set(w,h);renderer.domElement.style.width=w+'px';renderer.domElement.style.height=h+'px';
- const asp=w/h,hf=2*Math.atan(Math.tan(29*Math.PI/180)*16/9);cam.aspect=asp;cam.fov=Math.min(75,2*Math.atan(Math.tan(hf/2)/asp)*180/Math.PI);cam.updateProjectionMatrix()}
+function resize(){/* Szene endet über der Bedienleiste (und auf dem Handy über der Legende) */const ctl=document.querySelector('.ctrl'),lgd=document.querySelector('.legend'),mob=innerWidth<=640;document.documentElement.style.setProperty('--lb',(ctl.offsetHeight+16)+'px');box.style.bottom=(mob?ctl.offsetHeight+lgd.offsetHeight+24:ctl.offsetHeight+16)+'px';
+ const w=box.clientWidth,h=box.clientHeight;renderer.setSize(w,h,false);RES.set(w,h);renderer.domElement.style.width=w+'px';renderer.domElement.style.height=h+'px';
+ const asp=w/h,hf=2*Math.atan(Math.tan(29*Math.PI/180)*16/9);cam.aspect=asp;
+ if(asp<1){/* Handy hochkant: eigener Ausschnitt, auf die Stationen geschwenkt */const a=PAN*Math.PI/180,dx=CT.x-CP.x,dz=CT.z-CP.z;cam.lookAt(CP.x+dx*Math.cos(a)+dz*Math.sin(a),CT.y+TILT,CP.z-dx*Math.sin(a)+dz*Math.cos(a));cam.fov=MFOV}
+ else{cam.lookAt(CT);cam.fov=Math.min(75,2*Math.atan(Math.tan(hf/2)/asp)*180/Math.PI)}
+ cam.updateProjectionMatrix()}
+const PAN=12.9,TILT=-1,MFOV=72;
 addEventListener('resize',resize);resize();updLabels();for(let i=0;i<TAIL+10;i++)step(1);
 
 const tIn=document.getElementById('t'),clock=document.getElementById('clock'),play=document.getElementById('play');let playing=false;
