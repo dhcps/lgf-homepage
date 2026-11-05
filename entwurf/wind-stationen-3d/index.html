@@ -155,10 +155,10 @@ function place(){const r=renderer.domElement.getBoundingClientRect();const tops=
 function resize(){/* Szene endet über der Bedienleiste (und auf dem Handy über der Legende) */const ctl=document.querySelector('.ctrl'),lgd=document.querySelector('.legend'),mob=innerWidth<=640;document.documentElement.style.setProperty('--lb',(ctl.offsetHeight+16)+'px');box.style.bottom=(mob?ctl.offsetHeight+lgd.offsetHeight+24:ctl.offsetHeight+16)+'px';
  const w=box.clientWidth,h=box.clientHeight;renderer.setSize(w,h,false);RES.set(w,h);renderer.domElement.style.width=w+'px';renderer.domElement.style.height=h+'px';
  const asp=w/h,hf=2*Math.atan(Math.tan(29*Math.PI/180)*16/9);cam.aspect=asp;
- if(asp<1){/* Handy hochkant: eigener Ausschnitt, auf die Stationen geschwenkt */const a=PAN*Math.PI/180,dx=CT.x-CP.x,dz=CT.z-CP.z;cam.lookAt(CP.x+dx*Math.cos(a)+dz*Math.sin(a),CT.y+TILT,CP.z-dx*Math.sin(a)+dz*Math.cos(a));cam.fov=MFOV}
- else{cam.lookAt(CT);cam.fov=Math.min(75,2*Math.atan(Math.tan(hf/2)/asp)*180/Math.PI)}
+ if(asp<1){/* Handy hochkant: eigener Ausschnitt, auf die Stationen geschwenkt */const a=PAN*Math.PI/180,dx=CT.x-CP.x,dz=CT.z-CP.z,hl=Math.hypot(dx,dz),rx=-dz/hl,rz=dx/hl;cam.position.set(CP.x+rx*MOFF,CP.y+MUP,CP.z+rz*MOFF);cam.lookAt(rx*MOFF+CP.x+dx*Math.cos(a)+dz*Math.sin(a),CT.y+TILT+MUP,rz*MOFF+CP.z-dx*Math.sin(a)+dz*Math.cos(a));cam.fov=MFOV}
+ else{cam.position.copy(CP);cam.lookAt(CT);cam.fov=Math.min(75,2*Math.atan(Math.tan(hf/2)/asp)*180/Math.PI)}
  cam.updateProjectionMatrix()}
-const PAN=12.9,TILT=-1,MFOV=72;
+const PAN=12.9,TILT=-1,MFOV=72,MOFF=+(new URLSearchParams(location.search).get('moff')||6),MUP=0;
 addEventListener('resize',resize);resize();updLabels();for(let i=0;i<TAIL+10;i++)step(1);
 
 const tIn=document.getElementById('t'),clock=document.getElementById('clock'),play=document.getElementById('play');let playing=false;
