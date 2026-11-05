@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>Lenggrieser Gleitschirmflieger Entwurf</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -172,8 +173,7 @@ table.tbl{border-collapse:collapse;font-family:var(--f-mono);font-size:.78rem;wh
 .w3d-h{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding:16px 20px;border-bottom:1px solid var(--line);background:#fff}
 .w3d-h h3{margin:6px 0 0}.w3d-h a{font-size:.82rem}
 .w3d-f{margin:0;padding:12px 20px;font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);background:#fff}
-.w3d iframe{display:block;width:100%;height:560px;border:0}
-@media (max-width:700px){.w3d iframe{height:440px}}
+.w3d iframe{display:block;width:100%;aspect-ratio:16/10;height:auto;border:0}
 .cam{aspect-ratio:21/8;max-width:100%;border-radius:var(--r-md);background:var(--soft);display:grid;place-items:center;text-align:center;color:var(--muted);font-size:.9rem;margin:14px 0}
 .links{display:grid;gap:8px;margin:14px 0 0;padding:0;list-style:none}
 .links a{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;border-radius:var(--r-md);background:var(--bg);text-decoration:none;font-weight:500}
@@ -309,11 +309,11 @@ footer.site a{color:var(--muted)}
     <div class="stations" id="stations"></div>
     <div class="w3d">
       <div class="w3d-h">
-        <div><span class="eyebrow">Brauneck in 3D</span><h3>Wind vom Tal bis zum Gipfel</h3></div>
-        <a href="wind3d.html" target="_blank" rel="noopener">Im Vollbild öffnen</a>
+        <div><span class="eyebrow">Brauneck in 3D</span><h3>Strömung aus vier Stationen</h3></div>
+        <a href="wind-stationen.html" target="_blank" rel="noopener">Im Vollbild öffnen</a>
       </div>
-      <iframe src="wind3d.html" title="3D-Windansicht Brauneck" loading="lazy"></iframe>
-      <p class="w3d-f">Linien zeigen Richtung und Stärke, zwischen den vier Stationen nach Höhe übergeblendet. Ziehen dreht den Berg. Berg: echte Werte vom 04.11., übrige Stationen und Gelände schematisch.</p>
+      <iframe src="wind-stationen.html?embed" title="3D-Windansicht Brauneck mit den vier Wetterstationen" loading="lazy"></iframe>
+      <p class="w3d-f">Echtes Gelände mit Höhenlinien, darüber die Strömung auf Höhenschichten von 780 bis 1800 m. Die Farbe zeigt die Windstärke, Richtung und Stärke kommen aus den vier Stationen und werden nach Höhe übergeblendet. Vereinfachtes Modell, keine Flugfreigabe. Berg: echte Werte vom 04.11., übrige Stationen Beispielwerte.</p>
     </div>
     <div class="wx-extra">
       <div class="panel">

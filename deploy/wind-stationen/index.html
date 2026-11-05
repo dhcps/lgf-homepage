@@ -30,7 +30,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .lbl .v{font-weight:300;font-size:1.05rem;font-variant-numeric:tabular-nums}
 .lbl .v small{font-size:.62rem;color:var(--muted);margin-left:2px}
 .lbl i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
-.lbl.top{transform:translate(-50%,0)}.lbl .d2{display:none}.lbl.top::after{display:none}
+.embed .head{display:none}.lbl.top{transform:translate(-50%,0)}.lbl .d2{display:none}.lbl.top::after{display:none}
 #leads{position:fixed;inset:0;pointer-events:none;z-index:1;width:100%;height:100%}
 #leads line{stroke:#4A5763;stroke-width:1;stroke-opacity:.75}#leads circle{fill:#4A5763;fill-opacity:.8}
 .lbl::after{content:"";position:absolute;left:var(--ax,50%);bottom:-7px;width:1px;height:7px;background:#8A96A0}
@@ -88,6 +88,7 @@ function wAt(alt){const L=PROF;if(alt<=L[0].alt)return L[0];const t=L[L.length-1
  for(let i=1;i<L.length;i++)if(alt<=L[i].alt){const a=L[i-1],b=L[i],f=(alt-a.alt)/(b.alt-a.alt);let d1=b.d;if(d1-a.d>180)d1-=360;if(a.d-d1>180)d1+=360;return{m:a.m+(b.m-a.m)*f,d:a.d+(d1-a.d)*f}}}
 
 // Szene
+if(/[?&]embed/.test(location.search))document.documentElement.classList.add('embed');
 const box=document.getElementById('scene');
 const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setClearColor(0xEEF2F6);box.appendChild(renderer.domElement);
 const scene=new THREE.Scene();scene.fog=new THREE.Fog(0xEEF2F6,150,330);
