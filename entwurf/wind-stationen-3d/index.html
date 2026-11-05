@@ -85,7 +85,7 @@ const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:tru
 const scene=new THREE.Scene();scene.fog=new THREE.Fog(0xEEF2F6,150,330);
 const cam=new THREE.PerspectiveCamera(38,16/9,1,1000);const CP=new THREE.Vector3(22.6,22,-54),CT=new THREE.Vector3(-16,14,6);cam.position.copy(CP);cam.lookAt(CT);
 const TEX=new THREE.TextureLoader().load('karte_tex.jpg',()=>{window.__texReady=true});TEX.anisotropy=8;
-const st=2,gx=Math.floor((mnx-1)/st),gz=Math.floor((mny-1)/st);
+const st=1,gx=Math.floor((mnx-1)/st),gz=Math.floor((mny-1)/st);
 const geo=new THREE.PlaneGeometry(gx*st*mdx*S,gz*st*mdx*S,gx,gz);geo.rotateX(-Math.PI/2);geo.translate(X0+gx*st*mdx*S/2,0,Z0+gz*st*mdx*S/2);
 const pos=geo.attributes.position;for(let i=0;i<pos.count;i++)pos.setY(i,toY(hAt(pos.getX(i),pos.getZ(i))));geo.computeVertexNormals();
 const uv=geo.attributes.uv;for(let i=0;i<uv.count;i++){uv.setXY(i,(pos.getX(i)-X0)/W,1-(pos.getZ(i)-Z0)/Dp)}
