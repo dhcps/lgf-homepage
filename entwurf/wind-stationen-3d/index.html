@@ -73,7 +73,7 @@ const ST=[
  {n:'Berg',top:1,alt:1556,kx:2.921,kz:3.699,ox:-62,oy:-16,data:BERG},
  {n:'Garland',top:1,alt:1514,kx:3.097,kz:3.549,ox:62,oy:2,data:derive(.8,1,8,7)},
  {n:'Umsetzer',top:1,alt:1358,kx:4.087,kz:3.272,ox:-46,oy:0,data:derive(.6,1,18,11)},
- {n:'Tal LP Nord',alt:746,kx:5.076,kz:2.58,ox:0,oy:0,data:derive(.4,2,35,13)}];
+ {n:'Tal LP Nord',bot:1,alt:746,kx:5.076,kz:2.58,ox:0,oy:0,data:derive(.4,2,35,13)}];
 const DIRS=['N','NNO','NO','ONO','O','OSO','SO','SSO','S','SSW','SW','WSW','W','WNW','NW','NNW'];
 const dn=d=>DIRS[Math.round(((d%360)+360)%360/22.5)%16];
 let tf=30;
@@ -98,7 +98,7 @@ scene.add(new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:TEX})));
 ST.forEach(s=>{s.x=X0+s.kx*S;s.z=Z0+s.kz*S;s.y=toY(s.alt);
  const g=toY(hAt(s.x,s.z));const pole=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,Math.max(.6,s.y-g+1.2),6),new THREE.MeshBasicMaterial({color:0x17212B}));pole.position.set(s.x,(g+s.y+1.2)/2,s.z);scene.add(pole);
  const dot=new THREE.Mesh(new THREE.SphereGeometry(.42,14,10),new THREE.MeshBasicMaterial({color:0x1D5E9E}));dot.position.set(s.x,s.y+1.2,s.z);scene.add(dot);
- s.el=document.createElement('div');s.el.className=s.top?'lbl top':'lbl';document.body.appendChild(s.el)});
+ s.el=document.createElement('div');s.el.className=(s.top||s.bot)?'lbl top':'lbl';document.body.appendChild(s.el)});
 
 // Stromlinien: Partikel auf festen Höhen (m ü. NN), folgen dem Gelände, lange ruhige Schweife
 const LAY=[780,900,1050,1200,1350,1500,1650,1800];
@@ -134,10 +134,10 @@ function updLabels(){profile();ST.forEach(s=>{const v=at(s,tf),c=colOf(v.m,c1).g
  s.el.style.setProperty('--ax',`calc(50% - ${s.ox}px)`)})}
 const vt=new THREE.Vector3();
 const SVGNS='http://www.w3.org/2000/svg',leads=document.createElementNS(SVGNS,'svg');leads.id='leads';document.body.appendChild(leads);
-ST.filter(s=>s.top).forEach(s=>{s.ln=document.createElementNS(SVGNS,'line');s.dt=document.createElementNS(SVGNS,'circle');s.dt.setAttribute('r','2');leads.append(s.ln,s.dt)});
+ST.filter(s=>s.top||s.bot).forEach(s=>{s.ln=document.createElementNS(SVGNS,'line');s.dt=document.createElementNS(SVGNS,'circle');s.dt.setAttribute('r','2');leads.append(s.ln,s.dt)});
 function place(){const r=renderer.domElement.getBoundingClientRect();const tops=[];
  ST.forEach(s=>{vt.set(s.x,s.y+1.8,s.z).project(cam);const px=r.left+(vt.x+1)/2*r.width,py=r.top+(1-vt.y)/2*r.height;
-  if(s.top){s.px=px;s.py=py;tops.push(s)}else{s.el.style.left=(px+s.ox)+'px';s.el.style.top=(py+s.oy-8)+'px'}});
+  if(s.top){s.px=px;s.py=py;tops.push(s)}else if(s.bot){const w=s.el.offsetWidth,h=s.el.offsetHeight,cx=Math.min(Math.max(px,r.left+w/2+12),r.right-w/2-12),ty=r.bottom-h-12;s.el.style.left=cx+'px';s.el.style.top=ty+'px';s.ln.setAttribute('x1',cx);s.ln.setAttribute('y1',ty);s.ln.setAttribute('x2',px);s.ln.setAttribute('y2',py+6);s.dt.setAttribute('cx',px);s.dt.setAttribute('cy',py+6)}else{s.el.style.left=(px+s.ox)+'px';s.el.style.top=(py+s.oy-8)+'px'}});
  /* obere Stationen: Reihe am oberen Rand, zwischen Titel und Legende */
  tops.sort((a,b)=>a.px-b.px);const gap=10,ws=tops.map(s=>s.el.offsetWidth);
  const hd=document.querySelector('.head').getBoundingClientRect(),lgE=document.querySelector('.legend'),lgR=lgE&&lgE.offsetParent?lgE.getBoundingClientRect():null;
