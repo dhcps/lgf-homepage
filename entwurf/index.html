@@ -92,6 +92,25 @@ nav.main a:hover,nav.main a.on{background:rgba(255,255,255,.16);color:#fff}
   .hero-frame::after{background:linear-gradient(180deg,rgba(10,16,24,.4) 0%,rgba(10,16,24,0) 90px,rgba(18,30,44,0) 230px,rgba(18,30,44,.75) 330px,#121E2C 415px)}
 }
 
+
+/* Wind-Intro direkt unter dem Hero */
+.wind-intro .wrap{padding-block:40px 8px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+.wi-frame{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--soft)}
+.wi-frame iframe{display:block;width:100%;aspect-ratio:16/10.6;height:auto;border:0}
+.wi-txt p{margin:12px 0 0;color:var(--muted);font-size:.95rem;max-width:32em}
+.wi-scale{margin:22px 0 0;max-width:340px}
+.wi-scale .bar{height:8px;border-radius:2px;background:linear-gradient(90deg,#2E6DB4 0%,#5E9FD6 20%,#A8D0EC 27.5%,#F3DA8A 32.5%,#F5A23C 37.5%,#EB6A33 55%,#CF3A2A 75%,#8E1E3A 100%)}
+.wi-scale .ticks{position:relative;height:14px;font-family:var(--f-mono);font-size:.68rem;color:var(--ink);margin-top:4px}
+.wi-scale .ticks span{position:absolute;top:0;transform:translateX(-50%)}.wi-scale .ticks span:first-child{transform:none}.wi-scale .ticks span:last-child{transform:translateX(-100%)}
+.wi-scale .cap{font-size:.74rem;color:var(--muted);margin-bottom:6px;display:block}
+.wi-list{margin:20px 0 0;padding:0;list-style:none;display:grid;gap:10px;font-size:.86rem}
+.wi-list li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start;border-top:1px solid var(--line);padding-top:10px}
+.wi-list svg{width:22px;height:16px;margin-top:3px}
+.wi-list b{font-weight:600}
+.wi-txt .fine{font-size:.74rem;color:var(--muted);margin-top:16px}
+.wi-txt .fine a{color:var(--muted)}
+@media (max-width:860px){.wind-intro .wrap{grid-template-columns:1fr;gap:24px}}
+
 /* Fakten */
 .facts .wrap{padding-block:44px 8px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:center}
 .facts p{margin:14px 0 0;color:var(--muted);font-size:1.02rem;max-width:34em}
@@ -279,6 +298,22 @@ footer.site a{color:var(--muted)}
     </div>
   </div></section>
 
+  <section class="wind-intro" id="windmodell"><div class="wrap">
+    <div class="wi-frame"><iframe src="wind-stationen.html?embed" title="3D-Windansicht Brauneck mit den vier Wetterstationen" loading="lazy"></iframe></div>
+    <div class="wi-txt">
+      <span class="eyebrow">Brauneck in 3D</span>
+      <h2 style="margin-top:12px">So weht der Wind <em>am Berg</em></h2>
+      <p>Aus den Messwerten unserer vier Stationen entsteht ein Bild der Strömung vom Tal bis über den Gipfel. Über den Zeitregler lässt sich der Tagesverlauf abspielen.</p>
+      <div class="wi-scale"><span class="cap">Windgeschwindigkeit in km/h</span><div class="bar"></div><div class="ticks"><span style="left:0">0</span><span style="left:25%">10</span><span style="left:37.5%">15</span><span style="left:50%">20</span><span style="left:75%">30</span><span style="left:100%">40+</span></div></div>
+      <ul class="wi-list">
+        <li><svg viewBox="0 0 22 16" aria-hidden="true"><path d="M1 11 C7 3,14 13,21 5" fill="none" stroke="#5E9FD6" stroke-width="2.4" stroke-linecap="round"/></svg><span><b>Linien</b> zeigen, wohin der Wind strömt, auf Höhen von 780 bis 1800 m. Die Farbe steht für die Stärke.</span></li>
+        <li><svg viewBox="0 0 22 16" aria-hidden="true"><circle cx="11" cy="6" r="4" fill="#1D5E9E"/><path d="M11 10v6" stroke="#17212B" stroke-width="1.6"/></svg><span><b>Stationen</b> Berg, Garland, Umsetzer und Tal LP Nord mit Mittelwind, Böe und Richtung.</span></li>
+        <li><svg viewBox="0 0 22 16" aria-hidden="true"><path d="M1 13 C6 6,10 5,13 8 S19 9,21 4" fill="none" stroke="#6F9468" stroke-width="1.2"/><path d="M1 9 C6 3,10 2,13 5 S19 6,21 1" fill="none" stroke="#6F9468" stroke-width=".7" opacity=".7"/></svg><span><b>Höhenlinien</b> alle 50 m. Das Gelände ist 1,5-fach überhöht.</span></li>
+      </ul>
+      <p class="fine">Vereinfachtes Strömungsmodell, keine Flugfreigabe. Berg: echte Werte vom 04.11., übrige Stationen Beispielwerte. <a href="wind-stationen.html" target="_blank" rel="noopener">Im Vollbild öffnen</a></p>
+    </div>
+  </div></section>
+
   <section class="facts"><div class="wrap">
     <div class="facts-txt">
       <span class="eyebrow">Über uns</span>
@@ -307,14 +342,6 @@ footer.site a{color:var(--muted)}
       </dl>
     </div>
     <div class="stations" id="stations"></div>
-    <div class="w3d">
-      <div class="w3d-h">
-        <div><span class="eyebrow">Brauneck in 3D</span><h3>Strömung aus vier Stationen</h3></div>
-        <a href="wind-stationen.html" target="_blank" rel="noopener">Im Vollbild öffnen</a>
-      </div>
-      <iframe src="wind-stationen.html?embed" title="3D-Windansicht Brauneck mit den vier Wetterstationen" loading="lazy"></iframe>
-      <p class="w3d-f">Echtes Gelände mit Höhenlinien, darüber die Strömung auf Höhenschichten von 780 bis 1800 m. Die Farbe zeigt die Windstärke, Richtung und Stärke kommen aus den vier Stationen und werden nach Höhe übergeblendet. Vereinfachtes Modell, keine Flugfreigabe. Berg: echte Werte vom 04.11., übrige Stationen Beispielwerte.</p>
-    </div>
     <div class="wx-extra">
       <div class="panel">
         <span class="eyebrow">Webcam</span>
