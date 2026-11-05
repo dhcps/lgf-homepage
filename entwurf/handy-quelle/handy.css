@@ -1,0 +1,65 @@
+
+/* ===== Handy-Fassung ===== */
+html{scroll-padding-top:8px}
+body{font-size:15px}
+.draft .wrap{padding-block:6px;flex-wrap:nowrap;font-size:.74rem}
+.draft a{color:var(--accent)}
+/* Hero */
+.hero .wrap{padding-inline:8px}
+.topnav{padding:14px 14px}
+.brand .logo{width:64px;margin-top:-6px;margin-right:-47px}
+.brand span{padding-top:3px;padding-left:5px}
+.brand b{font-size:.95rem;line-height:1.05}
+.menu-btn{padding:5px 10px;font-size:.78rem}
+nav.main{top:56px;left:10px;right:10px}
+nav.main a{font-size:.95rem;padding:10px 12px}
+.hero-frame{background-size:auto 380px}
+.hero-frame::after{background:linear-gradient(180deg,rgba(10,16,24,.4) 0%,rgba(10,16,24,0) 80px,rgba(18,30,44,0) 200px,rgba(18,30,44,.75) 300px,#121E2C 375px)}
+.hero-copy{padding-top:170px}
+.hero-body{padding:14px 14px 14px;gap:18px}
+.hero .eyebrow{font-size:.64rem}
+.hero h1{font-size:1.55rem;margin-bottom:14px}
+.btns{gap:8px}
+.btn{padding:8px 13px;font-size:.82rem}
+.glass{max-width:none;justify-self:stretch;padding:12px 12px}
+.now-row{gap:8px;grid-template-columns:20px minmax(0,1fr) auto auto}
+.now-row .nm small{font-size:.64rem}
+/* Windmodell hochkant */
+.wind-intro .wrap{display:block;padding-block:28px 4px}
+.wi-head{margin-bottom:14px}
+.wi-frame iframe{aspect-ratio:3/4}
+.wi-txt p{font-size:.9rem}
+.wi-scale{margin-top:18px}
+.wi-list{font-size:.82rem}
+/* Wetter */
+section.block .wrap{padding-block:28px}
+.sec-head{margin-bottom:12px}
+.legend{font-size:.72rem;gap:8px}
+.legend div{grid-template-columns:78px minmax(0,1fr);gap:8px}
+.legend .scale span{min-width:0;flex:1;padding:3px 0}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{font:inherit;color:inherit;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:10px 10px 9px;display:grid;gap:6px;justify-items:center;cursor:pointer;min-width:0}
+.tile.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.t-top{display:flex;justify-content:space-between;align-items:center;gap:6px;width:100%}
+.t-top b{font-family:var(--f-display);font-weight:400;font-size:1.02rem;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-top .pill{font-size:.6rem;padding:2px 5px}
+.tile .compass{width:100%;max-width:112px;height:auto}
+.t-v{display:flex;align-items:baseline;gap:3px;font-weight:300;line-height:1}
+.t-v b{font-weight:300;font-size:1.45rem}.t-v b.g{color:var(--chart-gust)}.t-v i{font-style:normal;color:var(--muted);font-size:1rem}
+.t-v small{font-size:.68rem;font-weight:500;color:var(--muted);margin-left:2px}
+.t-d{font-size:.7rem;color:var(--muted)}
+.tile-hint{font-size:.72rem;color:var(--muted);text-align:center;margin:10px 0}
+#stDetail{scroll-margin-top:10px}
+#stDetail .st{padding:14px}
+#stDetail .st-main{grid-template-columns:1fr}
+#stDetail .st-main .compass{display:none}
+#stDetail .readings{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 10px}
+#stDetail .rd .v{font-size:1.3rem}
+#stDetail .rd.minor .v{font-size:.95rem}
+#stDetail .rd .k{font-size:.68rem}
+.wx-extra{gap:12px}
+/* Fakten, Gelände, Rest */
+.facts .wrap{padding-block:28px 4px;gap:20px}
+.fact-row{margin-top:20px}
+.bento{grid-auto-rows:150px}
+footer.site .wrap{flex-wrap:wrap;gap:8px}

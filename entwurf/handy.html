@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lenggrieser Gleitschirmflieger Handy</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Manrope:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: ruhiger, fotografischer Stil. Großes gerundetes Hero-Foto mit Glas-Navigation und Live-Wind, darunter weiche Karten mit viel Luft. Aufgebaut aus Elementor-Standardbausteinen (Container, Überschrift, Bild, Buttons, Beitragsliste). */
+:root{
+  --bg:#F3F5F7; --surface:#FFFFFF; --soft:#E8ECF0; --ink:#17212B; --muted:#5F6B76; --line:#DDE3E8;
+  --accent:#1D5E9E; --accent-ink:#FFFFFF; --forest:#FFFFFF; --on-forest:#17212B;
+  --ok:#2E7D4F; --warn:#B7860B; --bad:#C0392B; --ok-soft:#E1F0E5; --warn-soft:#F5ECD2; --bad-soft:#F6DEDA;
+  --chart-mean:#1D5E9E; --chart-gust:#D9822B;
+  --f-display:"Newsreader","Iowan Old Style",Georgia,serif;
+  --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light; --r-xl:12px; --r-lg:8px; --r-md:6px; --r-btn:4px;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:inherit}
+img{max-width:100%;display:block}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1240px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;line-height:1.15;text-wrap:balance;margin:0;letter-spacing:-.01em}
+h2{font-size:clamp(1.3rem,2vw,1.65rem)}
+h2 em,h1 em{font-style:italic}
+h3{font-size:1.2rem}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.eyebrow.plain::before{display:none}
+.hero h1{margin-bottom:18px}
+.eyebrow::before{content:"";width:16px;height:1px;background:currentColor;opacity:.6}
+.num{font-variant-numeric:tabular-nums}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:var(--r-btn);font-weight:500;font-size:.86rem;letter-spacing:.01em;text-decoration:none;border:1px solid var(--ink);background:transparent;color:var(--ink);transition:transform .2s}
+.btn:hover{filter:brightness(1.08)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn .ar{font-size:.9em;opacity:.85}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+
+.draft{font-size:.8rem;color:var(--muted)}
+.draft .wrap{padding-block:8px;display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}
+
+/* Hero */
+.hero{padding-block:4px 0}
+.hero-frame{position:relative;border-radius:var(--r-xl);overflow:hidden;min-height:640px;display:flex;flex-direction:column;color:#fff;
+  background:#2b3a4a url("img/hero.jpg") center 42%/cover no-repeat}
+.hero-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,16,24,.55) 0%,rgba(10,16,24,.15) 50%,rgba(10,16,24,0) 70%),linear-gradient(180deg,rgba(10,16,24,.45) 0%,rgba(10,16,24,0) 26%,rgba(10,16,24,0) 45%,rgba(10,16,24,.78) 100%);pointer-events:none}
+.hero h1,.hero p.lede{text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.hero-frame>*{position:relative;z-index:1}
+.topnav{display:flex;align-items:center;gap:16px;padding:20px 24px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.brand{gap:0;align-items:flex-start}.brand .logo{width:84px;height:auto;flex:none;margin-top:-8px;margin-right:-62px}.brand span{padding-top:5px;padding-left:7px}
+.brand b{font-family:var(--f-display);font-weight:400;font-size:1.05rem;line-height:1}
+.brand small{display:block;font-family:var(--f-body);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;opacity:.8;margin-top:3px}
+nav.main{margin-inline:auto;display:flex;gap:2px;padding:3px;border-radius:var(--r-md);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+nav.main a{color:rgba(255,255,255,.9);text-decoration:none;font-size:.78rem;font-weight:500;line-height:1.4;padding:2px 9px;border-radius:var(--r-btn)}
+nav.main a:hover,nav.main a.on{background:rgba(255,255,255,.16);color:#fff}
+@media (min-width:1100px){nav.main{position:absolute;left:50%;transform:translateX(-50%);margin:0}.topnav .nav-cta{margin-left:auto}}
+.nav-cta{background:transparent;color:#fff;border-color:rgba(255,255,255,.35);font-size:.66rem;line-height:1.4;padding:6.35px 12px;align-self:center}
+.menu-btn{display:none;margin-left:auto;font:inherit;font-weight:600;color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:var(--r-btn);padding:7px 12px;font-size:.85rem;backdrop-filter:blur(10px)}
+.hero-body{margin-top:auto;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:32px;align-items:end;padding:24px 32px 32px}
+.hero h1{font-size:clamp(1.5rem,2.3vw,2rem);font-weight:300;color:rgba(255,255,255,.94);letter-spacing:0;line-height:1.08}
+.hero p.lede{font-size:.88rem;max-width:32em;margin:12px 0 20px;color:rgba(255,255,255,.88)}
+.hero .btn:not(.primary){background:transparent;border-color:rgba(255,255,255,.35);color:#fff;backdrop-filter:blur(10px)}
+
+.glass{font-size:.82rem;max-width:380px;justify-self:end;background:rgba(12,22,34,.29);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px) saturate(130%);-webkit-backdrop-filter:blur(10px) saturate(130%);border-radius:var(--r-lg);padding:16px 18px;color:#fff}
+.now-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.now-head b{font-weight:600;font-size:.82rem}
+.now-head span{font-size:.72rem;opacity:.7;text-transform:uppercase;letter-spacing:.06em}
+.now-row{display:grid;grid-template-columns:22px minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:6px 2px;border-top:1px solid rgba(255,255,255,.1);text-decoration:none;color:#fff}
+.now-row .arrow{width:22px;height:22px;color:#fff}
+.now-row .arrow circle{stroke:rgba(255,255,255,.25);stroke-width:.8}
+.now-row .nm{font-weight:600;font-size:.8rem;line-height:1.2;min-width:0}
+.now-row .nm small{display:block;font-weight:400;opacity:.72;font-size:.68rem}
+.now-row .val{font-family:var(--f-mono);font-size:.76rem;white-space:nowrap}
+.now-row .val small{opacity:.7}
+.glass .pill{background:rgba(255,255,255,.92)}
+.now-foot{font-size:.64rem;opacity:.72;margin-top:8px;display:flex;justify-content:space-between;gap:8px}
+.pill{font-size:.68rem;font-weight:600;padding:3px 7px;border-radius:var(--r-btn);white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.glass .pill.ok{color:#2E7D4F}.glass .pill.warn{color:#8F6A06}.glass .pill.bad{color:#B0352A}
+
+@media (max-width:980px){
+  nav.main{display:none;position:absolute;top:64px;left:16px;right:16px;flex-direction:column;border-radius:var(--r-lg);background:rgba(12,22,34,.85);padding:10px}
+  nav.main.open{display:flex}
+  .menu-btn{display:block}
+  .topnav .nav-cta{display:none}
+  .hero-body{grid-template-columns:1fr;padding:16px 18px 18px}
+  .hero-frame{min-height:0}
+  .hero-copy{padding-top:200px}
+  .hero-frame{background-size:auto 420px;background-position:center top;background-color:#121E2C}
+  .hero-frame::after{background:linear-gradient(180deg,rgba(10,16,24,.4) 0%,rgba(10,16,24,0) 90px,rgba(18,30,44,0) 230px,rgba(18,30,44,.75) 330px,#121E2C 415px)}
+}
+
+
+/* Wind-Intro direkt unter dem Hero */
+.wind-intro .wrap{padding-block:40px 8px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:36px;align-items:center}
+.wi-frame{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--soft)}
+.wi-frame iframe{display:block;width:100%;aspect-ratio:16/10.6;height:auto;border:0}
+.wi-txt p{margin:12px 0 0;color:var(--muted);font-size:.95rem;max-width:32em}
+.wi-scale{margin:22px 0 0}
+.wi-scale .bar{height:8px;border-radius:2px;background:linear-gradient(90deg,#2E6DB4 0%,#5E9FD6 20%,#A8D0EC 27.5%,#F3DA8A 32.5%,#F5A23C 37.5%,#EB6A33 55%,#CF3A2A 75%,#8E1E3A 100%)}
+.wi-scale .ticks{position:relative;height:14px;font-family:var(--f-mono);font-size:.68rem;color:var(--ink);margin-top:4px}
+.wi-scale .ticks span{position:absolute;top:0;transform:translateX(-50%)}.wi-scale .ticks span:first-child{transform:none}.wi-scale .ticks span:last-child{transform:translateX(-100%)}
+.wi-scale .cap{font-size:.74rem;color:var(--muted);margin-bottom:6px;display:block}
+.wi-list{margin:20px 0 0;padding:0;list-style:none;display:grid;gap:10px;font-size:.86rem}
+.wi-list li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start;border-top:1px solid var(--line);padding-top:10px}
+.wi-list svg{width:22px;height:16px;margin-top:3px}
+.wi-list b{font-weight:600}
+.wi-txt .fine{font-size:.74rem;color:var(--muted);margin-top:16px}
+.wi-txt .fine a{color:var(--muted)}
+@media (max-width:860px){.wind-intro .wrap{grid-template-columns:1fr;gap:24px}}
+
+/* Fakten */
+.facts .wrap{padding-block:44px 8px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:center}
+.facts p{margin:14px 0 0;color:var(--muted);font-size:1.02rem;max-width:34em}
+.fact-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:32px}
+.fact{border-top:1px solid var(--line);padding:12px 2px 0}
+.fact b{display:block;font-family:var(--f-body);font-weight:300;font-size:1.6rem;font-weight:400;line-height:1}
+.fact span{font-size:.82rem;color:var(--muted);line-height:1.4;display:block;margin-top:4px}
+.facts-pic{margin:0;border-radius:var(--r-xl);overflow:hidden;aspect-ratio:4/3;max-width:100%}
+.facts-pic img{width:100%;height:100%;object-fit:cover;object-position:center 60%}
+@media (max-width:860px){.facts .wrap{grid-template-columns:1fr;gap:28px}}
+@media (max-width:460px){.fact-row{grid-template-columns:1fr 1fr}.fact:last-child{grid-column:span 2}}
+
+section.block .wrap{padding-block:36px}
+.sec-head>div:first-child{min-width:0;flex:1 1 360px}
+.legend{margin:0;display:grid;gap:10px;font-size:.78rem;color:var(--muted);flex:0 1 420px;border-left:1px solid var(--line);padding-left:24px}
+.legend div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;align-items:center}
+.legend dt{font-weight:600;color:var(--ink)}
+.legend dd{margin:0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.legend .li{white-space:nowrap;margin-right:8px}.legend .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.legend .scale{gap:0}
+.legend .scale span{font-family:var(--f-mono);font-size:.7rem;color:#17212B;padding:3px 7px;min-width:30px;text-align:center}
+.legend .b0{background:#E4F0F2}.legend .b1{background:#D3EBD9}.legend .b2{background:#AEDDB8}.legend .b3{background:#EFE38F}.legend .b4{background:#F3C474}.legend .b5{background:#EC9466}.legend .b6{background:#D2544B;color:#fff!important}
+@media (max-width:860px){.legend{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:16px;flex-basis:100%}}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+.sec-head p{margin:8px 0 0;font-size:.95rem;color:var(--muted);max-width:38em}
+
+/* Stationen */
+.stations{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:start}
+.stations .st{padding:16px;gap:12px}
+.stations .st-main{grid-template-columns:1fr;gap:12px;justify-items:center}
+.stations .compass{max-width:150px}
+.stations{align-items:stretch}.stations .st{align-content:start}.stations .st-top{min-height:82px}.stations details.hist summary{font-size:.82rem}
+.stations .readings{width:100%;gap:10px 12px}
+.stations .rd .v{font-size:1.45rem}
+.stations .chart-bar{flex-direction:column;align-items:flex-start}
+@media (max-width:1180px){.stations{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.stations{grid-template-columns:1fr}}
+.st{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:20px;display:grid;gap:14px;min-width:0}
+.st>*{min-width:0}
+.st-top{display:flex;justify-content:space-between;align-items:start;gap:12px}
+.st-top .meta{font-size:.78rem;color:var(--muted);margin-top:6px}
+.st-main{display:grid;grid-template-columns:136px minmax(0,1fr);gap:22px;align-items:center}
+@media (max-width:420px){.st-main{grid-template-columns:108px minmax(0,1fr);gap:14px}}
+.compass{width:100%;height:auto}
+.compass text{font-family:var(--f-mono);font-size:10px;fill:var(--muted)}
+.readings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}
+.rd .k{font-size:.74rem;color:var(--muted)}
+.rd .v{font-family:var(--f-body);font-weight:300;font-size:1.75rem;line-height:1;font-variant-numeric:tabular-nums}
+.rd .v small{font-family:var(--f-body);font-size:.78rem;font-weight:500;color:var(--muted);margin-left:4px}
+.rd.gust .v{color:var(--chart-gust)}
+.rd.minor .v{font-size:1.1rem;font-weight:400}
+.chart-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.chart-legend{display:flex;gap:14px;font-size:.74rem;color:var(--muted);flex-wrap:wrap}
+.chart-legend i{display:inline-block;width:12px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.chart-legend .zi{background:var(--bad-soft);height:10px;width:12px}
+svg.chart{width:100%;height:auto;display:block}
+svg.chart text{font-family:var(--f-mono);font-size:9px;fill:var(--muted)}
+svg.chart .grid{stroke:var(--line);stroke-width:1}
+svg.chart .zone{fill:var(--bad-soft);opacity:.6}
+svg.chart .area{fill:var(--chart-mean);opacity:.14}
+svg.chart .mean{fill:none;stroke:var(--chart-mean);stroke-width:2.2}
+svg.chart .gust{fill:none;stroke:var(--chart-gust);stroke-width:1.6;stroke-dasharray:3 3}
+svg.chart .dir{fill:var(--muted)}
+svg.chart .end{fill:var(--chart-mean)}
+.tabs{display:flex;gap:2px;background:var(--soft);border-radius:var(--r-md);padding:3px;width:max-content;max-width:100%}
+.tabs button{border:0;background:none;font:inherit;font-size:.76rem;font-weight:500;padding:4px 10px;border-radius:var(--r-btn);color:var(--muted);cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+details.hist{border-top:1px solid var(--line);padding-top:14px}
+details.hist summary{cursor:pointer;font-weight:600;font-size:.9rem}
+.tbl-wrap{overflow-x:auto;margin-top:12px;border-radius:var(--r-md);background:var(--bg)}
+table.tbl{border-collapse:collapse;font-family:var(--f-mono);font-size:.78rem;white-space:nowrap}
+.tbl th,.tbl td{padding:6px 7px;text-align:center}
+.tbl th[scope=row]{position:sticky;left:0;background:var(--bg);text-align:left;font-family:var(--f-body);font-weight:600;font-size:.76rem;z-index:1}
+.tbl tr:first-child th{color:var(--muted);font-weight:500}
+.tbl th.hr{color:var(--ink);font-weight:600}
+.tbl td.w{font-weight:500;color:#1C2620}
+.tbl .b0{background:#E4F0F2}.tbl .b1{background:#D3EBD9}.tbl .b2{background:#AEDDB8}.tbl .b3{background:#EFE38F}.tbl .b4{background:#F3C474}.tbl .b5{background:#EC9466}.tbl .b6{background:#D2544B;color:#fff}
+.tbl td.d{color:var(--ink);line-height:1}
+.tbl td.d span{display:block;font-size:.64rem;color:var(--muted);margin-top:2px}
+.tbl svg.ta{width:16px;height:16px;display:block;margin:0 auto}
+.tbl td.mu{color:var(--muted)}
+
+.wx-extra{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px;margin-top:20px}
+@media (max-width:860px){.wx-extra{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:20px;min-width:0}
+.w3d{margin-top:28px;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--soft)}
+.w3d-h{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding:16px 20px;border-bottom:1px solid var(--line);background:#fff}
+.w3d-h h3{margin:6px 0 0}.w3d-h a{font-size:.82rem}
+.w3d-f{margin:0;padding:12px 20px;font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);background:#fff}
+.w3d iframe{display:block;width:100%;aspect-ratio:16/10;height:auto;border:0}
+.cam{aspect-ratio:21/8;max-width:100%;border-radius:var(--r-md);background:var(--soft);display:grid;place-items:center;text-align:center;color:var(--muted);font-size:.9rem;margin:14px 0}
+.links{display:grid;gap:8px;margin:14px 0 0;padding:0;list-style:none}
+.links a{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;border-radius:var(--r-md);background:var(--bg);text-decoration:none;font-weight:500}
+.links span{color:var(--muted);font-size:.85rem;font-weight:400}
+.note{font-size:.85rem;color:var(--muted);margin-top:20px;max-width:60em}
+
+/* Fluggelände */
+.sites{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:760px){.sites{grid-template-columns:1fr}}
+.site-card{position:relative;border-radius:var(--r-xl);overflow:hidden;min-height:380px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;background:#2c3a30 center/cover no-repeat}
+.site-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,16,24,0) 35%,rgba(10,16,24,.78) 100%)}
+.site-card>*{position:relative;z-index:1}
+.site-body{padding:24px;display:grid;gap:12px}
+.site-body h3{font-size:1.6rem;color:#fff}
+.site-body p{margin:0;color:rgba(255,255,255,.88);max-width:30em}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:0;padding:0;list-style:none}
+.chips li{font-size:.72rem;padding:3px 9px;border-radius:var(--r-btn);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px)}
+
+/* Vereinsleben */
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:190px;gap:16px}
+.bento figure{margin:0;border-radius:var(--r-lg);overflow:hidden;position:relative;background:var(--soft)}
+.bento img{width:100%;height:100%;object-fit:cover}
+.bento figcaption{position:absolute;left:12px;bottom:12px;font-size:.78rem;font-weight:600;color:#fff;background:rgba(12,22,34,.45);backdrop-filter:blur(8px);padding:3px 9px;border-radius:var(--r-btn)}
+.bento .wide{grid-column:span 2;grid-row:span 2}
+.bento .tall{grid-row:span 2}
+.bento .text{background:var(--surface);border:1px solid var(--line);color:var(--ink);padding:24px;display:flex;flex-direction:column;justify-content:space-between}
+.bento .text h3{font-size:1.35rem}
+.bento .text p{margin:0;font-size:.9rem;color:var(--muted)}
+@media (max-width:860px){.bento{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:180px}.bento .text{grid-column:span 2}}
+
+/* News */
+.news-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:28px}
+@media (max-width:900px){.news-grid{grid-template-columns:1fr}}
+.posts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:640px){.posts{grid-template-columns:1fr}}
+.post{background:var(--surface);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;text-decoration:none}
+.post img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.post div{padding:16px;display:grid;gap:6px}
+.post time{font-size:.75rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.post h3{font-size:1.05rem;font-family:var(--f-body);font-weight:600;line-height:1.3}
+.post p{margin:0;font-size:.88rem;color:var(--muted)}
+.events{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.events li{display:grid;grid-template-columns:60px minmax(0,1fr);gap:14px;align-items:center;padding:12px;background:var(--surface);border-radius:var(--r-lg)}
+.date{text-align:center;font-size:.95rem!important;font-family:var(--f-body)!important;font-weight:600;background:var(--bg);border-radius:var(--r-md);padding:8px 0;font-family:var(--f-display);font-size:1.7rem;line-height:1}
+.date small{display:block;font-family:var(--f-body);font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:4px}
+.events b{display:block;font-weight:600}
+.events span{font-size:.84rem;color:var(--muted)}
+
+/* Mitglied werden */
+.join-card{border-radius:var(--r-xl);border:1px solid var(--line);background:var(--forest);color:var(--on-forest);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);overflow:hidden}
+.join-card .txt{padding:32px;display:grid;gap:16px;align-content:center}
+.join-card p{margin:0;color:var(--muted);max-width:34em}
+.join-card .eyebrow{color:var(--muted)}
+.join-card ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.join-card li a{display:flex;justify-content:space-between;text-decoration:none;padding:9px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+.join-card .pic{background:url("img/sonnenaufgang.jpg") center 60%/cover;min-height:320px}
+@media (max-width:820px){.join-card{grid-template-columns:1fr}.join-card .txt{padding:28px}}
+
+footer.site .wrap{padding-block:32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+footer.site a{color:var(--muted)}
+
+@media (prefers-reduced-motion:no-preference){.needle{transition:transform .8s cubic-bezier(.3,1.4,.5,1)}}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+
+/* ===== Handy-Fassung ===== */
+html{scroll-padding-top:8px}
+body{font-size:15px}
+.draft .wrap{padding-block:6px;flex-wrap:nowrap;font-size:.74rem}
+.draft a{color:var(--accent)}
+/* Hero */
+.hero .wrap{padding-inline:8px}
+.topnav{padding:14px 14px}
+.brand .logo{width:64px;margin-top:-6px;margin-right:-47px}
+.brand span{padding-top:3px;padding-left:5px}
+.brand b{font-size:.95rem;line-height:1.05}
+.menu-btn{padding:5px 10px;font-size:.78rem}
+nav.main{top:56px;left:10px;right:10px}
+nav.main a{font-size:.95rem;padding:10px 12px}
+.hero-frame{background-size:auto 380px}
+.hero-frame::after{background:linear-gradient(180deg,rgba(10,16,24,.4) 0%,rgba(10,16,24,0) 80px,rgba(18,30,44,0) 200px,rgba(18,30,44,.75) 300px,#121E2C 375px)}
+.hero-copy{padding-top:170px}
+.hero-body{padding:14px 14px 14px;gap:18px}
+.hero .eyebrow{font-size:.64rem}
+.hero h1{font-size:1.55rem;margin-bottom:14px}
+.btns{gap:8px}
+.btn{padding:8px 13px;font-size:.82rem}
+.glass{max-width:none;justify-self:stretch;padding:12px 12px}
+.now-row{gap:8px;grid-template-columns:20px minmax(0,1fr) auto auto}
+.now-row .nm small{font-size:.64rem}
+/* Windmodell hochkant */
+.wind-intro .wrap{display:block;padding-block:28px 4px}
+.wi-head{margin-bottom:14px}
+.wi-frame iframe{aspect-ratio:3/4}
+.wi-txt p{font-size:.9rem}
+.wi-scale{margin-top:18px}
+.wi-list{font-size:.82rem}
+/* Wetter */
+section.block .wrap{padding-block:28px}
+.sec-head{margin-bottom:12px}
+.legend{font-size:.72rem;gap:8px}
+.legend div{grid-template-columns:78px minmax(0,1fr);gap:8px}
+.legend .scale span{min-width:0;flex:1;padding:3px 0}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{font:inherit;color:inherit;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:10px 10px 9px;display:grid;gap:6px;justify-items:center;cursor:pointer;min-width:0}
+.tile.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.t-top{display:flex;justify-content:space-between;align-items:center;gap:6px;width:100%}
+.t-top b{font-family:var(--f-display);font-weight:400;font-size:1.02rem;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-top .pill{font-size:.6rem;padding:2px 5px}
+.tile .compass{width:100%;max-width:112px;height:auto}
+.t-v{display:flex;align-items:baseline;gap:3px;font-weight:300;line-height:1}
+.t-v b{font-weight:300;font-size:1.45rem}.t-v b.g{color:var(--chart-gust)}.t-v i{font-style:normal;color:var(--muted);font-size:1rem}
+.t-v small{font-size:.68rem;font-weight:500;color:var(--muted);margin-left:2px}
+.t-d{font-size:.7rem;color:var(--muted)}
+.tile-hint{font-size:.72rem;color:var(--muted);text-align:center;margin:10px 0}
+#stDetail{scroll-margin-top:10px}
+#stDetail .st{padding:14px}
+#stDetail .st-main{grid-template-columns:1fr}
+#stDetail .st-main .compass{display:none}
+#stDetail .readings{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 10px}
+#stDetail .rd .v{font-size:1.3rem}
+#stDetail .rd.minor .v{font-size:.95rem}
+#stDetail .rd .k{font-size:.68rem}
+.wx-extra{gap:12px}
+/* Fakten, Gelände, Rest */
+.facts .wrap{padding-block:28px 4px;gap:20px}
+.fact-row{margin-top:20px}
+.bento{grid-auto-rows:150px}
+footer.site .wrap{flex-wrap:wrap;gap:8px}
+</style>
+
+<div class="draft"><div class="wrap"><span><b>Entwurf Handy</b> · Beispieldaten</span><a href="index.html?desktop">Desktop-Ansicht</a></div></div>
+
+<main id="top">
+  <section class="hero"><div class="wrap">
+    <div class="hero-frame">
+      <div class="topnav">
+        <a class="brand" href="#top" aria-label="Lenggrieser Gleitschirmflieger, Startseite">
+          <img class="logo" src="img/logo-schwung.png" alt="" width="60" height="28">
+          <span><b>Lenggrieser GleitschirmFlieger e.V.</b></span>
+        </a>
+        <nav class="main" id="mainNav" aria-label="Hauptmenü">
+          <a href="#top" class="on">Start</a>
+          <a href="#wetter">Wetter</a>
+          <a href="#gelaende">Fluggelände</a>
+          <a href="#verein">Vereinsleben</a>
+          <a href="#news">News</a>
+          <a href="#mitglied">Verein</a>
+        </nav>
+        <a class="btn nav-cta" href="#mitglied">Mitglied werden</a>
+        <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">Menü</button>
+      </div>
+      <div class="hero-body">
+        <div class="hero-copy">
+          <span class="eyebrow plain" style="color:#fff;margin-bottom:10px">Willkommen beim Lenggrieser GleitschirmFlieger e.V.</span>
+          <h1>Fliegen über dem <em>Isarwinkel</em></h1>
+          <div class="btns">
+            <a class="btn primary" href="#wetter">Wind jetzt ansehen <span class="ar">→</span></a>
+            <a class="btn" href="#gelaende">Fluggelände</a>
+          </div>
+        </div>
+        <aside class="glass" aria-labelledby="nowTitle">
+          <div class="now-head"><b id="nowTitle">Jetzt an den Stationen</b><span>Mittel / Böe</span></div>
+          <div id="nowRows"></div>
+          <div class="now-foot"><span id="updated">Aktualisiert gerade eben</span><span>Daten: Holfuy</span></div>
+        </aside>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="wind-intro" id="windmodell"><div class="wrap">
+    <div class="wi-head"><span class="eyebrow">Brauneck in 3D</span><h2 style="margin-top:10px">So weht der Wind <em>am Berg</em></h2></div>
+    <div class="wi-frame"><iframe src="wind-stationen.html?embed&amp;nord" title="3D-Windansicht Brauneck mit den vier Wetterstationen" loading="lazy"></iframe></div>
+    <div class="wi-txt">
+      <p>Aus den Messwerten unserer vier Stationen entsteht ein Bild der Strömung vom Tal bis über den Gipfel. Über den Zeitregler lässt sich der Tagesverlauf abspielen.</p>
+      <div class="wi-scale"><span class="cap">Windgeschwindigkeit in km/h</span><div class="bar"></div><div class="ticks"><span style="left:0">0</span><span style="left:25%">10</span><span style="left:37.5%">15</span><span style="left:50%">20</span><span style="left:75%">30</span><span style="left:100%">40+</span></div></div>
+      <ul class="wi-list">
+        <li><svg viewBox="0 0 22 16" aria-hidden="true"><path d="M1 11 C7 3,14 13,21 5" fill="none" stroke="#5E9FD6" stroke-width="2.4" stroke-linecap="round"/></svg><span><b>Linien</b> zeigen, wohin der Wind strömt, auf Höhen von 780 bis 1800 m. Die Farbe steht für die Stärke.</span></li>
+        <li><svg viewBox="0 0 22 16" aria-hidden="true"><circle cx="11" cy="6" r="4" fill="#1D5E9E"/><path d="M11 10v6" stroke="#17212B" stroke-width="1.6"/></svg><span><b>Stationen</b> Berg, Garland, Umsetzer und Tal LP Nord mit Mittelwind, Böe und Richtung.</span></li>
+        <li><svg viewBox="0 0 22 16" aria-hidden="true"><path d="M1 13 C6 6,10 5,13 8 S19 9,21 4" fill="none" stroke="#6F9468" stroke-width="1.2"/><path d="M1 9 C6 3,10 2,13 5 S19 6,21 1" fill="none" stroke="#6F9468" stroke-width=".7" opacity=".7"/></svg><span><b>Höhenlinien</b> alle 50 m. Das Gelände ist 1,5-fach überhöht.</span></li>
+      </ul>
+      <p class="fine">Vereinfachtes Strömungsmodell, keine Flugfreigabe. Beispiel: Nordwind um 20 km/h am Gipfel, nach unten schwächer. <a href="wind-stationen.html?nord" target="_blank" rel="noopener">Vollbild öffnen</a></p>
+    </div>
+  </div></section>
+
+  <section class="block" id="wetter"><div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">Wetter</span>
+        <h2 style="margin-top:12px">Wind &amp; <em>Wetter</em></h2>
+        <p>Live-Werte der vier Holfuy-Stationen und wie sich der Wind über den Tag entwickelt hat.</p>
+      </div>
+      <dl class="legend" aria-label="Legende">
+        <div><dt>Kompass</dt><dd><span class="li"><span class="sw" style="background:var(--ok)"></span>Start</span><span class="li"><span class="sw" style="background:var(--warn)"></span>Grenzbereich</span><span class="li"><span class="sw" style="background:var(--accent)"></span>Windpfeil</span></dd></div>
+        <div><dt>Wind in km/h</dt><dd class="scale"><span class="b0">0</span><span class="b1">6</span><span class="b2">12</span><span class="b3">20</span><span class="b4">26</span><span class="b5">32</span><span class="b6">40+</span></dd></div>
+        <div><dt>Ampel</dt><dd><span class="pill ok">ruhig</span> <span class="pill warn">grenzwertig</span> <span class="pill bad">zu stark</span></dd></div>
+      </dl>
+    </div>
+    <div class="st-mob" id="stations"><div class="tiles" id="tiles"></div><p class="tile-hint">Station antippen für Verlauf und Tabelle</p><div id="stDetail"></div></div>
+    <div class="wx-extra">
+      <div class="panel">
+        <span class="eyebrow">Webcam</span>
+        <h3 style="margin-top:8px">Brauneck Garland</h3>
+        <div class="cam">Hier erscheint das aktuelle Bild<br>von foto-webcam.org</div>
+        <a href="https://www.foto-webcam.org/webcam/brauneck-garland/" target="_blank" rel="noopener">Webcam in voller Größe öffnen</a>
+      </div>
+      <div class="panel">
+        <span class="eyebrow">Weitere Quellen</span>
+        <h3 style="margin-top:8px">Prognose &amp; Dienste</h3>
+        <ul class="links">
+          <li><a href="https://www.windy.com/47.649/11.485?850h,47.649,11.485,10" target="_blank" rel="noopener">Windy, 850 hPa <span>Höhenwind</span></a></li>
+          <li><a href="https://holfuy.com/de/weather/1343" target="_blank" rel="noopener">Holfuy Brauneck Berg <span>Original</span></a></li>
+          <li><a href="https://www.dhv.de/wetter/" target="_blank" rel="noopener">DHV Wetter <span>Flugwetter</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">Jeder Pilot entscheidet selbst und eigenverantwortlich, ob er fliegt. Die Daten der Wetterstationen ersetzen keine eigene Einschätzung vor Ort. Für die Inhalte verlinkter Seiten übernimmt der Verein keine Verantwortung.</p>
+  </div></section>
+
+  <section class="facts"><div class="wrap">
+    <div class="facts-txt">
+      <span class="eyebrow">Über uns</span>
+      <h2 style="margin-top:12px">Zwei Berge, eine Clubhütte und <em>viel Luft</em> nach oben.</h2>
+      <p>Wir kümmern uns um Start- und Landeplätze, betreiben die Wetterstationen und treffen uns zum Fliegen, Arbeiten und Feiern.</p>
+      <div class="fact-row">
+        <div class="fact"><b class="num">2</b><span>Fluggelände: Brauneck und Blomberg</span></div>
+        <div class="fact"><b class="num">4</b><span>eigene Wetterstationen</span></div>
+        <div class="fact"><b class="num">1</b><span>Clubhütte am Brauneck</span></div>
+      </div>
+    </div>
+    <figure class="facts-pic"><img src="img/flug.jpg" alt="Blick aus dem Gurtzeug über das Isartal" loading="lazy"></figure>
+  </div></section>
+
+  <section class="block" id="gelaende"><div class="wrap">
+    <div class="sec-head"><div>
+      <span class="eyebrow">Fluggelände</span>
+      <h2 style="margin-top:12px">Wo wir <em>fliegen</em></h2>
+      <p>Bitte informiere dich vor deinem ersten Flug über Geländeordnung, Landeplätze und Flugverbotszonen.</p>
+    </div></div>
+    <div class="sites">
+      <article class="site-card" style="background-image:url('img/startplatz.jpg')">
+        <div class="site-body">
+          <h3>Brauneck</h3>
+          <p>Unser Hausberg mit Nord- und Südstart am Gipfel, Startplatz Garland und Clubhütte. Vom 01.01. bis 31.07. gilt die Uhu-Schutzzone.</p>
+          <ul class="chips"><li>Fluggebietsinfo</li><li>Geländeordnung</li><li>Ausweichlandeplatz</li><li>Flugverbotszone Uhu</li><li>Garland im Winter</li></ul>
+        </div>
+      </article>
+      <article class="site-card" style="background-image:url('img/thermik.jpg');background-position:center 8%">
+        <div class="site-body">
+          <h3>Blomberg</h3>
+          <p>Das zweite Fluggelände des Vereins bei Bad Tölz, mit eigener Wetterstation am Startplatz.</p>
+          <ul class="chips"><li>Fluggebietsinfo</li><li>Start &amp; Landung</li><li>Anfahrt</li></ul>
+        </div>
+      </article>
+    </div>
+  </div></section>
+
+  <section class="block" id="verein"><div class="wrap">
+    <div class="sec-head"><div>
+      <span class="eyebrow">Vereinsleben</span>
+      <h2 style="margin-top:12px">Mehr als <em>Fliegen</em></h2>
+    </div></div>
+    <div class="bento">
+      <figure class="wide"><img src="img/huette-fest.jpg" alt="Vereinsfest vor der Clubhütte am Brauneck" loading="lazy"><figcaption>Sommerfest an der Clubhütte</figcaption></figure>
+      <div class="text"><h3>Arbeitsdienst, Hüttenabend, Ausflug.</h3><p>Wer mithilft, Startplätze zu pflegen, sitzt abends auch mit am Feuer.</p></div>
+      <figure class="tall"><img src="img/gipfelkreuz.jpg" alt="Gipfelkreuz im Abendrot" loading="lazy"><figcaption>Abends am Gipfel</figcaption></figure>
+      <figure><img src="img/lagerfeuer.jpg" alt="Lagerfeuer vor der Hütte" loading="lazy"><figcaption>Hüttenabend</figcaption></figure>
+    </div>
+  </div></section>
+
+  <section class="block" id="news"><div class="wrap news-grid">
+    <div style="min-width:0">
+      <div class="sec-head"><div><span class="eyebrow">News</span><h2 style="margin-top:12px">Aus dem <em>Verein</em></h2></div><a class="btn" href="#news">Alle Beiträge</a></div>
+      <div class="posts">
+        <a class="post" href="https://www.lenggrieser-gleitschirmflieger.de/arbeitsdienst-am-samstag-24-10-2026/" target="_blank" rel="noopener"><img src="img/huette.jpg" alt="" loading="lazy"><div><time>23.10.2026</time><h3>Arbeitsdienst am Samstag 24.10.2026</h3><p>Servus liebe Mitglieder, die Flugsaison 2026 geht langsam aber sicher zu Ende.</p></div></a>
+        <a class="post" href="https://www.lenggrieser-gleitschirmflieger.de/nicht-vergessen-3-taeler-challenge-siegerehrung-freitag-2-10-26-um-18-uhr/" target="_blank" rel="noopener"><img src="img/lagerfeuer.jpg" alt="" loading="lazy"><div><time>01.10.2026</time><h3>3 Täler Challenge: Siegerehrung</h3><p>Die Siegerehrung der Clubs aus Bayrischzell, Rottach-Egern und Lenggries findet dieses Jahr in unserer Clubhütte statt.</p></div></a>
+        <a class="post" href="https://www.lenggrieser-gleitschirmflieger.de/zweiter-vereinsausflug-2026-werfenweng-08-11-10-2026/" target="_blank" rel="noopener"><img src="img/abend.jpg" alt="" loading="lazy"><div><time>01.08.2026</time><h3>Zweiter Vereinsausflug nach Werfenweng</h3><p>Der zweite Vereinsausflug 2026 geht auch nach Werfenweng, 08.–11.10.2026.</p></div></a>
+      </div>
+      <p class="note">Echte Beiträge der aktuellen Seite. In WordPress kommen sie automatisch aus dem Editor, mit dem Beitragsbild als Foto.</p>
+    </div>
+    <div style="min-width:0" id="wettbewerbe">
+      <div class="sec-head"><div><span class="eyebrow">Wichtig</span><h2 style="margin-top:12px">Hinweise &amp; <em>Wettbewerbe</em></h2></div></div>
+      <ul class="events">
+        <li><div class="date">01.01.<small>– 31.07.</small></div><div><b>Uhu-Schutzzone beachten</b><span>Flugverbotszone am Brauneck</span></div></li>
+        <li><div class="date">❄<small>Winter</small></div><div><b>Startplatz Garland und neuer Landeplatz</b><span>Regeln für die Wintersaison</span></div></li>
+        <li><div class="date">LGF<small>Cup</small></div><div><b>LGF Cup 2026</b><span>Ausschreibung und Wertung</span></div></li>
+        <li><div class="date">3×3<small>Challenge</small></div><div><b>3 Clubs – 3 Täler Gleitschirm Challenge</b><span>Bayrischzell, Rottach-Egern, Lenggries</span></div></li>
+      </ul>
+    </div>
+  </div></section>
+
+  <section class="block" id="mitglied"><div class="wrap">
+    <div class="join-card">
+      <div class="txt">
+        <span class="eyebrow">Verein</span>
+        <h2>Fliegst du <em>mit uns?</em></h2>
+        <p>Als Mitglied nutzt du unsere Fluggelände und die Clubhütte und bist bei Arbeitsdiensten, Festen und Wettbewerben dabei.</p>
+        <div class="btns"><a class="btn primary" href="#mitglied">Mitgliedschaft beantragen <span class="ar">→</span></a></div>
+        <ul>
+          <li><a href="#mitglied"><span>Vorstandschaft</span><span>→</span></a></li>
+          <li><a href="#mitglied"><span>Satzung</span><span>→</span></a></li>
+          <li><a href="#mitglied"><span>Downloads</span><span>→</span></a></li>
+        </ul>
+      </div>
+      <div class="pic" role="img" aria-label="Sonnenaufgang über den Bergen"></div>
+    </div>
+  </div></section>
+</main>
+
+<footer class="site"><div class="wrap"><span>© 2026 Lenggrieser Gleitschirmflieger e.V.</span><span><a href="#top">Impressum</a> · <a href="#top">Datenschutz</a></span></div></footer>
+
+<script>
+(function(){
+  var DIRS=['N','NNO','NO','ONO','O','OSO','SO','SSO','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  function dirName(d){return DIRS[Math.round(((d%360)+360)%360/22.5)%16]}
+  function fmt(v){return v.toFixed(1).replace('.',',')}
+  // Zeitachse: 15-Min-Mittel von 11:15 bis 18:45 (wie in der Holfuy-Tabelle)
+  var T=[];for(var m=11*60+15;m<=18*60+45;m+=15)T.push(String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'));
+  // Brauneck Berg: echte Werte vom 04.11.2026 aus der Holfuy-Tabelle. Übrige Stationen: Beispielwerte.
+  var berg={
+    m:[0,4,21,21,23,22,20,19,18,16,14,20,18,17,17,16,16,18,16,15,14,15,19,17,20,20,21,23,22,20,19],
+    g:[0,29,31,30,34,29,29,27,25,24,22,31,25,25,25,24,27,26,28,25,21,23,26,22,25,27,28,32,31,28,30],
+    d:[174,165,172,161,167,170,172,175,179,180,178,174,173,173,174,180,177,174,181,175,177,174,175,171,169,174,174,171,178,180,185],
+    h:[100,100,100,99.2,96.7,94.4,93.9,93.7,94.2,94.1,94.0,91.7,90.9,91.1,91.3,91.5,91.4,90.5,91.0,91.5,91.3,90.9,90.9,91.8,92.2,92.6,93.3,93.8,92.9,93.9,94.8],
+    t:[-0.1,-0.1,0.5,1.1,1.4,2.4,2.5,2.6,2.4,2.8,3.2,3.1,3.2,3.3,3.3,3.1,3.2,3.2,3.0,2.9,2.9,2.9,2.8,2.6,2.5,2.5,2.2,2.2,2.2,1.9,1.7]
+  };
+  var stations=[
+    {id:1343,name:'Brauneck Berg',sub:'Nord- und Südstart · 1555 m',real:true,mean:19,gust:25,dir:180,temp:1.8,hum:94.8,day:berg,
+      green:[[320,40],[140,220]],yellow:[[290,320],[40,70],[110,140],[220,250]]},
+    {id:1516,name:'Brauneck Garland',sub:'Startplatz Garland',mean:9,gust:15,dir:200,temp:4.5,hum:88,base:8,bdir:195,btemp:5,
+      green:[[340,60]],yellow:[[310,340],[60,90]]},
+    {id:1202,name:'Brauneck Landeplatz',sub:'Landeplatz Lenggries',mean:6,gust:11,dir:225,temp:7.2,hum:81,base:5,bdir:230,btemp:8,
+      green:[[0,360]],yellow:[]},
+    {id:1810,name:'Blomberg',sub:'Startplatz Blomberg',mean:14,gust:22,dir:170,temp:3.9,hum:90,base:12,bdir:175,btemp:4.5,
+      green:[[320,40]],yellow:[[290,320],[40,70]]}
+  ];
+  function rnd(seed){return function(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646}}
+  stations.forEach(function(s){
+    if(s.day)return;
+    var r=rnd(s.id*7+3),d={m:[],g:[],d:[],h:[],t:[]},m=s.base*0.5,dir=s.bdir-30;
+    for(var i=0;i<T.length;i++){
+      var bump=Math.sin(i/T.length*Math.PI)*s.base*0.5;
+      m+=(s.base+bump-m)*0.25+(r()-0.5)*3;if(m<0)m=0;
+      dir+=(s.bdir-dir)*0.2+(r()-0.5)*16;
+      d.m.push(Math.round(m));d.g.push(Math.round(m+4+r()*7));d.d.push(Math.round((dir+360)%360));
+      d.h.push(+(s.hum-6+r()*8).toFixed(1));d.t.push(+(s.btemp+Math.sin(i/T.length*Math.PI)*2-1+r()*.4).toFixed(1));
+    }
+    var n=T.length-1;d.m[n]=s.mean;d.g[n]=s.gust;d.d[n]=s.dir;
+    s.day=d;
+  });
+  function avg(a){return a.reduce(function(x,y){return x+y},0)/a.length}
+  function trend(s){
+    var m=s.day.m,n=m.length,now=avg(m.slice(n-4)),before=avg(m.slice(n-8,n-4)),diff=now-before;
+    if(diff>=3)return{t:'zunehmend',a:'↗'};if(diff<=-3)return{t:'abnehmend',a:'↘'};return{t:'stabil',a:'→'};
+  }
+  function status(s){
+    if(s.mean>=25||s.gust>=35)return{c:'bad',t:'zu stark'};
+    if(s.mean>=16||s.gust-s.mean>=10)return{c:'warn',t:'grenzwertig'};
+    return{c:'ok',t:'ruhig'};
+  }
+  // Farbskala km/h, angelehnt an die Holfuy-Tabelle
+  function band(v){return v<6?'b0':v<12?'b1':v<20?'b2':v<26?'b3':v<32?'b4':v<40?'b5':'b6'}
+  function arrowSvg(dir,cls){
+    return '<svg class="'+(cls||'arrow')+'" viewBox="0 0 34 34" aria-hidden="true">'+(cls?'':'<circle cx="17" cy="17" r="15.5" fill="none" stroke="var(--line)"/>')+
+      '<g transform="rotate('+(dir+180)+' 17 17)"><path d="M17 5 L22 20 L17 17 L12 20Z" fill="currentColor"/></g></svg>';
+  }
+  function polar(cx,cy,r,deg){var a=(deg-90)*Math.PI/180;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]}
+  function wedge(cx,cy,r0,r1,a0,a1){
+    var span=((a1-a0)%360+360)%360;if(span===0)span=360;
+    if(span>=360)return 'M'+(cx-r1)+' '+cy+' a'+r1+' '+r1+' 0 1 0 '+(2*r1)+' 0 a'+r1+' '+r1+' 0 1 0 '+(-2*r1)+' 0Z M'+(cx-r0)+' '+cy+' a'+r0+' '+r0+' 0 1 1 '+(2*r0)+' 0 a'+r0+' '+r0+' 0 1 1 '+(-2*r0)+' 0Z';
+    var p0=polar(cx,cy,r1,a0),p1=polar(cx,cy,r1,a0+span),q1=polar(cx,cy,r0,a0+span),q0=polar(cx,cy,r0,a0),L=span>180?1:0;
+    return 'M'+p0.map(function(v){return v.toFixed(2)}).join(' ')+' A'+r1+' '+r1+' 0 '+L+' 1 '+p1.map(function(v){return v.toFixed(2)}).join(' ')+' L'+q1.map(function(v){return v.toFixed(2)}).join(' ')+' A'+r0+' '+r0+' 0 '+L+' 0 '+q0.map(function(v){return v.toFixed(2)}).join(' ')+'Z';
+  }
+  function compass(s){
+    var o='<svg class="compass" viewBox="0 0 132 132" role="img" aria-label="Wind aus '+dirName(s.dir)+', Pfeil zeigt wohin er weht">';
+    o+='<circle cx="66" cy="66" r="56" fill="var(--bg)" stroke="var(--line)"/>';
+    s.green.forEach(function(sc){o+='<path d="'+wedge(66,66,48,56,sc[0],sc[1])+'" fill="var(--ok)" fill-rule="evenodd" opacity=".85"/>'});
+    s.yellow.forEach(function(sc){o+='<path d="'+wedge(66,66,48,56,sc[0],sc[1])+'" fill="var(--warn)" opacity=".85"/>'});
+    for(var i=0;i<36;i++){var a=polar(66,66,47,i*10),b=polar(66,66,i%9===0?40:44,i*10);o+='<line x1="'+a[0].toFixed(1)+'" y1="'+a[1].toFixed(1)+'" x2="'+b[0].toFixed(1)+'" y2="'+b[1].toFixed(1)+'" stroke="var(--muted)" stroke-width="'+(i%9===0?1.4:.6)+'"/>'}
+    [['N',0],['O',90],['S',180],['W',270]].forEach(function(l){var p=polar(66,66,32,l[1]);o+='<text x="'+p[0].toFixed(1)+'" y="'+(p[1]+3.5).toFixed(1)+'" text-anchor="middle">'+l[0]+'</text>'});
+    o+='<g class="needle" style="transform-origin:66px 66px;transform:rotate('+s.dir+'deg)"><line x1="66" y1="12" x2="66" y2="104" stroke="var(--accent)" stroke-width="2.5"/><path d="M66 120 L75 98 L66 103 L57 98Z" fill="var(--accent)"/><circle cx="66" cy="12" r="3.5" fill="var(--accent)"/></g><circle cx="66" cy="66" r="13" fill="var(--bg)" stroke="var(--line)"/>';
+    o+='<text x="66" y="70" text-anchor="middle" style="font-size:11px;font-weight:500;fill:var(--ink)">'+dirName(s.dir)+'</text>';
+    return o+'</svg>';
+  }
+  function chart(s,n){
+    var D=s.day,start=Math.max(0,T.length-n),idx=[];for(var k=start;k<T.length;k++)idx.push(k);
+    var W=560,H=170,L=28,R=10,Tp=10,B=40,max=40;
+    var gmax=Math.max.apply(null,idx.map(function(i){return D.g[i]}));if(gmax>max)max=Math.ceil(gmax/10)*10;
+    function x(j){return L+(W-L-R)*j/(idx.length-1)}
+    function y(v){return Tp+(H-Tp-B)*(1-v/max)}
+    var o='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Windverlauf '+T[start]+' bis '+T[T.length-1]+' Uhr">';
+    o+='<rect x="'+L+'" y="'+y(Math.min(max,40))+'" width="'+(W-L-R)+'" height="'+(y(25)-y(Math.min(max,40)))+'" class="zone"/>';
+    for(var v=0;v<=max;v+=10){o+='<line class="grid" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(v)+'" y2="'+y(v)+'"/><text x="'+(L-6)+'" y="'+(y(v)+3)+'" text-anchor="end">'+v+'</text>'}
+    var line=idx.map(function(i,j){return (j?'L':'M')+x(j).toFixed(1)+' '+y(D.m[i]).toFixed(1)}).join(' ');
+    var gl=idx.map(function(i,j){return (j?'L':'M')+x(j).toFixed(1)+' '+y(D.g[i]).toFixed(1)}).join(' ');
+    o+='<path class="area" d="'+line+' L'+x(idx.length-1)+' '+y(0)+' L'+x(0)+' '+y(0)+'Z"/>';
+    o+='<path class="gust" d="'+gl+'"/><path class="mean" d="'+line+'"/>';
+    o+='<circle class="end" cx="'+x(idx.length-1)+'" cy="'+y(D.m[T.length-1])+'" r="3.5"/>';
+    var every=idx.length>16?2:1, ya=H-B+13;
+    idx.forEach(function(i,j){
+      if((idx.length-1-j)%every)return;
+      o+='<g transform="translate('+x(j).toFixed(1)+' '+ya+') rotate('+(D.d[i]+180)+')"><path class="dir" d="M0 -5 L3.5 4 L0 2 L-3.5 4Z"/></g>';
+    });
+    var lab=idx.length>16?4:2;
+    idx.forEach(function(i,j){
+      if((idx.length-1-j)%lab)return;
+      o+='<text x="'+Math.min(Math.max(x(j),L+14),W-R-14).toFixed(1)+'" y="'+(H-3)+'" text-anchor="middle">'+T[i]+'</text>';
+    });
+    return o+'</svg>';
+  }
+  function table(s){
+    var D=s.day,c='',r=function(lbl,cells){return '<tr><th scope="row">'+lbl+'</th>'+cells+'</tr>'};
+    var head=T.map(function(t){return '<th scope="col"'+(t.slice(3)==='00'?' class="hr"':'')+'>'+t+'</th>'}).join('');
+    c+='<tr><th scope="row">Zeit</th>'+head+'</tr>';
+    c+=r('Mittel',D.m.map(function(v){return '<td class="w '+band(v)+'">'+v+'</td>'}).join(''));
+    c+=r('Böen',D.g.map(function(v){return '<td class="w '+band(v)+'">'+v+'</td>'}).join(''));
+    c+=r('Richtung',D.d.map(function(v){return '<td class="d" title="'+v+'°">'+arrowSvg(v,'ta')+'<span>'+dirName(v)+'</span></td>'}).join(''));
+    c+=r('Temp.',D.t.map(function(v){return '<td>'+fmt(v)+'</td>'}).join(''));
+    c+=r('Feuchte',D.h.map(function(v){return '<td class="mu">'+Math.round(v)+'</td>'}).join(''));
+    return '<div class="tbl-wrap" tabindex="0" aria-label="Tabelle 15-Minuten-Mittel"><table class="tbl num">'+c+'</table></div>';
+  }
+  var range={};
+  function card(s){
+    var st=status(s),tr=trend(s),n=range[s.id]||12,D=s.day;
+    var dayAvg=avg(D.m.filter(function(v,i){return i>1||!s.real})),dayMax=Math.max.apply(null,D.g);
+    var tabs=[[8,'2 Std.'],[24,'6 Std.'],[T.length,'Heute']].map(function(t){return '<button type="button" data-st="'+s.id+'" data-n="'+t[0]+'" aria-pressed="'+(n===t[0])+'">'+t[1]+'</button>'}).join('');
+    return '<article class="st" id="st-'+s.id+'"><div class="st-top"><div><h3>'+s.name+'</h3><div class="meta">'+s.sub+' · Holfuy '+s.id+(s.real?' · echte Werte 04.11.':'')+'</div></div><span class="pill '+st.c+'">'+st.t+'</span></div>'+
+      '<div class="st-main">'+compass(s)+'<div class="readings">'+
+      '<div class="rd"><div class="k">Mittelwind</div><div class="v">'+Math.round(s.mean)+'<small>km/h</small></div></div>'+
+      '<div class="rd gust"><div class="k">Böen</div><div class="v">'+Math.round(s.gust)+'<small>km/h</small></div></div>'+
+      '<div class="rd minor"><div class="k">Tendenz 1 Std.</div><div class="v">'+tr.a+'<small>'+tr.t+'</small></div></div>'+
+      '<div class="rd minor"><div class="k">Temperatur</div><div class="v">'+fmt(s.temp)+'<small>°C</small></div></div>'+
+      '<div class="rd minor"><div class="k">Heute Ø / max. Böe</div><div class="v">'+Math.round(dayAvg)+' / '+dayMax+'<small>km/h</small></div></div>'+
+      '<div class="rd minor"><div class="k">Luftfeuchte</div><div class="v">'+Math.round(s.hum)+'<small>%</small></div></div>'+
+      '</div></div>'+
+      '<div class="chart-wrap"><div class="chart-bar"><div class="chart-legend"><span><i style="background:var(--chart-mean)"></i>Mittelwind</span><span><i style="background:var(--chart-gust)"></i>Böen</span><span><i class="zi"></i>über 25 km/h</span></div><div class="tabs" role="group" aria-label="Zeitraum">'+tabs+'</div></div>'+chart(s,n)+'</div>'+
+      '<details class="hist"><summary>Tagesverlauf als Tabelle (15-Min.-Mittel)</summary>'+table(s)+'</details>'+
+      '</article>';
+  }
+  function renderNow(){
+    document.getElementById('nowRows').innerHTML=stations.map(function(s){
+      var st=status(s),tr=trend(s);
+      return '<a class="now-row" href="#st-'+s.id+'">'+arrowSvg(s.dir)+'<div class="nm">'+s.name+'<small>'+dirName(s.dir)+' · '+fmt(s.temp)+' °C · '+tr.t+'</small></div>'+
+        '<div class="val num">'+Math.round(s.mean)+' / '+Math.round(s.gust)+' <small>km/h</small></div><span class="pill '+st.c+'">'+st.t+'</span></a>';
+    }).join('');
+  }
+  var sel=0;
+  function tile(s,i){var st=status(s);
+    return '<button type="button" class="tile'+(i===sel?' on':'')+'" data-i="'+i+'" aria-pressed="'+(i===sel)+'"><span class="t-top"><b>'+s.name.replace('Brauneck ','')+'</b><span class="pill '+st.c+'">'+st.t+'</span></span>'+compass(s)+
+      '<span class="t-v num"><b>'+Math.round(s.mean)+'</b><i>/</i><b class="g">'+Math.round(s.gust)+'</b><small>km/h</small></span><span class="t-d">'+dirName(s.dir)+' · '+fmt(s.temp)+' °C</span></button>';}
+  function showDetail(i,scroll){sel=i;var t=document.getElementById('tiles');t.innerHTML=stations.map(tile).join('');
+    var d=document.getElementById('stDetail');d.innerHTML=card(stations[i]);d.querySelectorAll('.tbl-wrap').forEach(function(w){w.scrollLeft=w.scrollWidth});
+    if(scroll)d.scrollIntoView({behavior:'smooth',block:'start'});}
+  function renderStations(){showDetail(sel)}
+  renderNow();renderStations();
+  document.getElementById('tiles').addEventListener('click',function(e){var b=e.target.closest('.tile');if(b)showDetail(+b.dataset.i,true)});
+  document.getElementById('nowRows').addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;e.preventDefault();
+    var id=+a.getAttribute('href').replace('#st-',''),i=stations.findIndex(function(s){return s.id===id});showDetail(i);
+    document.getElementById('stations').scrollIntoView({behavior:'smooth',block:'start'})});
+  document.getElementById('stations').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-st]');if(!b)return;
+    var id=+b.dataset.st;range[id]=+b.dataset.n;
+    var s=stations.filter(function(x){return x.id===id})[0],el=document.getElementById('st-'+id),open=el.querySelector('details').open,sl=el.querySelector('.tbl-wrap').scrollLeft;
+    el.outerHTML=card(s);el=document.getElementById('st-'+id);el.querySelector('details').open=open;el.querySelector('.tbl-wrap').scrollLeft=sl;
+  });
+  var mb=document.getElementById('menuBtn'), nav=document.getElementById('mainNav');
+  mb.addEventListener('click',function(){var o=nav.classList.toggle('open');mb.setAttribute('aria-expanded',o)});
+  nav.addEventListener('click',function(e){if(e.target.tagName==='A'){nav.classList.remove('open');mb.setAttribute('aria-expanded','false')}});
+  var age=0;
+  setInterval(function(){age+=15;document.getElementById('updated').textContent='Aktualisiert vor '+age+' Sek.'},15000);
+})();
+</script>
