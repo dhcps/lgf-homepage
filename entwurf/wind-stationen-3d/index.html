@@ -158,7 +158,7 @@ function resize(){/* Szene endet über der Bedienleiste (und auf dem Handy über
  if(asp<1){/* Handy hochkant: höherer Blick, ca. 45° schräg von oben auf den Berg */cam.position.copy(MCP);cam.lookAt(MCT);cam.fov=MFOV}
  else{cam.position.copy(CP);cam.lookAt(CT);cam.fov=Math.min(75,2*Math.atan(Math.tan(hf/2)/asp)*180/Math.PI)}
  cam.updateProjectionMatrix()}
-const MCP=new THREE.Vector3(9.53,55.35,-27.54),MCT=new THREE.Vector3(-10.36,16.46,5.88),MFOV=80;
+const MCP=new THREE.Vector3(9.53,55.35,-27.54),MCT=new THREE.Vector3(-10.36,16.46,5.88),MFOV=85;
 addEventListener('resize',resize);resize();updLabels();for(let i=0;i<TAIL+10;i++)step(1);
 
 const tIn=document.getElementById('t'),clock=document.getElementById('clock'),play=document.getElementById('play');let playing=false;
