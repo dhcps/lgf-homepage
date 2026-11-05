@@ -144,6 +144,11 @@ function place(){const r=renderer.domElement.getBoundingClientRect();const tops=
  ST.forEach(s=>{vt.set(s.x,s.y+1.8,s.z).project(cam);const px=r.left+(vt.x+1)/2*r.width,py=r.top+(1-vt.y)/2*r.height;
   if(s.top){s.px=px;s.py=py;tops.push(s)}else if(s.bot){const w=s.el.offsetWidth,h=s.el.offsetHeight,cx=Math.min(Math.max(px,r.left+w/2+12),r.right-w/2-12),ty=r.bottom-h-12;s.el.style.left=cx+'px';s.el.style.top=ty+'px';s.ln.setAttribute('x1',cx);s.ln.setAttribute('y1',ty);s.ln.setAttribute('x2',px);s.ln.setAttribute('y2',py+6);s.dt.setAttribute('cx',px);s.dt.setAttribute('cy',py+6)}else{s.el.style.left=(px+s.ox)+'px';s.el.style.top=(py+s.oy-8)+'px'}});
  /* obere Stationen: Reihe am oberen Rand, zwischen Titel und Legende */
+ if(r.width<r.height){/* Handy hochkant: Schilder links untereinander unter dem Titel, nach Höhe sortiert */
+  const hd=document.querySelector('.head').getBoundingClientRect();let y=hd.bottom+8;
+  tops.sort((a,b)=>b.alt-a.alt).forEach(s=>{const w=s.el.offsetWidth,h=s.el.offsetHeight,x=r.left+12;s.el.style.left=(x+w/2)+'px';s.el.style.top=y+'px';
+   s.ln.setAttribute('x1',x+w);s.ln.setAttribute('y1',y+h/2);s.ln.setAttribute('x2',s.px);s.ln.setAttribute('y2',s.py+6);s.dt.setAttribute('cx',s.px);s.dt.setAttribute('cy',s.py+6);y+=h+6});
+  return}
  tops.sort((a,b)=>a.px-b.px);const gap=10,ws=tops.map(s=>s.el.offsetWidth);
  const hd=document.querySelector('.head').getBoundingClientRect(),lgE=document.querySelector('.legend'),lgR=lgE&&lgE.offsetParent?lgE.getBoundingClientRect():null;
  let L=hd.right+gap,Rr=lgR?lgR.left-gap:r.right-gap,y=r.top+12;
