@@ -98,7 +98,7 @@ nav.main a:hover,nav.main a.on{background:rgba(255,255,255,.16);color:#fff}
 .wi-frame{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--soft)}
 .wi-frame iframe{display:block;width:100%;aspect-ratio:16/10.6;height:auto;border:0}
 .wi-txt p{margin:12px 0 0;color:var(--muted);font-size:.95rem;max-width:32em}
-.wi-scale{margin:22px 0 0;max-width:340px}
+.wi-scale{margin:22px 0 0}
 .wi-scale .bar{height:8px;border-radius:2px;background:linear-gradient(90deg,#2E6DB4 0%,#5E9FD6 20%,#A8D0EC 27.5%,#F3DA8A 32.5%,#F5A23C 37.5%,#EB6A33 55%,#CF3A2A 75%,#8E1E3A 100%)}
 .wi-scale .ticks{position:relative;height:14px;font-family:var(--f-mono);font-size:.68rem;color:var(--ink);margin-top:4px}
 .wi-scale .ticks span{position:absolute;top:0;transform:translateX(-50%)}.wi-scale .ticks span:first-child{transform:none}.wi-scale .ticks span:last-child{transform:translateX(-100%)}
@@ -307,7 +307,7 @@ footer.site a{color:var(--muted)}
   </div></section>
 
   <section class="wind-intro" id="windmodell"><div class="wrap">
-    <div class="wi-frame"><iframe src="wind-stationen.html?embed" title="3D-Windansicht Brauneck mit den vier Wetterstationen" loading="lazy"></iframe></div>
+    <div class="wi-frame"><iframe src="wind-stationen.html?embed&amp;nord" title="3D-Windansicht Brauneck mit den vier Wetterstationen" loading="lazy"></iframe></div>
     <div class="wi-txt">
       <span class="eyebrow">Brauneck in 3D</span>
       <h2 style="margin-top:12px">So weht der Wind <em>am Berg</em></h2>
@@ -318,7 +318,7 @@ footer.site a{color:var(--muted)}
         <li><svg viewBox="0 0 22 16" aria-hidden="true"><circle cx="11" cy="6" r="4" fill="#1D5E9E"/><path d="M11 10v6" stroke="#17212B" stroke-width="1.6"/></svg><span><b>Stationen</b> Berg, Garland, Umsetzer und Tal LP Nord mit Mittelwind, Böe und Richtung.</span></li>
         <li><svg viewBox="0 0 22 16" aria-hidden="true"><path d="M1 13 C6 6,10 5,13 8 S19 9,21 4" fill="none" stroke="#6F9468" stroke-width="1.2"/><path d="M1 9 C6 3,10 2,13 5 S19 6,21 1" fill="none" stroke="#6F9468" stroke-width=".7" opacity=".7"/></svg><span><b>Höhenlinien</b> alle 50 m. Das Gelände ist 1,5-fach überhöht.</span></li>
       </ul>
-      <p class="fine">Vereinfachtes Strömungsmodell, keine Flugfreigabe. Berg: echte Werte vom 04.11., übrige Stationen Beispielwerte. <a href="wind-stationen.html" target="_blank" rel="noopener">Im Vollbild öffnen</a></p>
+      <p class="fine">Vereinfachtes Strömungsmodell, keine Flugfreigabe. Beispiel: Nordwind um 20 km/h am Gipfel, nach unten schwächer. <a href="wind-stationen.html?nord" target="_blank" rel="noopener">Im Vollbild öffnen</a></p>
     </div>
   </div></section>
 
