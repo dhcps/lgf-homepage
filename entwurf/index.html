@@ -48,7 +48,7 @@ h3{font-size:1.2rem}
 .hero-frame>*{position:relative;z-index:1}
 .topnav{display:flex;align-items:center;gap:16px;padding:20px 24px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
-.brand svg{width:28px;height:28px}
+.brand .logo{width:56px;height:auto;flex:none;margin-top:4px}
 .brand b{font-family:var(--f-display);font-weight:400;font-size:1.05rem;line-height:1}
 .brand small{display:block;font-family:var(--f-body);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;opacity:.8;margin-top:3px}
 nav.main{margin-inline:auto;display:flex;gap:2px;padding:3px;border-radius:var(--r-md);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
@@ -273,8 +273,8 @@ footer.site a{color:var(--muted)}
     <div class="hero-frame">
       <div class="topnav">
         <a class="brand" href="#top" aria-label="Lenggrieser Gleitschirmflieger, Startseite">
-          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 20 C 10 9, 30 9, 36 20" fill="none" stroke="#5FA2E6" stroke-width="5" stroke-linecap="round"/><path d="M12 21 L20 33 L28 21" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="20" cy="34" r="2.2" fill="#fff"/></svg>
-          <span><b>Lenggrieser GleitschirmFlieger</b><small>e.V. · Isarwinkel</small></span>
+          <img class="logo" src="img/logo-schwung.png" alt="" width="60" height="28">
+          <span><b>Lenggrieser GleitschirmFlieger e.V.</b></span>
         </a>
         <nav class="main" id="mainNav" aria-label="Hauptmenü">
           <a href="#top" class="on">Start</a>
