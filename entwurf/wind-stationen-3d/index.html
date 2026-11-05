@@ -30,11 +30,11 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .lbl .v{font-weight:300;font-size:1.05rem;font-variant-numeric:tabular-nums}
 .lbl .v small{font-size:.62rem;color:var(--muted);margin-left:2px}
 .lbl i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
-.lbl.top{transform:translate(-50%,0)}.lbl.top::after{display:none}
+.lbl.top{transform:translate(-50%,0)}.lbl .d2{display:none}.lbl.top::after{display:none}
 #leads{position:fixed;inset:0;pointer-events:none;z-index:1;width:100%;height:100%}
 #leads line{stroke:#4A5763;stroke-width:1;stroke-opacity:.75}#leads circle{fill:#4A5763;fill-opacity:.8}
 .lbl::after{content:"";position:absolute;left:var(--ax,50%);bottom:-7px;width:1px;height:7px;background:#8A96A0}
-@media (max-width:640px){.lbl .alt{display:none}.legend{top:auto;left:12px;right:12px;bottom:var(--lb,96px);padding:6px 10px;display:flex;align-items:center;gap:10px;font-size:.62rem}.legend .bar{flex:1;width:auto;margin:0}.legend .ticks{display:none}.legend::after{content:'0 · 15 · 30 · 40+';font-family:var(--fm);font-size:.58rem;color:var(--ink)}.head{padding:8px 10px}.head h1{font-size:1rem}.head{max-width:calc(100% - 24px)}.lbl{font-size:.62rem;padding:3px 6px}.lbl .v{font-size:.9rem}}
+@media (max-width:640px){.lbl .alt,.lbl .d1{display:none}.lbl .d2{display:inline;float:right;margin-left:10px;padding-left:8px;border-left:1px solid var(--line);font-weight:500}.legend{top:auto;left:12px;right:12px;bottom:var(--lb,96px);padding:6px 10px;display:flex;align-items:center;gap:10px;font-size:.62rem}.legend .bar{flex:1;width:auto;margin:0}.legend .ticks{display:none}.legend::after{content:'0 · 15 · 30 · 40+';font-family:var(--fm);font-size:.58rem;color:var(--ink)}.head{padding:8px 10px}.head h1{font-size:1rem}.head{max-width:calc(100% - 24px)}.lbl{font-size:.62rem;padding:3px 6px}.lbl .v{font-size:.9rem}}
 </style></head><body>
 <div id="scene" aria-label="3D-Ansicht des Brauneck mit Windströmung aus den vier Messstationen"></div>
 <div class="ui head"><div class="tag">Wind am Brauneck · 3D</div><h1>Strömung aus vier Stationen</h1></div>
@@ -135,7 +135,7 @@ function step(dt){let o=0,oc=0;for(const p of P){const g=hAt(p.x,p.z);const[vx,v
  lg.attributes.position.needsUpdate=true;lg.attributes.color.needsUpdate=true}
 
 function updLabels(){profile();ST.forEach(s=>{const v=at(s,tf),c=colOf(v.m,c1).getStyle();
- s.el.innerHTML=`<b>${s.n} <span class="m alt">${s.alt} m</span></b><span class="v"><i style="background:${c}"></i>${Math.round(v.m)}<small>/ ${Math.round(v.g)} km/h</small></span> <span class="m">${dn(v.d)}</span>`;
+ s.el.innerHTML=`<b>${s.n} <span class="m alt">${s.alt} m</span><span class="d2">${dn(v.d)}</span></b><span class="v"><i style="background:${c}"></i>${Math.round(v.m)}<small>/ ${Math.round(v.g)} km/h</small></span><span class="m d1"> ${dn(v.d)}</span>`;
  s.el.style.setProperty('--ax',`calc(50% - ${s.ox}px)`)})}
 const vt=new THREE.Vector3();
 const SVGNS='http://www.w3.org/2000/svg',leads=document.createElementNS(SVGNS,'svg');leads.id='leads';document.body.appendChild(leads);
@@ -146,10 +146,11 @@ function place(){const r=renderer.domElement.getBoundingClientRect();const tops=
  /* obere Stationen: Reihe am oberen Rand, zwischen Titel und Legende */
  if(r.width<r.height){/* Handy hochkant: Schilder links untereinander unter dem Titel, nach Höhe sortiert */
   const hd=document.querySelector('.head').getBoundingClientRect();let y=hd.bottom+8;
+  tops.forEach(s=>s.el.style.minWidth='');const mw=Math.max(...tops.map(s=>s.el.offsetWidth));tops.forEach(s=>s.el.style.minWidth=mw+'px');
   tops.sort((a,b)=>b.alt-a.alt).forEach(s=>{const w=s.el.offsetWidth,h=s.el.offsetHeight,x=r.left+12;s.el.style.left=(x+w/2)+'px';s.el.style.top=y+'px';
    s.ln.setAttribute('x1',x+w);s.ln.setAttribute('y1',y+h/2);s.ln.setAttribute('x2',s.px);s.ln.setAttribute('y2',s.py+6);s.dt.setAttribute('cx',s.px);s.dt.setAttribute('cy',s.py+6);y+=h+6});
   return}
- tops.sort((a,b)=>a.px-b.px);const gap=10,ws=tops.map(s=>s.el.offsetWidth);
+ tops.forEach(s=>s.el.style.minWidth='');tops.sort((a,b)=>a.px-b.px);const gap=10,ws=tops.map(s=>s.el.offsetWidth);
  const hd=document.querySelector('.head').getBoundingClientRect(),lgE=document.querySelector('.legend'),lgR=lgE&&lgE.offsetParent?lgE.getBoundingClientRect():null;
  let L=hd.right+gap,Rr=lgR?lgR.left-gap:r.right-gap,y=r.top+12;
  const tot=ws.reduce((a,b)=>a+b,0)+gap*(ws.length-1);
