@@ -158,7 +158,7 @@ function resize(){/* Szene endet über der Bedienleiste (und auf dem Handy über
  if(asp<1){/* Handy hochkant: eigener Ausschnitt, auf die Stationen geschwenkt */const a=PAN*Math.PI/180,dx=CT.x-CP.x,dz=CT.z-CP.z,hl=Math.hypot(dx,dz),rx=-dz/hl,rz=dx/hl;cam.position.set(CP.x+rx*MOFF,CP.y+MUP,CP.z+rz*MOFF);cam.lookAt(rx*MOFF+CP.x+dx*Math.cos(a)+dz*Math.sin(a),CT.y+TILT+MUP,rz*MOFF+CP.z-dx*Math.sin(a)+dz*Math.cos(a));cam.fov=MFOV}
  else{cam.position.copy(CP);cam.lookAt(CT);cam.fov=Math.min(75,2*Math.atan(Math.tan(hf/2)/asp)*180/Math.PI)}
  cam.updateProjectionMatrix()}
-const PAN=2.9,TILT=-1,MFOV=72,MOFF=+(new URLSearchParams(location.search).get('moff')||6),MUP=0;
+const PAN=11.5,TILT=-1,MFOV=72,MOFF=+(new URLSearchParams(location.search).get('moff')||6),MUP=0;
 addEventListener('resize',resize);resize();updLabels();for(let i=0;i<TAIL+10;i++)step(1);
 
 const tIn=document.getElementById('t'),clock=document.getElementById('clock'),play=document.getElementById('play');let playing=false;
