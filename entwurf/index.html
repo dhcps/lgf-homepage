@@ -138,8 +138,16 @@ section.block .wrap{padding-block:36px}
 .sec-head p{margin:8px 0 0;font-size:.95rem;color:var(--muted);max-width:38em}
 
 /* Stationen */
-.stations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
-@media (max-width:860px){.stations{grid-template-columns:1fr}}
+.stations{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:start}
+.stations .st{padding:16px;gap:12px}
+.stations .st-main{grid-template-columns:1fr;gap:12px;justify-items:center}
+.stations .compass{max-width:150px}
+.stations{align-items:stretch}.stations .st{align-content:start}.stations .st-top{min-height:82px}.stations details.hist summary{font-size:.82rem}
+.stations .readings{width:100%;gap:10px 12px}
+.stations .rd .v{font-size:1.45rem}
+.stations .chart-bar{flex-direction:column;align-items:flex-start}
+@media (max-width:1180px){.stations{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.stations{grid-template-columns:1fr}}
 .st{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:20px;display:grid;gap:14px;min-width:0}
 .st>*{min-width:0}
 .st-top{display:flex;justify-content:space-between;align-items:start;gap:12px}
@@ -314,20 +322,6 @@ footer.site a{color:var(--muted)}
     </div>
   </div></section>
 
-  <section class="facts"><div class="wrap">
-    <div class="facts-txt">
-      <span class="eyebrow">Über uns</span>
-      <h2 style="margin-top:12px">Zwei Berge, eine Clubhütte und <em>viel Luft</em> nach oben.</h2>
-      <p>Wir kümmern uns um Start- und Landeplätze, betreiben die Wetterstationen und treffen uns zum Fliegen, Arbeiten und Feiern.</p>
-      <div class="fact-row">
-        <div class="fact"><b class="num">2</b><span>Fluggelände: Brauneck und Blomberg</span></div>
-        <div class="fact"><b class="num">4</b><span>eigene Wetterstationen</span></div>
-        <div class="fact"><b class="num">1</b><span>Clubhütte am Brauneck</span></div>
-      </div>
-    </div>
-    <figure class="facts-pic"><img src="img/flug.jpg" alt="Blick aus dem Gurtzeug über das Isartal" loading="lazy"></figure>
-  </div></section>
-
   <section class="block" id="wetter"><div class="wrap">
     <div class="sec-head">
       <div>
@@ -360,6 +354,20 @@ footer.site a{color:var(--muted)}
       </div>
     </div>
     <p class="note">Jeder Pilot entscheidet selbst und eigenverantwortlich, ob er fliegt. Die Daten der Wetterstationen ersetzen keine eigene Einschätzung vor Ort. Für die Inhalte verlinkter Seiten übernimmt der Verein keine Verantwortung.</p>
+  </div></section>
+
+  <section class="facts"><div class="wrap">
+    <div class="facts-txt">
+      <span class="eyebrow">Über uns</span>
+      <h2 style="margin-top:12px">Zwei Berge, eine Clubhütte und <em>viel Luft</em> nach oben.</h2>
+      <p>Wir kümmern uns um Start- und Landeplätze, betreiben die Wetterstationen und treffen uns zum Fliegen, Arbeiten und Feiern.</p>
+      <div class="fact-row">
+        <div class="fact"><b class="num">2</b><span>Fluggelände: Brauneck und Blomberg</span></div>
+        <div class="fact"><b class="num">4</b><span>eigene Wetterstationen</span></div>
+        <div class="fact"><b class="num">1</b><span>Clubhütte am Brauneck</span></div>
+      </div>
+    </div>
+    <figure class="facts-pic"><img src="img/flug.jpg" alt="Blick aus dem Gurtzeug über das Isartal" loading="lazy"></figure>
   </div></section>
 
   <section class="block" id="gelaende"><div class="wrap">
@@ -565,7 +573,7 @@ footer.site a{color:var(--muted)}
       '<div class="rd minor"><div class="k">Luftfeuchte</div><div class="v">'+Math.round(s.hum)+'<small>%</small></div></div>'+
       '</div></div>'+
       '<div class="chart-wrap"><div class="chart-bar"><div class="chart-legend"><span><i style="background:var(--chart-mean)"></i>Mittelwind</span><span><i style="background:var(--chart-gust)"></i>Böen</span><span><i class="zi"></i>über 25 km/h</span></div><div class="tabs" role="group" aria-label="Zeitraum">'+tabs+'</div></div>'+chart(s,n)+'</div>'+
-      '<details class="hist"'+(s.real?' open':'')+'><summary>Tagesverlauf als Tabelle (15-Min.-Mittel)</summary>'+table(s)+'</details>'+
+      '<details class="hist" open><summary>Tagesverlauf als Tabelle (15-Min.-Mittel)</summary>'+table(s)+'</details>'+
       '</article>';
   }
   function renderNow(){
