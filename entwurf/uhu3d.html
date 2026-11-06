@@ -8,13 +8,15 @@ html,body{margin:0;height:100%;background:#E9EEF2;font-family:"Manrope",system-u
 #scene:active{cursor:grabbing}
 .lbl{position:absolute;transform:translate(-50%,-100%);background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:5px;padding:3px 8px;font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap;pointer-events:none;box-shadow:0 4px 14px -8px rgba(20,40,60,.5)}
 .lbl.zone{background:var(--uhu);border-color:var(--uhu);color:#fff}
+.lbl.fix{left:10px;top:10px;transform:none}
 .lbl small{display:block;font-weight:400;font-size:10.5px;opacity:.85}
 .hint{position:absolute;left:10px;bottom:10px;font-size:11px;color:var(--muted);background:rgba(255,255,255,.85);border-radius:4px;padding:3px 8px}
 .btn{position:absolute;right:10px;bottom:10px;font:inherit;font-size:11.5px;border:1px solid var(--line);background:rgba(255,255,255,.92);border-radius:4px;padding:4px 10px;cursor:pointer;color:var(--ink)}
 .src{position:absolute;max-width:calc(100% - 20px);right:10px;top:8px;font-size:10px;color:var(--muted);background:rgba(255,255,255,.7);padding:1px 6px;border-radius:3px}
-@media (max-width:500px){.hint{display:none}}
+@media (max-width:500px){.hint{display:none}.src{top:auto;bottom:12px;left:10px;right:auto;max-width:52%}}
 </style></head><body>
 <div id="scene" aria-label="3D-Ansicht der Uhu-Schutzzone über Klein-Lanzarote mit dem gesperrten Luftraum bis 300 m über Grund"></div>
+<span class="lbl zone fix">Uhu-Schutzzone<small>bis 300 m über Grund · 01.01. bis 31.07.</small></span>
 <span class="hint">Ziehen zum Drehen</span><button class="btn" id="rot" type="button">Drehung anhalten</button>
 <span class="src">Luftbild + Höhenmodell: Bayerische Vermessungsverwaltung (CC BY 4.0)</span>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -63,7 +65,6 @@ const ZONE=DATA.zone,UP=300/CELL*EX,RED=0xD8352A;
 // Schilder
 const cz=ZONE.reduce((a,p)=>[a[0]+p[0]/ZONE.length,a[1]+p[1]/ZONE.length],[0,0]);
 const LB=[
- {html:'Uhu-Schutzzone<small>bis 300 m über Grund · 01.01. bis 31.07.</small>',cls:'zone',e:cz[0],n:cz[1],up:UP+4},
  {html:'Landeplatz',e:691988,n:5283238,up:1.5},
  {html:'Klein-Lanzarote',e:692648,n:5282600,up:1.5}];
 LB.forEach(l=>{l.el=document.createElement('span');l.el.className='lbl'+(l.cls?' '+l.cls:'');l.el.innerHTML=l.html;document.body.appendChild(l.el);l.v=new THREE.Vector3(X(l.e),Y(hAt(l.e,l.n))+l.up,Zc(l.n))});
