@@ -63,3 +63,4 @@ section.block .wrap{padding-block:28px}
 .fact-row{margin-top:20px}
 .bento{grid-auto-rows:150px}
 footer.site .wrap{flex-wrap:wrap;gap:8px}
+.wi-txt{display:block}.wi-list{grid-template-columns:1fr}
