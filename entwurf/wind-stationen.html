@@ -14,7 +14,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--fb);overfl
 .head{top:12px;left:12px;max-width:300px}
 .tag{font-family:var(--fm);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .head h1{font-family:var(--fd);font-weight:400;font-size:1.15rem;margin:2px 0 0;line-height:1.2}
-.legend{top:12px;right:12px;font-size:.68rem;color:var(--muted)}
+.legend{top:12px;right:12px;font-size:.68rem;color:var(--muted)}.legend .lee{margin-top:6px;display:flex;align-items:center;gap:6px}.legend .lee i{width:14px;height:9px;border-radius:2px;background:#D9897F}
 .bar{width:200px;height:8px;border-radius:2px;margin:5px 0 3px}
 .ticks{display:flex;justify-content:space-between;font-family:var(--fm);font-size:.6rem;color:var(--ink);width:200px}
 .ctrl{left:12px;right:12px;bottom:8px;max-width:none;display:grid;gap:6px}
@@ -38,7 +38,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 </style></head><body>
 <div id="scene" aria-label="3D-Ansicht des Brauneck mit Windströmung aus den vier Messstationen"></div>
 <div class="ui head"><div class="tag">Wind am Brauneck · 3D</div><h1>Strömung aus vier Stationen</h1></div>
-<div class="ui legend"><div>Windgeschwindigkeit km/h</div><div class="bar" id="bar"></div><div class="ticks"><span>0</span><span>10</span><span>15</span><span>20</span><span>30</span><span>40+</span></div></div>
+<div class="ui legend"><div>Windgeschwindigkeit km/h</div><div class="bar" id="bar"></div><div class="ticks"><span>0</span><span>10</span><span>15</span><span>20</span><span>30</span><span>40+</span></div><div class="lee"><i></i>Leegebiet (Windschatten)</div></div>
 <div class="ui ctrl">
   <div class="row"><b id="clock">--:--</b><input type="range" id="t" min="0" max="30" value="30" aria-label="Uhrzeit"><button type="button" id="play">Tag abspielen</button></div>
   <div class="note">Berg: echte 15-Min.-Werte vom 04.11.2026. Umsetzer, Garland, Tal: Beispielwerte. Vereinfachtes Strömungsmodell, Höhe 1,5-fach überhöht. Gelände: Bayerische Vermessungsverwaltung (CC BY 4.0).</div>
@@ -120,7 +120,18 @@ const st=1,gx=Math.floor((mnx-1)/st),gz=Math.floor((mny-1)/st);
 const geo=new THREE.PlaneGeometry(gx*st*mdx*S,gz*st*mdx*S,gx,gz);geo.rotateX(-Math.PI/2);geo.translate(X0+gx*st*mdx*S/2,0,Z0+gz*st*mdx*S/2);
 const pos=geo.attributes.position;for(let i=0;i<pos.count;i++)pos.setY(i,toY(hAt(pos.getX(i),pos.getZ(i))));geo.computeVertexNormals();
 const uv=geo.attributes.uv;for(let i=0;i<uv.count;i++){uv.setXY(i,(pos.getX(i)-X0)/W,1-(pos.getZ(i)-Z0)/Dp)}
-scene.add(new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:TEX})));
+const LEEC=new Float32Array(mnx*mny*3);geo.setAttribute('color',new THREE.BufferAttribute(LEEC,3));
+const TMAT=new THREE.MeshBasicMaterial({map:TEX,vertexColors:true});TMAT.onBeforeCompile=sh=>{sh.fragmentShader=sh.fragmentShader.replace('#include <color_fragment>','diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.86,.34,.32),vColor.r);')};
+scene.add(new THREE.Mesh(geo,TMAT));
+/* Leegebiete: Windschatten hinter Graten (Winstral-Sx: größter Höhenwinkel gegen den Wind bis 1 km), je 16 Richtungen, bei Bedarf berechnet */
+const LEE={};function leeSector(k){if(LEE[k])return LEE[k];const a=k*22.5*Math.PI/180,ux=Math.sin(a),uy=-Math.cos(a),R=Math.round(700/DATA.mdx),M=new Float32Array(mnx*mny);
+ for(let y=0;y<mny;y++)for(let x=0;x<mnx;x++){const h=HM[y*mnx+x];let mx=0;
+  for(let r=2;r<=R;r++){const xx=Math.round(x+ux*r),yy=Math.round(y+uy*r);if(xx<0||yy<0||xx>=mnx||yy>=mny)break;const t=(HM[yy*mnx+xx]-h)/10/(r*DATA.mdx);if(t>mx)mx=t}
+  const sx=Math.atan(mx)*180/Math.PI;M[y*mnx+x]=Math.min(1,Math.max(0,(sx-7)/12))}
+ return LEE[k]=blur(M,mnx,mny,1.5)}
+let leeKey='';function updLee(){const t=PROF[PROF.length-1],d=((t.d%360)+360)%360,a=Math.min(1,Math.max(0,(t.m-6)/16))*.42,f=d/22.5,k0=Math.floor(f)%16,k1=(k0+1)%16,w=f-Math.floor(f);
+ const key=k0+'|'+w.toFixed(2)+'|'+a.toFixed(2);if(key===leeKey)return;leeKey=key;const A=leeSector(k0),B=leeSector(k1);
+ for(let i=0;i<mnx*mny;i++){const v=(A[i]*(1-w)+B[i]*w)*a;LEEC[i*3]=LEEC[i*3+1]=LEEC[i*3+2]=v}geo.attributes.color.needsUpdate=true}
 
 // Stationen
 ST.forEach(s=>{s.x=X0+s.kx*S;s.z=Z0+s.kz*S;s.y=toY(s.alt);
@@ -157,7 +168,7 @@ function step(dt){let o=0,oc=0;for(const p of P){const g=hAt(p.x,p.z);const[vx,v
   p.life-=dt;if(p.life<0||p.x<X0||p.x>X0+W||p.z<Z0||p.z>Z0+Dp)spawn(p,false)}
  lg.attributes.position.needsUpdate=true;lg.attributes.color.needsUpdate=true}
 
-function updLabels(){profile();ST.forEach(s=>{const v=at(s,tf),c=colOf(v.m,c1).getStyle();
+function updLabels(){profile();if(typeof updLee==='function')updLee();ST.forEach(s=>{const v=at(s,tf),c=colOf(v.m,c1).getStyle();
  s.el.innerHTML=`<b>${s.n} <span class="m alt">${s.alt} m</span><span class="d2">${dn(v.d)}</span></b><span class="v"><i style="background:${c}"></i>${Math.round(v.m)}<small>/ ${Math.round(v.g)} km/h</small></span><span class="m d1"> ${dn(v.d)}</span>`;
  s.el.style.setProperty('--ax',`calc(50% - ${s.ox}px)`)})}
 const vt=new THREE.Vector3();
