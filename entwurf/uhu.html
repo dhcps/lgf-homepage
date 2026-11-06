@@ -121,6 +121,7 @@ figure{margin:0}
 .map .lbl small{display:block;font-weight:400;color:var(--muted);font-size:.64rem}
 .map .lbl.zone{background:var(--uhu);color:#fff;border-color:var(--uhu)}
 .map .lbl.zone small{color:#fff;opacity:.85}
+.map .lbl.plain{background:rgba(255,255,255,.85);font-weight:500}
 .map .north{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.9);border-radius:50%;width:34px;height:34px;display:grid;place-items:center;font-size:.7rem;font-weight:600}
 .map .scale{position:absolute;left:12px;bottom:12px;box-sizing:content-box;background:rgba(255,255,255,.9);border-radius:4px;padding:4px 8px;font-family:var(--f-mono);font-size:.64rem}
 .map .scale i{display:block;height:4px;border:1px solid var(--ink);border-top:0;margin-top:2px}
@@ -187,20 +188,19 @@ footer a{color:var(--muted)}
   <section class="main"><div class="wrap">
     <figure>
       <div class="map" id="map">
-        <img src="img/uhu-karte.jpg" alt="Luftbild Lenggries mit Brauneck-Talstation, Landeplatz und Klein-Lanzarote" width="1900" height="1500">
-        <svg viewBox="0 0 100 78.95" preserveAspectRatio="none" aria-hidden="true">
-          <!-- Schutzzone: ungefähre Lage, Radius ca. 300 m um Klein-Lanzarote. Genaue Grenze nach offizieller Karte nachtragen. -->
-          <ellipse cx="66.8" cy="44.2" rx="7.9" ry="7.9" fill="rgba(216,53,42,.28)" stroke="#D8352A" stroke-width=".35" stroke-dasharray="1.2 .8"/>
-          <circle cx="38.84" cy="31.05" r=".8" fill="#1D5E9E" stroke="#fff" stroke-width=".3"/>
-          <circle cx="66.8" cy="44.2" r=".7" fill="#D8352A" stroke="#fff" stroke-width=".3"/>
+        <img src="img/uhu-karte.jpg" alt="Luftbild Lenggries mit Brauneck-Talstation, Landeplatz und Klein-Lanzarote" width="1200" height="950">
+        <svg viewBox="0 0 100 79.167" preserveAspectRatio="none" aria-hidden="true">
+          <!-- Schutzzone nach der offiziellen Vereinskarte, auf das Luftbild übertragen -->
+          <polygon points="38.29,41.54 42.54,40.83 46.50,37.58 49.96,36.79 59.83,36.33 67.33,37.21 74.88,37.50 81.25,35.17 77.79,49.67 63.00,50.71 62.71,51.67 61.46,55.63 58.21,53.29 56.04,58.04 48.25,59.79 40.71,59.50 38.00,49.67" fill="rgba(216,53,42,.26)" stroke="#E0352B" stroke-width=".45" stroke-linejoin="round"/>
+          <circle cx="45.33" cy="19.25" r=".9" fill="#1D5E9E" stroke="#fff" stroke-width=".35"/>
         </svg>
-        <span class="lbl zone" style="left:66.8%;top:calc(56% - 11%)">Uhu-Schutzzone<small>01.01. bis 31.07.</small></span>
-        <span class="lbl" style="left:38.84%;top:calc(39.33% - 1.5%)">Landeplatz<small>Tal LP Nord</small></span>
+        <span class="lbl zone" style="left:56.87%;top:43.22%">Uhu-Schutzzone<small>01.01. bis 31.07. · min. 300 m über Grund</small></span>
+        <span class="lbl" style="left:45.33%;top:22.52%">Landeplatz</span>
+        <span class="lbl plain" style="left:72.83%;top:64.89%;transform:translate(-50%,0)">Klein-Lanzarote</span>
         <span class="north">N ↑</span>
-        <span class="scale" style="width:13.16%">500 m<i></i></span>
+        <span class="scale" style="width:20.83%">500 m<i></i></span>
       </div>
-      <figcaption>Luftbild: Bayerische Vermessungsverwaltung, DOP (CC BY 4.0). Ausschnitt ca. 3,8 × 3 km, Norden oben.</figcaption>
-      <p class="note-approx"><b>Entwurf:</b> Die rote Fläche zeigt nur die ungefähre Lage. Die genaue Grenze tragen wir nach der offiziellen Vereinskarte nach.</p>
+      <figcaption>Luftbild: Bayerische Vermessungsverwaltung, DOP (CC BY 4.0). Ausschnitt ca. 2,4 × 1,9 km, Norden oben. Zonengrenze nach der Karte des Vereins.</figcaption>
     </figure>
 
     <aside class="side">
