@@ -164,6 +164,19 @@ section.block .wrap{padding-block:36px}
 .stations .readings{width:100%;gap:10px 12px}
 .stations .rd .v{font-size:1.45rem}
 .stations .chart-bar{flex-direction:column;align-items:flex-start}
+/* kompakt: Kompass links, Werte als Liste rechts */
+.stations .st-main{grid-template-columns:96px minmax(0,1fr);gap:14px;justify-items:stretch;align-items:center}
+.stations .compass{max-width:96px}
+.stations .readings{grid-template-columns:1fr;gap:0}
+.stations .rd{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:1px solid var(--line);padding:3px 0;min-width:0}
+.stations .rd:last-child{border-bottom:0}
+.stations .rd .k{font-size:.68rem;white-space:nowrap}
+.stations .rd .v{font-size:1.15rem;white-space:nowrap}
+.stations .rd.minor .v{font-size:.82rem}
+.stations .rd .v small{font-size:.66rem;margin-left:3px}
+.stations .st-top{min-height:0}
+.stations .st-top .meta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stations .st-top>div{min-width:0}
 @media (max-width:1180px){.stations{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){.stations{grid-template-columns:1fr}}
 .st{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:20px;display:grid;gap:14px;min-width:0}
@@ -572,9 +585,9 @@ footer.site a{color:var(--muted)}
       '<div class="st-main">'+compass(s)+'<div class="readings">'+
       '<div class="rd"><div class="k">Mittelwind</div><div class="v">'+Math.round(s.mean)+'<small>km/h</small></div></div>'+
       '<div class="rd gust"><div class="k">Böen</div><div class="v">'+Math.round(s.gust)+'<small>km/h</small></div></div>'+
-      '<div class="rd minor"><div class="k">Tendenz 1 Std.</div><div class="v">'+tr.a+'<small>'+tr.t+'</small></div></div>'+
+      '<div class="rd minor"><div class="k">Tendenz</div><div class="v">'+tr.a+'<small>'+tr.t+'</small></div></div>'+
       '<div class="rd minor"><div class="k">Temperatur</div><div class="v">'+fmt(s.temp)+'<small>°C</small></div></div>'+
-      '<div class="rd minor"><div class="k">Heute Ø / max. Böe</div><div class="v">'+Math.round(dayAvg)+' / '+dayMax+'<small>km/h</small></div></div>'+
+      '<div class="rd minor"><div class="k">Heute Ø / max</div><div class="v">'+Math.round(dayAvg)+' / '+dayMax+'<small>km/h</small></div></div>'+
       '<div class="rd minor"><div class="k">Luftfeuchte</div><div class="v">'+Math.round(s.hum)+'<small>%</small></div></div>'+
       '</div></div>'+
       '<div class="chart-wrap"><div class="chart-bar"><div class="chart-legend"><span><i style="background:var(--chart-mean)"></i>Mittelwind</span><span><i style="background:var(--chart-gust)"></i>Böen</span><span><i class="zi"></i>über 25 km/h</span></div><div class="tabs" role="group" aria-label="Zeitraum">'+tabs+'</div></div>'+chart(s,n)+'</div>'+
