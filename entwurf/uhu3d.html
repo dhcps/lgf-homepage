@@ -65,8 +65,7 @@ const ZONE=DATA.zone,UP=300/CELL*EX,RED=0xD8352A;
 // Schilder
 const cz=ZONE.reduce((a,p)=>[a[0]+p[0]/ZONE.length,a[1]+p[1]/ZONE.length],[0,0]);
 const LB=[
- {html:'Landeplatz',e:691988,n:5283238,up:1.5},
- {html:'Klein-Lanzarote',e:692648,n:5282600,up:1.5}];
+ {html:'Landeplatz',e:691988,n:5283238,up:1.5}];
 LB.forEach(l=>{l.el=document.createElement('span');l.el.className='lbl'+(l.cls?' '+l.cls:'');l.el.innerHTML=l.html;document.body.appendChild(l.el);l.v=new THREE.Vector3(X(l.e),Y(hAt(l.e,l.n))+l.up,Zc(l.n))});
 // Kamera um die Zone kreisen lassen
 const C=new THREE.Vector3(X(cz[0]),Y(hAt(cz[0],cz[1]))+8,Zc(cz[1]));
