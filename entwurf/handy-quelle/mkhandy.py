@@ -18,7 +18,7 @@ rep('''    <div class="wi-frame"><iframe''','''    <div class="wi-head"><span cl
 rep('''      <span class="eyebrow">Brauneck in 3D</span>
       <h2 style="margin-top:12px">So weht der Wind <em>am Berg</em></h2>
 ''','')
-rep('<a href="wind-stationen.html?nord" target="_blank" rel="noopener">Im Vollbild öffnen</a>','<a href="wind-stationen.html?nord" target="_blank" rel="noopener">Vollbild öffnen</a>')
+rep('<a href="wind-stationen.html?tag" target="_blank" rel="noopener">Im Vollbild öffnen</a>','<a href="wind-stationen.html?tag" target="_blank" rel="noopener">Vollbild öffnen</a>')
 # Stationen: Tabellen zugeklappt, Wisch-Hinweis + Punkte
 rep("'<details class=\"hist\" open>","'<details class=\"hist\">")
 rep('<div class="stations" id="stations"></div>','<div class="st-mob" id="stations"><div class="tiles" id="tiles"></div><p class="tile-hint">Station antippen für Verlauf und Tabelle</p><div id="stDetail"></div></div>')
