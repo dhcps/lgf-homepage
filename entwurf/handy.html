@@ -152,6 +152,8 @@ section.block .wrap{padding-block:36px}
 .legend .scale{gap:0}
 .legend .scale span{font-family:var(--f-mono);font-size:.7rem;color:#17212B;padding:3px 7px;min-width:30px;text-align:center}
 .legend .b0{background:#E4F0F2}.legend .b1{background:#D3EBD9}.legend .b2{background:#AEDDB8}.legend .b3{background:#EFE38F}.legend .b4{background:#F3C474}.legend .b5{background:#EC9466}.legend .b6{background:#D2544B;color:#fff!important}
+@media (min-width:861px){.legend{display:flex;flex-wrap:wrap;gap:10px 36px;align-items:center;border-left:0;padding:10px 0;margin:0 0 14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);max-width:none}
+.legend div{display:flex;gap:10px;align-items:center}.legend dt{font-size:.74rem}.legend div:nth-child(2) dd{min-width:280px}.legend .scale span{flex:1}}
 @media (max-width:860px){.legend{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:16px;flex-basis:100%}}
 .sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:20px}
 .sec-head p{margin:8px 0 0;font-size:.95rem;color:var(--muted);max-width:38em}
@@ -425,12 +427,12 @@ footer.site .wrap{flex-wrap:wrap;gap:8px}
         <h2 style="margin-top:12px">Wind &amp; <em>Wetter</em></h2>
         <p>Live-Werte der vier Holfuy-Stationen und wie sich der Wind über den Tag entwickelt hat.</p>
       </div>
-      <dl class="legend" aria-label="Legende">
-        <div><dt>Kompass</dt><dd><span class="li"><span class="sw" style="background:var(--ok)"></span>Start</span><span class="li"><span class="sw" style="background:var(--warn)"></span>Grenzbereich</span><span class="li"><span class="sw" style="background:var(--accent)"></span>Windpfeil</span></dd></div>
-        <div><dt>Wind in km/h</dt><dd class="scale"><span class="b0">0</span><span class="b1">6</span><span class="b2">12</span><span class="b3">20</span><span class="b4">26</span><span class="b5">32</span><span class="b6">40+</span></dd></div>
-        <div><dt>Ampel</dt><dd><span class="pill ok">ruhig</span> <span class="pill warn">grenzwertig</span> <span class="pill bad">zu stark</span></dd></div>
-      </dl>
     </div>
+    <dl class="legend" aria-label="Legende">
+      <div><dt>Kompass</dt><dd><span class="li"><span class="sw" style="background:var(--ok)"></span>Start</span><span class="li"><span class="sw" style="background:var(--warn)"></span>Grenzbereich</span><span class="li"><span class="sw" style="background:var(--accent)"></span>Windpfeil</span></dd></div>
+      <div><dt>Wind in km/h</dt><dd class="scale"><span class="b0">0</span><span class="b1">6</span><span class="b2">12</span><span class="b3">20</span><span class="b4">26</span><span class="b5">32</span><span class="b6">40+</span></dd></div>
+      <div><dt>Ampel</dt><dd><span class="pill ok">ruhig</span> <span class="pill warn">grenzwertig</span> <span class="pill bad">zu stark</span></dd></div>
+    </dl>
     <div class="st-mob" id="stations"><div class="tiles" id="tiles"></div><p class="tile-hint">Station antippen für Verlauf und Tabelle</p><div id="stDetail"></div></div>
     <div class="wx-extra">
       <div class="panel">
