@@ -125,7 +125,7 @@ figure{margin:0}
 .map .north{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.9);border-radius:50%;width:34px;height:34px;display:grid;place-items:center;font-size:.7rem;font-weight:600}
 .map .scale{position:absolute;left:12px;bottom:12px;box-sizing:content-box;background:rgba(255,255,255,.9);border-radius:4px;padding:4px 8px;font-family:var(--f-mono);font-size:.64rem}
 .map .scale i{display:block;height:4px;border:1px solid var(--ink);border-top:0;margin-top:2px}
-.f3d{margin-top:24px}
+.col>figure+figure{margin-top:24px}
 .v3d{position:relative;aspect-ratio:16/10;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#E9EEF2}
 .v3d iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 @media (max-width:700px){.v3d{aspect-ratio:4/5}}
@@ -191,6 +191,10 @@ footer a{color:var(--muted)}
 
   <section class="main"><div class="wrap">
     <div class="col">
+    <figure class="f3d">
+      <div class="v3d"><iframe src="uhu3d.html" title="3D-Ansicht der Uhu-Schutzzone"></iframe></div>
+      <figcaption>3D-Ansicht: Gelände und Luftbild der Bayerischen Vermessungsverwaltung (DGM, DOP, CC BY 4.0). Die rote Zone reicht vom Boden bis 300 m über Grund. Ziehen zum Drehen.</figcaption>
+    </figure>
     <figure>
       <div class="map" id="map">
         <img src="img/uhu-karte.jpg" alt="Luftbild Lenggries mit Brauneck-Talstation, Landeplatz und Klein-Lanzarote" width="1200" height="950">
@@ -206,10 +210,6 @@ footer a{color:var(--muted)}
         <span class="scale" style="width:20.83%">500 m<i></i></span>
       </div>
       <figcaption>Luftbild: Bayerische Vermessungsverwaltung, DOP (CC BY 4.0). Ausschnitt ca. 2,4 × 1,9 km, Norden oben. Zonengrenze nach der Karte des Vereins.</figcaption>
-    </figure>
-    <figure class="f3d">
-      <div class="v3d"><iframe src="uhu3d.html" title="3D-Ansicht der Uhu-Schutzzone" loading="lazy"></iframe></div>
-      <figcaption>3D-Ansicht: Gelände und Luftbild der Bayerischen Vermessungsverwaltung (DGM, DOP, CC BY 4.0). Die rote Zone reicht vom Boden bis 300 m über Grund. Ziehen zum Drehen.</figcaption>
     </figure>
     </div>
 
