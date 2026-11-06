@@ -40,7 +40,8 @@ rep("  renderNow();renderStations();","""  renderNow();renderStations();
     var id=+a.getAttribute('href').replace('#st-',''),i=stations.findIndex(function(s){return s.id===id});showDetail(i);
     document.getElementById('stations').scrollIntoView({behavior:'smooth',block:'start'})});""")
 # Handy-CSS am Ende des Style-Blocks
-css=open('/tmp/claude-0/-home-claude/c072efd7-ea6e-5d19-99b5-89faadf538a4/scratchpad/handy/handy.css',encoding='utf-8').read()
+import os
+css=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'handy.css'),encoding='utf-8').read()
 i=s.index('</style>');s=s[:i]+css+s[i:]
 s='<!doctype html>\n<html lang="de">\n'+s
 open(D+'handy.html','w',encoding='utf-8').write(s)
