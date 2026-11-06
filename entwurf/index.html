@@ -165,15 +165,15 @@ section.block .wrap{padding-block:36px}
 .stations .rd .v{font-size:1.45rem}
 .stations .chart-bar{flex-direction:column;align-items:flex-start}
 /* kompakt: Kompass links, Werte als Liste rechts */
-.stations .st-main{grid-template-columns:96px minmax(0,1fr);gap:14px;justify-items:stretch;align-items:center}
-.stations .compass{max-width:96px}
+.stations .st-main{grid-template-columns:140px minmax(0,1fr);gap:5px;justify-items:stretch;align-items:center;margin-left:-11px}
+.stations .compass{width:165px;max-width:none;margin:-12.5px}
 .stations .readings{grid-template-columns:1fr;gap:0}
-.stations .rd{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:1px solid var(--line);padding:3px 0;min-width:0}
+.stations .rd{display:flex;justify-content:space-between;align-items:baseline;gap:6px;border-bottom:1px solid var(--line);padding:1px 0;min-width:0}
 .stations .rd:last-child{border-bottom:0}
-.stations .rd .k{font-size:.68rem;white-space:nowrap}
-.stations .rd .v{font-size:1.15rem;white-space:nowrap}
-.stations .rd.minor .v{font-size:.82rem}
-.stations .rd .v small{font-size:.66rem;margin-left:3px}
+.stations .rd .k{font-size:.62rem;white-space:nowrap;letter-spacing:-.01em}
+.stations .rd .v{font-size:1.05rem;white-space:nowrap}
+.stations .rd.minor .v{font-size:.76rem}
+.stations .rd .v small{font-size:.58rem;margin-left:2px}
 .stations .st-top{min-height:0}
 .stations .st-top .meta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .stations .st-top>div{min-width:0}
@@ -486,10 +486,10 @@ footer.site a{color:var(--muted)}
       green:[[320,40],[140,220]],yellow:[[290,320],[40,70],[110,140],[220,250]]},
     {id:1516,name:'Brauneck Garland',sub:'Startplatz Garland',mean:9,gust:15,dir:200,temp:4.5,hum:88,base:8,bdir:195,btemp:5,
       green:[[340,60]],yellow:[[310,340],[60,90]]},
+    {id:1,noid:true,name:'Brauneck Umsetzer',sub:'unterhalb Garland · 1358 m',mean:8,gust:13,dir:205,temp:5.6,hum:85,base:7,bdir:200,btemp:6,
+      green:[[340,60]],yellow:[[310,340],[60,90]]},
     {id:1202,name:'Brauneck Landeplatz',sub:'Landeplatz Lenggries',mean:6,gust:11,dir:225,temp:7.2,hum:81,base:5,bdir:230,btemp:8,
-      green:[[0,360]],yellow:[]},
-    {id:1810,name:'Blomberg',sub:'Startplatz Blomberg',mean:14,gust:22,dir:170,temp:3.9,hum:90,base:12,bdir:175,btemp:4.5,
-      green:[[320,40]],yellow:[[290,320],[40,70]]}
+      green:[[0,360]],yellow:[]}
   ];
   function rnd(seed){return function(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646}}
   stations.forEach(function(s){
@@ -581,13 +581,13 @@ footer.site a{color:var(--muted)}
     var st=status(s),tr=trend(s),n=range[s.id]||12,D=s.day;
     var dayAvg=avg(D.m.filter(function(v,i){return i>1||!s.real})),dayMax=Math.max.apply(null,D.g);
     var tabs=[[8,'2 Std.'],[24,'6 Std.'],[T.length,'Heute']].map(function(t){return '<button type="button" data-st="'+s.id+'" data-n="'+t[0]+'" aria-pressed="'+(n===t[0])+'">'+t[1]+'</button>'}).join('');
-    return '<article class="st" id="st-'+s.id+'"><div class="st-top"><div><h3>'+s.name+'</h3><div class="meta">'+s.sub+' · Holfuy '+s.id+(s.real?' · echte Werte 04.11.':'')+'</div></div><span class="pill '+st.c+'">'+st.t+'</span></div>'+
+    return '<article class="st" id="st-'+s.id+'"><div class="st-top"><div><h3>'+s.name+'</h3><div class="meta">'+s.sub+(s.noid?' · neu ab 07.11., Beispielwerte':' · Holfuy '+s.id)+(s.real?' · echte Werte 04.11.':'')+'</div></div><span class="pill '+st.c+'">'+st.t+'</span></div>'+
       '<div class="st-main">'+compass(s)+'<div class="readings">'+
       '<div class="rd"><div class="k">Mittelwind</div><div class="v">'+Math.round(s.mean)+'<small>km/h</small></div></div>'+
       '<div class="rd gust"><div class="k">Böen</div><div class="v">'+Math.round(s.gust)+'<small>km/h</small></div></div>'+
       '<div class="rd minor"><div class="k">Tendenz</div><div class="v">'+tr.a+'<small>'+tr.t+'</small></div></div>'+
       '<div class="rd minor"><div class="k">Temperatur</div><div class="v">'+fmt(s.temp)+'<small>°C</small></div></div>'+
-      '<div class="rd minor"><div class="k">Heute Ø / max</div><div class="v">'+Math.round(dayAvg)+' / '+dayMax+'<small>km/h</small></div></div>'+
+      '<div class="rd minor"><div class="k">Tag Ø/max</div><div class="v">'+Math.round(dayAvg)+'/'+dayMax+'<small>km/h</small></div></div>'+
       '<div class="rd minor"><div class="k">Luftfeuchte</div><div class="v">'+Math.round(s.hum)+'<small>%</small></div></div>'+
       '</div></div>'+
       '<div class="chart-wrap"><div class="chart-bar"><div class="chart-legend"><span><i style="background:var(--chart-mean)"></i>Mittelwind</span><span><i style="background:var(--chart-gust)"></i>Böen</span><span><i class="zi"></i>über 25 km/h</span></div><div class="tabs" role="group" aria-label="Zeitraum">'+tabs+'</div></div>'+chart(s,n)+'</div>'+
