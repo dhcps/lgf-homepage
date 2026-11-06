@@ -219,7 +219,7 @@ table.tbl{border-collapse:collapse;font-family:var(--f-mono);font-size:.78rem;wh
 .w3d-h h3{margin:6px 0 0}.w3d-h a{font-size:.82rem}
 .w3d-f{margin:0;padding:12px 20px;font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);background:#fff}
 .w3d iframe{display:block;width:100%;aspect-ratio:16/10;height:auto;border:0}
-.cam{aspect-ratio:21/8;max-width:100%;border-radius:var(--r-md);background:var(--soft);display:grid;place-items:center;text-align:center;color:var(--muted);font-size:.9rem;margin:14px 0}
+.cam{display:block;position:relative;aspect-ratio:16/9;max-width:100%;border-radius:var(--r-md);overflow:hidden;background:var(--soft);margin:14px 0 6px}.cam img{width:100%;height:100%;object-fit:contain;display:block}.cam span{display:none;position:absolute;inset:0;place-items:center;color:var(--muted);font-size:.9rem}.cam.off img{display:none}.cam.off span{display:grid}.cam-src{font-size:.74rem;color:var(--muted);margin:0}.cam-src a{color:var(--muted)}
 .links{display:grid;gap:8px;margin:14px 0 0;padding:0;list-style:none}
 .links a{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;border-radius:var(--r-md);background:var(--bg);text-decoration:none;font-weight:500}
 .links span{color:var(--muted);font-size:.85rem;font-weight:400}
@@ -358,8 +358,8 @@ footer.site a{color:var(--muted)}
       <div class="panel">
         <span class="eyebrow">Webcam</span>
         <h3 style="margin-top:8px">Brauneck Garland</h3>
-        <div class="cam">Hier erscheint das aktuelle Bild<br>von foto-webcam.org</div>
-        <a href="https://www.foto-webcam.org/webcam/brauneck-garland/" target="_blank" rel="noopener">Webcam in voller Größe öffnen</a>
+        <a class="cam" href="https://www.foto-webcam.org/webcam/brauneck-garland/" target="_blank" rel="noopener" title="Webcam Brauneck Garland bei foto-webcam.org öffnen"><img src="https://www.foto-webcam.org/webcam/brauneck-garland/current/1200.jpg" alt="Aktuelles Webcam-Bild vom Garland am Brauneck" width="1200" height="675" loading="lazy" onerror="this.parentNode.classList.add('off')"><span>Webcam-Bild gerade nicht erreichbar</span></a>
+        <p class="cam-src">Bild: <a href="https://www.foto-webcam.org/webcam/brauneck-garland/" target="_blank" rel="noopener">www.foto-webcam.org</a> · Klick öffnet die Webcam mit Zeitraffer</p>
       </div>
       <div class="panel">
         <span class="eyebrow">Weitere Quellen</span>
